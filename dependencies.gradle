@@ -35,13 +35,16 @@ def versions = [
 
         // Kotlin
         kotlin                              : '1.4.10',
-        kotlinKtx                           : '1.3.2',
         coroutines                          : '1.4.0-M1',
 
         // Android Support
         appcompat                           : "1.2.0",
         material                            : "1.2.1",
         constraintLayout                    : "2.0.2",
+
+        // Android KTX
+        kotlinKtx                           : '1.3.2',
+        collectionKtx                       : '1.1.0',
         fragmentKtx                         : "1.2.5",
 
         // Navigation
@@ -84,28 +87,30 @@ def libraries = [
 
         // Kotlin
         kotlin                              : "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin",
-        kotlinKtx                           : "androidx.core:core-ktx:$versions.kotlinKtx",
         coroutines                          : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutines",
 
         // Android Support
         appcompat                           : "androidx.appcompat:appcompat:$versions.appcompat",
         material                            : "com.google.android.material:material:$versions.material",
         constraintLayout                    : "androidx.constraintlayout:constraintlayout:$versions.constraintLayout",
-        fragmentKtx                         : "androidx.fragment:fragment-ktx:$versions.fragmentKtx",
-
-        // Navigation
-        navigationKtx                       : "androidx.navigation:navigation-runtime-ktx:$versions.navigation",
         navigationFragment                  : "androidx.navigation:navigation-fragment:$versions.navigation",
-        navigationFragmentKtx               : "androidx.navigation:navigation-fragment-ktx:$versions.navigation",
         navigationUI                        : "androidx.navigation:navigation-ui:$versions.navigation",
+
+        // Android KTX
+        kotlinKtx                           : "androidx.core:core-ktx:$versions.kotlinKtx",
+        collectionKtx                       : "androidx.collection:collection-ktx:$versions.collectionKtx",
+        fragmentKtx                         : "androidx.fragment:fragment-ktx:$versions.fragmentKtx",
+        navigationKtx                       : "androidx.navigation:navigation-runtime-ktx:$versions.navigation",
         navigationUIKtx                     : "androidx.navigation:navigation-ui-ktx:$versions.navigation",
+        navigationFragmentKtx               : "androidx.navigation:navigation-fragment-ktx:$versions.navigation",
+        lifecycleRuntimeKtx                 : "androidx.lifecycle:lifecycle-runtime-ktx:$versions.lifecycle",
+        lifecycleViewModelKtx               : "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle",
+        lifecycleLiveDataKtx                : "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycle",
+        roomKtx                             : "androidx.room:room-ktx:$versions.room",
 
         // Lifecycle
         lifecycleExt                        : "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle",
         lifecycleComplier                   : "androidx.lifecycle:lifecycle-compiler:$versions.lifecycle",
-        lifecycleRuntimeKtx                 : "androidx.lifecycle:lifecycle-runtime-ktx:$versions.lifecycle",
-        lifecycleViewModel                  : "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle",
-        lifecycleLiveData                   : "androidx.lifecycle:lifecycle-livedata-ktx:$versions.lifecycle",
 
         // Dependency Injection
         dagger                              : "com.google.dagger:dagger:$versions.dagger",
@@ -124,7 +129,6 @@ def libraries = [
         // Database
         room                                : "androidx.room:room-runtime:$versions.room",
         roomCompiler                        : "androidx.room:room-compiler:$versions.room",
-        roomKtx                             : "androidx.room:room-ktx:$versions.room",
 
         // Serialization
         gson                                : "com.google.code.gson:gson:$versions.gson",
@@ -151,27 +155,28 @@ ext.appDependencies = [
 
         // Kotlin
         addDependency('implementation',            libraries.kotlin),
-        addDependency('implementation',            libraries.kotlinKtx),
         addDependency('implementation',            libraries.coroutines),
 
         // Android Support
         addDependency('implementation',            libraries.appcompat),
         addDependency('implementation',            libraries.material),
         addDependency('implementation',            libraries.constraintLayout),
-        addDependency('implementation',            libraries.fragmentKtx),
-
-        // Navigation
-        addDependency('implementation',            libraries.navigationKtx),
         addDependency('implementation',            libraries.navigationFragment),
-        addDependency('implementation',            libraries.navigationFragmentKtx),
         addDependency('implementation',            libraries.navigationUI),
+
+        // Android KTX
+        addDependency('implementation',            libraries.kotlinKtx),
+        addDependency('implementation',            libraries.fragmentKtx),
+        addDependency('implementation',            libraries.navigationKtx),
+        addDependency('implementation',            libraries.navigationFragmentKtx),
         addDependency('implementation',            libraries.navigationUIKtx),
+        addDependency('implementation',            libraries.lifecycleRuntimeKtx),
+        addDependency('implementation',            libraries.lifecycleViewModelKtx),
+        addDependency('implementation',            libraries.lifecycleLiveDataKtx),
+        addDependency('implementation',            libraries.roomKtx),
 
         // Lifecycle
         addDependency('implementation',            libraries.lifecycleExt),
-        addDependency('implementation',            libraries.lifecycleRuntimeKtx),
-        addDependency('implementation',            libraries.lifecycleViewModel),
-        addDependency('implementation',            libraries.lifecycleLiveData),
         addDependency('kapt',                      libraries.lifecycleComplier),
 
         // Dependency Injection
@@ -191,7 +196,6 @@ ext.appDependencies = [
         // Database
         addDependency('implementation',            libraries.room),
         addDependency('kapt',                      libraries.roomCompiler),
-        addDependency('implementation',            libraries.roomKtx),
 
         // Serialization
         addDependency('implementation',            libraries.gson),
