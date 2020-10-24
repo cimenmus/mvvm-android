@@ -1,11 +1,25 @@
 package com.icmen.mvvm
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
+import com.icmen.mvvm.databinding.ActivityMainBinding
+import com.icmen.mvvm.ui.MainViewModel
+import com.icmen.mvvm.ui.common.base.BaseActivity
+import com.icmen.mvvm.ui.rocket.rockets.RocketsFragment
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+class MainActivity: BaseActivity<ActivityMainBinding, MainViewModel>() {
+
+    override fun getLayoutRes() = R.layout.activity_main
+
+    override fun getViewModelKey() = MainViewModel::class.java
+
+    override fun initViews() {
+        super.initViews()
+        showFragment()
+    }
+
+    private fun showFragment(){
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragmentContainerLayout, RocketsFragment.newInstance())
+            .commit()
     }
 }
