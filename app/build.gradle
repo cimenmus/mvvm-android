@@ -17,7 +17,7 @@ android {
     buildToolsVersion app.buildTools
 
     defaultConfig {
-        applicationId "com.icmen.mvvm"
+        applicationId "com.plumbers.mvvm"
         minSdkVersion app.minSdk
         targetSdkVersion app.targetSdk
         versionCode app.versionCode
