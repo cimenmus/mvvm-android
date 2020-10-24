@@ -23,7 +23,7 @@ class MainActivity: BaseActivity<ActivityMainBinding, MainViewModel>() {
     }
 
     private fun initActionBar(){
-        val appBarConfiguration = AppBarConfiguration(getNavController().graph)
+        val appBarConfiguration = AppBarConfiguration(bottomNavigationView.menu)
         setupActionBarWithNavController(getNavController(), appBarConfiguration)
     }
 
