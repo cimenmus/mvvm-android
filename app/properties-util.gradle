@@ -1,0 +1,41 @@
+/**
+ * Get file instance from properties
+ * @return
+ */
+def getPropertiesFile(def fileName) {
+    return new File(project.projectDir, fileName)
+}
+
+/**
+ * Reads {input: fileName} file
+ * @return Properties
+ */
+def readAsProperties(def fileName) {
+    def file = getPropertiesFile(fileName)
+    def properties = new Properties()
+    def stream
+
+    try {
+        stream = new FileInputStream(file)
+        properties.load(stream)
+    } catch (FileNotFoundException ignore) {
+    } finally {
+        if (stream != null) stream.close()
+    }
+    return properties
+}
+
+def getPropertyValue(def fileName, def propertyKey) {
+    return readAsProperties(fileName)[propertyKey]
+}
+
+def getIfExist(def project, def key, def defaultValue) {
+    project.findProperty(key) ?: defaultValue
+}
+
+ext {
+    getPropertiesFile = this.&getPropertiesFile
+    readAsProperties = this.&readAsProperties
+    getPropertyValue = this.&getPropertyValue
+    getIfExist = this.&getIfExist
+}

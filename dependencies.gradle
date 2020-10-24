@@ -1,8 +1,8 @@
 ext.app = [
         minSdk          : 19, // Android KitKat (4.4)
-        targetSdk       : 28, // Android Pie (9.0)
-        compileSdk      : 29, // Android Pie (9.0)
-        buildTools      : '29.0.2',
+        targetSdk       : 30, // Android Pie (11.0)
+        compileSdk      : 30, // Android Pie (9.0)
+        buildTools      : '30.0.2',
         versionCode     : 0,
         versionName     : "v0"
 ]
@@ -31,17 +31,17 @@ static def addDependency(config, dependency) {
 def versions = [
 
         // Gradle Plugin
-        androidGradlePlugin                 : '3.5.3',
-        googleServicesGradlePlugin          : '4.3.3',
-        firebaseCrashlyticsGradlePlugin     : '2.2.0',
+        androidGradlePlugin                 : '4.1.0',
 
         // Kotlin
-        kotlin                              : '1.3.72',
-        kotlinExt                           : '1.3.0',
+        kotlin                              : '1.4.10',
+        kotlinExt                           : '1.3.2',
+        coroutines                          : '1.4.0-M1',
 
         // Android Support
-        appcompat                           : "1.0.2",
-        constraintLayout                    : "1.1.3",
+        appcompat                           : "1.2.0",
+        material                            : "1.2.1",
+        constraintLayout                    : "2.0.2",
 
         // Lifecycle
         lifecycle                           : "2.2.0",
@@ -50,21 +50,23 @@ def versions = [
         dagger                              : "2.16",
         javaxInject                         : '1',
 
-        // Firebase
-        firebase                            : '17.4.3',
-        firebaseCrashlytics                 : '17.1.0',
+        // Networking
+        retrofit                            : '2.8.1',
+        okhttp                              : '3.12.2',
+
+        // Database
+        room                                : "2.2.2",
+
+        // Serialization
+        gson                                : "2.8.6",
 
         // Other
         multidex                            : "2.0.1",
-        rxJava                              : "2.2.19",
-        gson                                : '2.8.6',
-        gifDrawable                         : '1.2.19',
-        anrWatchdog                         : '1.4.0',
 
         // Testing
         junit                               : "4.12",
-        junitX                              : "1.1.1",
-        espresso                            : "3.2.0",
+        junitX                              : "1.1.2",
+        espresso                            : "3.3.0",
         runner                              : '1.1.0',
         mockk                               : '1.9',
 ]
@@ -74,15 +76,15 @@ def libraries = [
         // Gradle Plugin
         androidGradlePlugin                 : "com.android.tools.build:gradle:$versions.androidGradlePlugin",
         kotlinGradlePlugin                  : "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin",
-        googleServicesGradlePlugin          : "com.google.gms:google-services:$versions.googleServicesGradlePlugin",
-        firebaseCrashlyticsGradlePlugin     : "com.google.firebase:firebase-crashlytics-gradle:$versions.firebaseCrashlyticsGradlePlugin",
 
         // Kotlin
-        kotlin                              : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin",
+        kotlin                              : "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin",
         kotlinExt                           : "androidx.core:core-ktx:$versions.kotlinExt",
+        coroutines                          : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutines",
 
         // Android Support
         appcompat                           : "androidx.appcompat:appcompat:$versions.appcompat",
+        material                            : "com.google.android.material:material:$versions.material",
         constraintLayout                    : "androidx.constraintlayout:constraintlayout:$versions.constraintLayout",
 
         // Lifecycle
@@ -98,20 +100,26 @@ def libraries = [
         daggerAndroidProcessor              : "com.google.dagger:dagger-android-processor:$versions.dagger",
         javaxInject                         : "javax.inject:javax.inject:$versions.javaxInject",
 
-        // Firebase
-        firebaseAnalytics                   : "com.google.firebase:firebase-analytics:$versions.firebase",
-        firebaseCrashlytics                 : "com.google.firebase:firebase-crashlytics:$versions.firebaseCrashlytics",
+        // Networking
+        retrofit                            : "com.squareup.retrofit2:retrofit:$versions.retrofit",
+        retrofitGsonConverter               : "com.squareup.retrofit2:converter-gson:$versions.retrofit",
+        okHttp                              : "com.squareup.okhttp3:okhttp:$versions.okhttp",
+        okHttpLoggingInterceptor            : "com.squareup.okhttp3:logging-interceptor:$versions.okhttp",
+
+        // Database
+        room                                : "androidx.room:room-runtime:$versions.room",
+        roomCompiler                        : "androidx.room:room-compiler:$versions.room",
+        roomKtx                             : "androidx.room:room-ktx:$versions.room",
+
+        // Serialization
+        gson                                : "com.google.code.gson:gson:$versions.gson",
 
         // Other
         multidex                            : "androidx.multidex:multidex:$versions.multidex",
-        rxJava                              : "io.reactivex.rxjava2:rxjava:$versions.rxJava",
-        gson                                : "com.google.code.gson:gson:$versions.gson",
-        gifDrawable                         : "pl.droidsonroids.gif:android-gif-drawable:$versions.gifDrawable",
-        anrWatchdog                         : "com.github.anrwatchdog:anrwatchdog:$versions.anrWatchdog",
 
         // Testing
         junit                               : "junit:junit:$versions.junit",
-        junitx                              : "androidx.test.ext:junit:$versions.junitX",
+        junitX                              : "androidx.test.ext:junit:$versions.junitX",
         espresso                            : "androidx.test.espresso:espresso-core:$versions.espresso",
         runner                              : "androidx.test:runner:$versions.runner",
         mockk                               : "io.mockk:mockk:$versions.mockk",
@@ -121,8 +129,6 @@ def libraries = [
 ext.gradlePlugins = [
         android                             : libraries.androidGradlePlugin,
         kotlin                              : libraries.kotlinGradlePlugin,
-        googleServices                      : libraries.googleServicesGradlePlugin,
-        firebaseCrashlytics                 : libraries.firebaseCrashlyticsGradlePlugin
 ]
 
 ext.appDependencies = [
@@ -130,9 +136,11 @@ ext.appDependencies = [
         // Kotlin
         addDependency('implementation',            libraries.kotlin),
         addDependency('implementation',            libraries.kotlinExt),
+        addDependency('implementation',            libraries.coroutines),
 
         // Android Support
         addDependency('implementation',            libraries.appcompat),
+        addDependency('implementation',            libraries.material),
         addDependency('implementation',            libraries.constraintLayout),
 
         // Lifecycle
@@ -148,21 +156,27 @@ ext.appDependencies = [
         addDependency('kapt',                      libraries.daggerAndroidProcessor),
         addDependency('implementation',            libraries.javaxInject),
 
-        // Firebase
-        addDependency('implementation',            libraries.firebaseAnalytics),
-        addDependency('implementation',            libraries.firebaseCrashlytics),
+        // Networking
+        addDependency('implementation',            libraries.retrofit),
+        addDependency('implementation',            libraries.retrofitGsonConverter),
+        addDependency('implementation',            libraries.okHttp),
+        addDependency('implementation',            libraries.okHttpLoggingInterceptor),
+
+        // Database
+        addDependency('implementation',            libraries.room),
+        addDependency('kapt',                      libraries.roomCompiler),
+        addDependency('implementation',            libraries.roomKtx),
+
+        // Serialization
+        addDependency('implementation',            libraries.gson),
 
         // Other
         addDependency('implementation',            libraries.multidex),
-        addDependency('implementation',            libraries.rxJava),
-        addDependency('implementation',            libraries.gson),
-        addDependency('implementation',            libraries.gifDrawable),
-        addDependency('implementation',            libraries.anrWatchdog),
 
         // Testing
         addDependency('testImplementation',        libraries.junit),
-        addDependency('testImplementation',        libraries.junitx),
-        addDependency('androidTestImplementation', libraries.junitx),
+        addDependency('testImplementation',        libraries.junitX),
+        addDependency('androidTestImplementation', libraries.junitX),
         addDependency('testImplementation',        libraries.espresso),
         addDependency('testImplementation',        libraries.runner),
         addDependency('androidTestImplementation', libraries.runner),

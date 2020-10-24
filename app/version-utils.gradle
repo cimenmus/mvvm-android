@@ -1,0 +1,307 @@
+apply from: 'properties-util.gradle'
+
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+import groovy.json.JsonBuilder
+
+
+def getApplicationName() {
+    return "mvvm-android"
+}
+
+def getBuildFolderName() {
+    return "mvvm-android"
+}
+
+/**
+ * Reads version name from version.properties file
+ * @return version name (eg. 3.11.0)
+ */
+def readVersionName() {
+    def version = readAsProperties('version.properties')
+    return "${getApplicationName()}_v${version['VERSION_CODE']}"
+}
+
+/**
+ * Reads version code from version.properties file
+ * @return version code (eg. 234)
+ */
+def readVersionCode() {
+    def version = readAsProperties('version.properties')
+    return version['VERSION_CODE'] as int
+}
+
+/**
+ * Reads version increment value.
+ * @return
+ */
+def readVersionIncrement() {
+    def version = readAsProperties('version.properties')
+    return version['VERSION_INCREMENT'] as int
+}
+
+/**
+ * Increments build number (version code)
+ * (eg. If previous one 334, this method increment it to 335 and update file)
+ * @return incremented build number
+ */
+def incrementBuildNumber() {
+    def versionFile = getPropertiesFile('version.properties')
+    def version = readAsProperties('version.properties')
+    def build = version['VERSION_CODE'] as Integer
+    build = build + 1
+    version['VERSION_CODE'] = build.toString()
+    version['VERSION_INCREMENT'] = 1.toString()
+
+    def stream = new FileOutputStream(versionFile)
+    try {
+        version.store(stream, null)
+    } finally {
+        if (stream != null) stream.close()
+    }
+    return build
+}
+
+/**
+ * Increment the increment number for beta.
+ * (eg. If your version is 300, this value will be used to
+ * compile your beta apk with [build code calculation] + [incrementNumber].)
+ * @return
+ */
+def incrementBetaIncrementNumber() {
+    def versionFile = getPropertiesFile('version.properties')
+    def version = readAsProperties('version.properties')
+    def incrementValue = version['VERSION_INCREMENT'] as Integer
+    incrementValue = incrementValue + 1
+    version['VERSION_INCREMENT'] = incrementValue.toString()
+
+    def stream = new FileOutputStream(versionFile)
+    try {
+        version.store(stream, null)
+    } finally {
+        if (stream != null) stream.close()
+    }
+    return build
+}
+
+/**
+ * Increments version number (version name)
+ * (eg. If previous one is 3.16.4, this method checks the
+ * parameter and increment version number. If major, 4.16.4.
+ * If minor, 3.17.4. If patch, 3.16.5.)
+ * @param type
+ * @return
+ */
+def incrementVersionNumber(def type) {
+    def versionFile = getPropertiesFile('version.properties')
+    def version = readAsProperties('version.properties')
+
+    def major = version['VERSION_NAME_MAJOR'] as int
+    def minor = version['VERSION_NAME_MINOR'] as int
+    def patch = version['VERSION_NAME_PATCH'] as int
+
+    if (type == 'major') {
+        major = major + 1
+        minor = 0
+        patch = 0
+    } else if (type == 'minor') {
+        minor = minor + 1
+        patch = 0
+    } else if (type == 'patch') {
+        patch = patch + 1
+    } else {
+        throw new GradleException("You should give a type (major | minor | patch)")
+    }
+
+    version['VERSION_NAME_MAJOR'] = major.toString()
+    version['VERSION_NAME_MINOR'] = minor.toString()
+    version['VERSION_NAME_PATCH'] = patch.toString()
+    version['VERSION_INCREMENT'] = 1.toString()
+
+    def stream = new FileOutputStream(versionFile)
+    try {
+        version.store(stream, null)
+    } finally {
+        if (stream != null) stream.close()
+    }
+    return build
+}
+
+def publishArtifact(def buildType) {
+    def v = readVersionCode()
+    def baseDir = "build/outputs/apk"
+    def flavors = []
+    def builder = new JsonBuilder()
+    def copyTo = "../build/publish/$buildType/$v"
+    def apkName = getApkName()
+    def apkPath = "build/${getBuildFolderName()}/$v"
+    if (buildType == "beta") {
+        copyTo = copyTo + "/" + getBranchName()
+        apkPath = "${apkPath + "/" + getBranchName()}"
+    }
+    FileTree tree = fileTree(baseDir)
+    tree.each {
+        if (it.isFile() && it.name == "output.json") {
+            def jsonFile = file(it.path)
+            def outputModel = new JsonSlurper().parseText(jsonFile.text)
+            outputModel.each { f ->
+                def releaseType = "release"
+                if (f.apkData.baseName.endsWith("debug")) {
+                    releaseType = "debug"
+                }
+                def fl = f.apkData.fullName.replaceAll("Release", "").replaceAll("Debug", "")
+                def detail = builder {
+                    screen_type f.apkData.screen_type
+                    flavor fl
+                    uri "${apkPath + "/" + fl + "/" + releaseType + "/" + apkName}"
+                    release_type releaseType
+                }
+
+                flavors << detail
+            }
+        }
+    }
+
+    def versionData = [
+            app_type             : getApplicationName(),
+            build_type           : buildType,
+            build_date           : new Date().format('yyyyMMddHHmmss'),
+            version_name         : readVersionName(),
+            version_code         : v,
+            commit_id            : getCommitId(),
+            branch_type          : getBranchType(),
+            branch_name          : getBranchName(),
+            flavors              : flavors
+    ]
+
+    def json_str = JsonOutput.toJson(versionData)
+    def json_beauty = JsonOutput.prettyPrint(json_str)
+    File file = new File("app/${baseDir}/version.json")
+    file.write(json_beauty)
+
+    copy {
+        from baseDir
+        into copyTo
+    }
+
+    cleanApkFolder()
+}
+
+def getCommitId() {
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--verify', 'HEAD'
+        standardOutput = stdout
+    }
+
+    return stdout.toString().trim().substring(0, 7)
+}
+
+def getApkName() {
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--verify', 'HEAD'
+        standardOutput = stdout
+    }
+
+    return getCommitId() + "_" + getBranchNamePrefix() + "_" + readVersionName() + ".apk"
+}
+
+def getBranchName() {
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--abbrev-ref', 'HEAD'
+        standardOutput = stdout
+    }
+    def branchName = stdout.toString().trim()
+    if (branchName.contains("/"))
+        branchName = branchName.split("/")[1]
+
+    return branchName
+}
+
+def getBranchNamePrefix() {
+    def branch_name = getBranchName()
+    if (branch_name.length() > 6)
+        return getBranchName().substring(0, 7)
+    return branchName
+}
+
+def getBranchType() {
+    if (isFeatureBranch()) {
+        return "feature"
+    }
+
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--abbrev-ref', 'HEAD'
+        standardOutput = stdout
+    }
+    def branchName = stdout.toString().trim()
+    if (branchName.contains("/"))
+        branchName = branchName.split("/")[0]
+
+    return branchName
+}
+
+def isFeatureBranch() {
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--abbrev-ref', 'HEAD'
+        standardOutput = stdout
+    }
+    if (stdout.toString().trim().startsWith("feature/"))
+        return true
+
+    return false
+}
+
+def cleanApkFolder() {
+    project.delete(files("${buildDir}/outputs/apk/") {})
+}
+
+task doMajorVersionIncrement {
+    doLast {
+        println("Major version is incrementing...")
+        incrementVersionNumber('major')
+    }
+}
+
+task doMinorVersionIncrement {
+    doLast {
+        println("Minor version is incrementing...")
+        incrementVersionNumber('minor')
+    }
+}
+
+task doPatchVersionIncrement {
+    doLast {
+        println("Patch version is incrementing...")
+        incrementVersionNumber('patch')
+    }
+}
+
+task doBuildNumberIncrement {
+    doLast {
+        println("Build number is incrementing...")
+        incrementBuildNumber()
+    }
+}
+
+task doBuildNumberBetaIncrementValueIncrement {
+    doLast {
+        println("Beta increment value number is incrementing...")
+        incrementBetaIncrementNumber()
+    }
+}
+
+ext {
+    readVersionName = this.&readVersionName
+    readVersionCode = this.&readVersionCode
+    readVersionIncrement = this.&readVersionIncrement
+    incrementBuildNumber = this.&incrementBuildNumber
+    publishArtifact = this.&publishArtifact
+    getApkName = this.&getApkName
+    isFeatureBranch = this.&isFeatureBranch
+    cleanApkFolder = this.&cleanApkFolder
+}
