@@ -29,7 +29,7 @@ abstract class BaseActivity<VB: ViewDataBinding, VM: ViewModel>: AppCompatActivi
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelFactory)[getViewModelKey()]
         setContentView(getLayoutRes())
-        binding = DataBindingUtil.setContentView(this, getLayoutRes())
+        //binding = DataBindingUtil.setContentView(this, getLayoutRes())
         readDataFromIntent()
         initViews()
         initLogic()

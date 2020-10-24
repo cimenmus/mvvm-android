@@ -43,6 +43,9 @@ def versions = [
         material                            : "1.2.1",
         constraintLayout                    : "2.0.2",
 
+        // Navigation
+        navigation                          : "2.3.1",
+
         // Lifecycle
         lifecycle                           : "2.2.0",
 
@@ -76,6 +79,7 @@ def libraries = [
         // Gradle Plugin
         androidGradlePlugin                 : "com.android.tools.build:gradle:$versions.androidGradlePlugin",
         kotlinGradlePlugin                  : "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin",
+        navigationGradlePlugin              : "androidx.navigation:navigation-safe-args-gradle-plugin:$versions.navigation",
 
         // Kotlin
         kotlin                              : "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin",
@@ -86,6 +90,12 @@ def libraries = [
         appcompat                           : "androidx.appcompat:appcompat:$versions.appcompat",
         material                            : "com.google.android.material:material:$versions.material",
         constraintLayout                    : "androidx.constraintlayout:constraintlayout:$versions.constraintLayout",
+
+        // Navigation
+        navigationFragment                  : "androidx.navigation:navigation-fragment:$versions.navigation",
+        navigationFragmentKtx               : "androidx.navigation:navigation-fragment-ktx:$versions.navigation",
+        navigationUI                        : "androidx.navigation:navigation-ui:$versions.navigation",
+        navigationUIKtx                     : "androidx.navigation:navigation-ui-ktx:$versions.navigation",
 
         // Lifecycle
         lifecycleExt                        : "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle",
@@ -129,6 +139,7 @@ def libraries = [
 ext.gradlePlugins = [
         android                             : libraries.androidGradlePlugin,
         kotlin                              : libraries.kotlinGradlePlugin,
+        navigation                          : libraries.navigationGradlePlugin,
 ]
 
 ext.appDependencies = [
@@ -142,6 +153,12 @@ ext.appDependencies = [
         addDependency('implementation',            libraries.appcompat),
         addDependency('implementation',            libraries.material),
         addDependency('implementation',            libraries.constraintLayout),
+
+        // Navigation
+        addDependency('implementation',            libraries.navigationFragment),
+        addDependency('implementation',            libraries.navigationFragmentKtx),
+        addDependency('implementation',            libraries.navigationUI),
+        addDependency('implementation',            libraries.navigationUIKtx),
 
         // Lifecycle
         addDependency('implementation',            libraries.lifecycleExt),

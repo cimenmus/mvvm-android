@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MVVM Android</string>
+    <string name="menu_rockets">Rockets</string>
+    <string name="menu_missions">Missions</string>
 </resources>

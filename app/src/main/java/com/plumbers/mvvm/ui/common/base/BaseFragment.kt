@@ -1,10 +1,11 @@
 package com.plumbers.mvvm.ui.common.base
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.annotation.LayoutRes
+import androidx.annotation.MenuRes
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
@@ -15,7 +16,7 @@ import com.plumbers.mvvm.di.Injectable
 import com.plumbers.mvvm.ui.common.autoCleared
 import javax.inject.Inject
 
-abstract class BaseFragment<VB: ViewDataBinding, VM: ViewModel>: Fragment(), Injectable {
+abstract class BaseFragment<VB : ViewDataBinding, VM : ViewModel>: Fragment(), Injectable {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -23,9 +24,11 @@ abstract class BaseFragment<VB: ViewDataBinding, VM: ViewModel>: Fragment(), Inj
     lateinit var viewModel: VM
     var binding by autoCleared<VB>()
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding =  DataBindingUtil.inflate(inflater, getLayoutRes(), container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
@@ -34,14 +37,27 @@ abstract class BaseFragment<VB: ViewDataBinding, VM: ViewModel>: Fragment(), Inj
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelFactory)[getViewModelKey()]
+        setUpActionBar()
         readDataFromArguments()
         initViews()
         initObservers()
         initLogic()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        getMenuRes()?.let {
+            inflater.inflate(it, menu)
+        }
+    }
+
     @LayoutRes
     protected abstract fun getLayoutRes(): Int
+
+    @StringRes
+    protected open fun getTitleRes(): Int? = null
+
+    @MenuRes
+    protected open fun getMenuRes(): Int? = null
 
     protected abstract fun getViewModelKey(): Class<VM>
 
@@ -52,5 +68,19 @@ abstract class BaseFragment<VB: ViewDataBinding, VM: ViewModel>: Fragment(), Inj
     open fun initObservers() {}
 
     open fun initLogic() {}
+
+    private fun setUpActionBar(){
+        getTitleRes()?.let {
+            setActionBarTitle(title = getString(it))
+        }
+    }
+
+    private fun setActionBarTitle(title: String?){
+        title?.let {
+            if(activity is AppCompatActivity){
+                (activity as AppCompatActivity).supportActionBar?.title = it
+            }
+        }
+    }
 
 }
