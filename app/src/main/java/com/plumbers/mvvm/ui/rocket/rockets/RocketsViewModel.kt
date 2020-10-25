@@ -1,10 +1,11 @@
 package com.plumbers.mvvm.ui.rocket.rockets
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.plumbers.mvvm.data.model.RocketModel
 import com.plumbers.mvvm.data.repository.rocket.RocketRepository
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,6 +16,12 @@ class RocketsViewModel
 
     fun getRockets() =
         viewModelScope.launch {
-            rocketsLiveData.postValue(rocketRepository.getRockets())
+            rocketRepository
+                .getRockets()
+                .onStart { /* emit loading state */ }
+                .catch { exception -> /* emit error state */ }
+                .collect {
+                    rocketsLiveData.postValue(it)
+                }
         }
 }

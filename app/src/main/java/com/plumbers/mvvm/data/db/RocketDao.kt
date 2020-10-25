@@ -2,6 +2,7 @@ package com.plumbers.mvvm.data.db
 
 import androidx.room.*
 import com.plumbers.mvvm.data.model.RocketModel
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface RocketDao {
@@ -15,6 +16,12 @@ interface RocketDao {
     @Delete
     suspend fun delete(rocket: RocketModel)
 
+    /**
+     * Using a coroutine Flow as a return type, you will get this error
+     * (Not sure how to convert a Cursor to this method's return type ..)
+     * if you accidentally make the function suspend.
+     * Since it is returning a flow, there is no need to suspend.
+     */
     @Query("SELECT * FROM RocketModel")
-    suspend fun getRockets(): List<RocketModel>
+    fun getRockets(): Flow<List<RocketModel>>
 }
