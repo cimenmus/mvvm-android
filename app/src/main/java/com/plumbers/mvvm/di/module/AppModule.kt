@@ -7,7 +7,9 @@ import dagger.Module
         ContextModule::class,
         ActivityModule::class,
         FragmentModule::class,
-        ViewModelModule::class
+        ViewModelModule::class,
+        DataSourceModule::class,
+        RepositoryModule::class
     ]
 )
 class AppModule
