@@ -7,23 +7,23 @@ import com.plumbers.mvvm.common.Constants
 import com.plumbers.mvvm.data.db.AppDatabase
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 @Module
+@InstallIn(ApplicationComponent::class)
 class DatabaseModule {
 
-    @Singleton
     @Provides
     fun provideMovieDao(appDatabase: AppDatabase) = appDatabase.movieDao()
 
-    @Singleton
     @Provides
     fun provideAppDatabase(appDatabaseBuilder: RoomDatabase.Builder<AppDatabase?>) =
         appDatabaseBuilder.fallbackToDestructiveMigration().build()
 
-    @Singleton
     @Provides
-    fun provideAppDatabaseBuilder(context: Context?) =
+    fun provideAppDatabaseBuilder(@ApplicationContext context: Context?) =
         Room.databaseBuilder(
             context!!,
             AppDatabase::class.java,

@@ -1,30 +1,7 @@
 package com.plumbers.mvvm
 
-import android.app.Activity
-import android.app.Application
-import android.content.Context
-import androidx.multidex.MultiDex
-import com.plumbers.mvvm.di.AppInjector
-import com.plumbers.mvvm.di.component.AppComponent
-import dagger.android.*
-import javax.inject.Inject
+import androidx.multidex.MultiDexApplication
+import dagger.hilt.android.HiltAndroidApp
 
-class App: Application(), HasActivityInjector {
-
-    @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
-
-    private lateinit var appComponent: AppComponent
-
-    override fun onCreate() {
-        super.onCreate()
-        appComponent = AppInjector.init(this)
-    }
-
-    override fun activityInjector() = dispatchingAndroidInjector
-
-    override fun attachBaseContext(base: Context?) {
-        super.attachBaseContext(base)
-        MultiDex.install(this)
-    }
-}
+@HiltAndroidApp
+class App: MultiDexApplication()

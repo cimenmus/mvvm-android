@@ -1,9 +1,11 @@
 package com.plumbers.mvvm.ui.movie.moviedetail
 
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import javax.inject.Inject
 
 class MovieDetailsViewModel
-@Inject constructor(): ViewModel() {
+@ViewModelInject constructor(/*@Assisted private val savedStateHandle: SavedStateHandle*/): ViewModel() {
 
 }

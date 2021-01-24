@@ -1,13 +1,15 @@
 package com.plumbers.mvvm.ui.movie.movies
 
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.plumbers.mvvm.data.model.MovieModel
 import com.plumbers.mvvm.data.repository.movie.MovieRepository
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class MoviesViewModel
-@Inject constructor(private val movieRepository: MovieRepository): ViewModel() {
+class MoviesViewModel @ViewModelInject constructor(
+    private val movieRepository: MovieRepository,
+    /*@Assisted private val savedStateHandle: SavedStateHandle*/): ViewModel() {
 
     val moviesLiveData = MutableLiveData<List<MovieModel>>()
 

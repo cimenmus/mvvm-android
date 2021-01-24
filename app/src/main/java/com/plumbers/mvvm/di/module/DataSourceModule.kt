@@ -3,22 +3,24 @@ package com.plumbers.mvvm.di.module
 import com.plumbers.mvvm.data.source.movie.MovieDataSource
 import com.plumbers.mvvm.data.source.movie.MovieLocalDataSource
 import com.plumbers.mvvm.data.source.movie.MovieRemoteDataSource
+import com.plumbers.mvvm.di.annotation.qualifier.LocalMovieDataSource
+import com.plumbers.mvvm.di.annotation.qualifier.RemoteMovieDataSource
 import dagger.Binds
 import dagger.Module
-import javax.inject.Named
-import javax.inject.Singleton
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 
 @Suppress("unused")
 @Module
+@InstallIn(ApplicationComponent::class)
 abstract class DataSourceModule {
 
-    @Singleton
-    @Named("remote")
     @Binds
-    abstract fun provideMovieRemoteSource(movieRemoteDataSource: MovieRemoteDataSource): MovieDataSource
+    @RemoteMovieDataSource
+    abstract fun bindMovieRemoteData(movieRemoteDataSourceQualifier: MovieRemoteDataSource): MovieDataSource
 
-    @Singleton
-    @Named("local")
     @Binds
-    abstract fun provideMovieLocalSource(movieLocalDataSource: MovieLocalDataSource): MovieDataSource
+    @LocalMovieDataSource
+    abstract fun bindMovieLocalData(sampleLocalDataSourceQualifier: MovieLocalDataSource): MovieDataSource
 }
+

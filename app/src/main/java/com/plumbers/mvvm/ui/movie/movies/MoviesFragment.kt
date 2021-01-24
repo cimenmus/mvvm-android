@@ -5,8 +5,10 @@ import androidx.navigation.fragment.findNavController
 import com.plumbers.mvvm.R
 import com.plumbers.mvvm.databinding.FragmentMoviesBinding
 import com.plumbers.mvvm.ui.common.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_movies.*
 
+@AndroidEntryPoint
 class MoviesFragment: BaseFragment<FragmentMoviesBinding, MoviesViewModel>() {
 
     override fun getViewModelKey() = MoviesViewModel::class.java

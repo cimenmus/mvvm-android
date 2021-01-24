@@ -54,8 +54,8 @@ def versions = [
         lifecycle                           : "2.2.0",
 
         // Dependency Injection
-        dagger                              : "2.16",
-        javaxInject                         : '1',
+        daggerHilt                          : "2.29.1-alpha",
+        daggerHiltExt                       : "1.0.0-alpha02",
 
         // Networking
         retrofit                            : '2.8.1',
@@ -83,6 +83,7 @@ def libraries = [
         // Gradle Plugin
         androidGradlePlugin                 : "com.android.tools.build:gradle:$versions.androidGradlePlugin",
         kotlinGradlePlugin                  : "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin",
+        daggerHiltGradlePlugin              : "com.google.dagger:hilt-android-gradle-plugin:$versions.daggerHilt",
         navigationGradlePlugin              : "androidx.navigation:navigation-safe-args-gradle-plugin:$versions.navigation",
 
         // Kotlin
@@ -113,12 +114,10 @@ def libraries = [
         lifecycleComplier                   : "androidx.lifecycle:lifecycle-compiler:$versions.lifecycle",
 
         // Dependency Injection
-        dagger                              : "com.google.dagger:dagger:$versions.dagger",
-        daggerCompiler                      : "com.google.dagger:dagger-compiler:$versions.dagger",
-        daggerAndroid                       : "com.google.dagger:dagger-android:$versions.dagger",
-        daggerAndroidSupport                : "com.google.dagger:dagger-android-support:$versions.dagger",
-        daggerAndroidProcessor              : "com.google.dagger:dagger-android-processor:$versions.dagger",
-        javaxInject                         : "javax.inject:javax.inject:$versions.javaxInject",
+        daggerHilt                          : "com.google.dagger:hilt-android:$versions.daggerHilt",
+        daggerHiltCompiler                  : "com.google.dagger:hilt-android-compiler:$versions.daggerHilt",
+        daggerHiltLifecycle                 : "androidx.hilt:hilt-lifecycle-viewmodel:$versions.daggerHiltExt",
+        daggerHiltCompilerExt               : "androidx.hilt:hilt-compiler:$versions.daggerHiltExt",
 
         // Networking
         retrofit                            : "com.squareup.retrofit2:retrofit:$versions.retrofit",
@@ -148,6 +147,7 @@ def libraries = [
 ext.gradlePlugins = [
         android                             : libraries.androidGradlePlugin,
         kotlin                              : libraries.kotlinGradlePlugin,
+        daggerHilt                          : libraries.daggerHiltGradlePlugin,
         navigation                          : libraries.navigationGradlePlugin,
 ]
 
@@ -180,12 +180,10 @@ ext.appDependencies = [
         addDependency('kapt',                      libraries.lifecycleComplier),
 
         // Dependency Injection
-        addDependency('implementation',            libraries.dagger),
-        addDependency('kapt',                      libraries.daggerCompiler),
-        addDependency('implementation',            libraries.daggerAndroid),
-        addDependency('implementation',            libraries.daggerAndroidSupport),
-        addDependency('kapt',                      libraries.daggerAndroidProcessor),
-        addDependency('implementation',            libraries.javaxInject),
+        addDependency('implementation',            libraries.daggerHilt),
+        addDependency('kapt',                      libraries.daggerHiltCompiler),
+        addDependency('implementation',            libraries.daggerHiltLifecycle),
+        addDependency('kapt',                      libraries.daggerHiltCompilerExt),
 
         // Networking
         addDependency('implementation',            libraries.retrofit),

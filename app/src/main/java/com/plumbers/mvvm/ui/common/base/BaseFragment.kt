@@ -11,24 +11,16 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import com.plumbers.mvvm.di.Injectable
 import com.plumbers.mvvm.ui.common.autoCleared
-import javax.inject.Inject
 
-abstract class BaseFragment<VB : ViewDataBinding, VM : ViewModel>: Fragment(), Injectable {
+abstract class BaseFragment<VB : ViewDataBinding, VM : ViewModel>: Fragment() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    lateinit var viewModel: VM
+    val viewModel: VM by lazy { ViewModelProvider(this).get(getViewModelKey()) }
     var binding by autoCleared<VB>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         binding =  DataBindingUtil.inflate(inflater, getLayoutRes(), container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
@@ -36,7 +28,6 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : ViewModel>: Fragment(), I
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProviders.of(this, viewModelFactory)[getViewModelKey()]
         setUpActionBar()
         readDataFromArguments()
         initViews()

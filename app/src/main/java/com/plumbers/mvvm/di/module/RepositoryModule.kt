@@ -4,13 +4,13 @@ import com.plumbers.mvvm.data.repository.movie.MovieRepository
 import com.plumbers.mvvm.data.repository.movie.MovieRepositoryImpl
 import dagger.Binds
 import dagger.Module
-import javax.inject.Singleton
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 
-@Suppress("unused")
 @Module
+@InstallIn(ApplicationComponent::class)
 abstract class RepositoryModule {
 
     @Binds
-    @Singleton
     abstract fun bindMovieRepository(movieRepositoryImpl: MovieRepositoryImpl): MovieRepository
 }
