@@ -1,7 +1,7 @@
 package com.plumbers.mvvm.di.module
 
-import com.plumbers.mvvm.data.repository.rocket.RocketRepository
-import com.plumbers.mvvm.data.repository.rocket.RocketRepositoryImpl
+import com.plumbers.mvvm.data.repository.movie.MovieRepository
+import com.plumbers.mvvm.data.repository.movie.MovieRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import javax.inject.Singleton
@@ -12,5 +12,5 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindRocketRepository(rocketRepositoryImpl: RocketRepositoryImpl): RocketRepository
+    abstract fun bindMovieRepository(movieRepositoryImpl: MovieRepositoryImpl): MovieRepository
 }

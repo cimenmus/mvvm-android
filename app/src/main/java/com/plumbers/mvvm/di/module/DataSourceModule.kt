@@ -1,8 +1,8 @@
 package com.plumbers.mvvm.di.module
 
-import com.plumbers.mvvm.data.source.rocket.RocketDataSource
-import com.plumbers.mvvm.data.source.rocket.RocketLocalDataSource
-import com.plumbers.mvvm.data.source.rocket.RocketRemoteDataSource
+import com.plumbers.mvvm.data.source.movie.MovieDataSource
+import com.plumbers.mvvm.data.source.movie.MovieLocalDataSource
+import com.plumbers.mvvm.data.source.movie.MovieRemoteDataSource
 import dagger.Binds
 import dagger.Module
 import javax.inject.Named
@@ -15,10 +15,10 @@ abstract class DataSourceModule {
     @Singleton
     @Named("remote")
     @Binds
-    abstract fun provideRocketRemoteSource(rocketRemoteDataSource: RocketRemoteDataSource): RocketDataSource
+    abstract fun provideMovieRemoteSource(movieRemoteDataSource: MovieRemoteDataSource): MovieDataSource
 
     @Singleton
     @Named("local")
     @Binds
-    abstract fun provideRocketLocalSource(rocketLocalDataSource: RocketLocalDataSource): RocketDataSource
+    abstract fun provideMovieLocalSource(movieLocalDataSource: MovieLocalDataSource): MovieDataSource
 }

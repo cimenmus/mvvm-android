@@ -5,60 +5,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navigation_graph"
-    app:startDestination="@id/rocketsFragment">
+    app:startDestination="@id/moviesFragment">
 
     <fragment
-        android:id="@+id/rocketsFragment"
-        android:name="com.plumbers.mvvm.ui.rocket.rockets.RocketsFragment"
-        android:label="Rockets"
-        tools:layout="@layout/fragment_rockets">
+        android:id="@+id/moviesFragment"
+        android:name="com.plumbers.mvvm.ui.movie.movies.MoviesFragment"
+        android:label="Movies"
+        tools:layout="@layout/fragment_movies">
 
         <action
-            android:id="@+id/action_rocketList_to_rocketDetails"
-            app:destination="@id/rocketDetailsFragment" />
+            android:id="@+id/action_movie_list_to_movie_details"
+            app:destination="@id/movieDetailsFragment" />
 
     </fragment>
 
     <fragment
-        android:id="@+id/rocketDetailsFragment"
-        android:name="com.plumbers.mvvm.ui.rocket.rocketdetail.RocketDetailsFragment"
-        android:label="Rocket Details"
-        tools:layout="@layout/fragment_rocket_details">
+        android:id="@+id/movieDetailsFragment"
+        android:name="com.plumbers.mvvm.ui.movie.moviedetail.MovieDetailsFragment"
+        android:label="Movie Details"
+        tools:layout="@layout/fragment_movie_details">
 
         <argument
-            android:name="rocket_id"
+            android:name="movie_id"
             android:defaultValue="0"
             app:argType="integer" />
-
-    </fragment>
-
-    <fragment
-        android:id="@+id/missionsFragment"
-        android:name="com.plumbers.mvvm.ui.mission.missions.MissionsFragment"
-        android:label="Missions"
-        tools:layout="@layout/fragment_missions">
-
-        <action
-            android:id="@+id/action_missionList_to_missionDetails"
-            app:destination="@id/missionDetailsFragment" />
-
-    </fragment>
-
-    <fragment
-        android:id="@+id/missionDetailsFragment"
-        android:name="com.plumbers.mvvm.ui.mission.missiondetails.MissionDetailsFragment"
-        android:label="{mission_name}"
-        tools:layout="@layout/fragment_mission_details">
-
-        <argument
-            android:name="mission_id"
-            android:defaultValue="0"
-            app:argType="integer" />
-
-        <argument
-            android:name="mission_name"
-            android:defaultValue="Mission Details"
-            app:argType="string" />
 
     </fragment>
 

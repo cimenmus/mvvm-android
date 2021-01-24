@@ -14,7 +14,7 @@ class DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideRocketDao(appDatabase: AppDatabase) = appDatabase.rocketDao()
+    fun provideMovieDao(appDatabase: AppDatabase) = appDatabase.movieDao()
 
     @Singleton
     @Provides

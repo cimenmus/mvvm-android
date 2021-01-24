@@ -18,17 +18,7 @@ class MainActivity: BaseActivity<ActivityMainBinding, MainViewModel>() {
 
     override fun initViews() {
         super.initViews()
-        initActionBar()
-        initBottomNavigation()
     }
-
-    private fun initActionBar(){
-        val appBarConfiguration = AppBarConfiguration(bottomNavigationView.menu)
-        setupActionBarWithNavController(getNavController(), appBarConfiguration)
-    }
-
-    private fun initBottomNavigation() =
-        bottomNavigationView.setupWithNavController(getNavController())
 
     override fun onSupportNavigateUp(): Boolean {
         return getNavController().navigateUp() || super.onSupportNavigateUp()

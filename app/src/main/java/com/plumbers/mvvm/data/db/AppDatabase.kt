@@ -2,15 +2,15 @@ package com.plumbers.mvvm.data.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.plumbers.mvvm.data.model.RocketModel
+import com.plumbers.mvvm.data.model.MovieModel
 
 @Database(
     entities = [
-        RocketModel::class,
+        MovieModel::class,
     ],
     version = 1,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun rocketDao(): RocketDao
+    abstract fun movieDao(): MovieDao
 }
