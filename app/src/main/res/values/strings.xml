@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">MVVM Android</string>
+    <string name="app_name">Movies</string>
+    <string name="title_movies">Popular Movies</string>
+    <string name="warning">Warning</string>
+    <string name="ok">OK</string>
+    <string name="please_wait">Please wait..</string>
+    <string name="generic_error">An error has occurred.</string>
 </resources>

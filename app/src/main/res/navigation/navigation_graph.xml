@@ -26,9 +26,8 @@
         tools:layout="@layout/fragment_movie_details">
 
         <argument
-            android:name="movie_id"
-            android:defaultValue="0"
-            app:argType="integer" />
+            android:name="movie"
+            app:argType="com.plumbers.mvvm.data.model.MovieModel" />
 
     </fragment>
 

@@ -67,6 +67,9 @@ def versions = [
         // Serialization
         gson                                : "2.8.6",
 
+        // Image
+        picasso                             : "2.71828",
+
         // Other
         multidex                            : "2.0.1",
 
@@ -131,6 +134,9 @@ def libraries = [
 
         // Serialization
         gson                                : "com.google.code.gson:gson:$versions.gson",
+
+        // Image
+        picasso                             : "com.squareup.picasso:picasso:$versions.picasso",
 
         // Other
         multidex                            : "androidx.multidex:multidex:$versions.multidex",
@@ -197,6 +203,9 @@ ext.appDependencies = [
 
         // Serialization
         addDependency('implementation',            libraries.gson),
+
+        // Image
+        addDependency('implementation',            libraries.picasso),
 
         // Other
         addDependency('implementation',            libraries.multidex),
