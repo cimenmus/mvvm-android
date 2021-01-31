@@ -1,6 +1,7 @@
 package com.plumbers.mvvm.ui.common.ext
 
 import android.widget.ImageView
+import com.plumbers.mvvm.R
 import com.plumbers.mvvm.common.Constants
 import com.squareup.picasso.Picasso
 
@@ -12,12 +13,21 @@ fun ImageView?.loadTmdbImage(url: String?) {
     }
 }
 
-fun ImageView?.load(url: String?) {
+fun ImageView?.load(
+    url: String?,
+    withPlaceholder: Boolean = true,
+    withError: Boolean = true
+) {
     this?.let { imageView ->
         url?.let {
-            Picasso.get()
-                .load(it)
-                .into(imageView)
+            val requestCreator = Picasso.get().load(it)
+            if (withPlaceholder) {
+                requestCreator.placeholder(R.drawable.placeholder)
+            }
+            if (withError) {
+                requestCreator.error(R.drawable.placeholder)
+            }
+            requestCreator.into(imageView)
         }
     }
 }
