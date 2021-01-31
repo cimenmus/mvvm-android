@@ -6,11 +6,11 @@ import com.plumbers.mvvm.ui.common.ext.load
 import com.plumbers.mvvm.ui.common.ext.loadTmdbImage
 
 @BindingAdapter("tmdbImageUrl")
-fun loadTmdbImage(imageView: ImageView, url: String) {
+fun loadTmdbImage(imageView: ImageView, url: String?) {
     imageView.loadTmdbImage(url = url)
 }
 
 @BindingAdapter("imageUrl")
-fun loadImage(imageView: ImageView, url: String) {
+fun loadImage(imageView: ImageView, url: String?) {
     imageView.load(url = url)
 }

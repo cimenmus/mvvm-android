@@ -8,5 +8,6 @@ enum class ErrorType {
     UNDEFINED,
     CONNECTION,
     BUSINESS,
-    AUTHENTICATION
+    AUTHENTICATION,
+    DB_ITEM_NOT_FOUND
 }

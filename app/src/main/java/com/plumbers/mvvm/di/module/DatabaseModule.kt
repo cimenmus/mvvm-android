@@ -19,6 +19,12 @@ class DatabaseModule {
     fun provideMovieDao(appDatabase: AppDatabase) = appDatabase.movieDao()
 
     @Provides
+    fun provideMovieCastDao(appDatabase: AppDatabase) = appDatabase.movieCastDao()
+
+    @Provides
+    fun providePersonDao(appDatabase: AppDatabase) = appDatabase.personDao()
+
+    @Provides
     fun provideAppDatabase(appDatabaseBuilder: RoomDatabase.Builder<AppDatabase?>) =
         appDatabaseBuilder.fallbackToDestructiveMigration().build()
 

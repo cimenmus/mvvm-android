@@ -3,8 +3,13 @@ package com.plumbers.mvvm.di.module
 import com.plumbers.mvvm.data.source.movie.MovieDataSource
 import com.plumbers.mvvm.data.source.movie.MovieLocalDataSource
 import com.plumbers.mvvm.data.source.movie.MovieRemoteDataSource
+import com.plumbers.mvvm.data.source.person.PersonDataSource
+import com.plumbers.mvvm.data.source.person.PersonLocalDataSource
+import com.plumbers.mvvm.data.source.person.PersonRemoteDataSource
 import com.plumbers.mvvm.di.annotation.qualifier.LocalMovieDataSource
+import com.plumbers.mvvm.di.annotation.qualifier.LocalPersonDataSource
 import com.plumbers.mvvm.di.annotation.qualifier.RemoteMovieDataSource
+import com.plumbers.mvvm.di.annotation.qualifier.RemotePersonDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -17,10 +22,18 @@ abstract class DataSourceModule {
 
     @Binds
     @RemoteMovieDataSource
-    abstract fun bindMovieRemoteData(movieRemoteDataSourceQualifier: MovieRemoteDataSource): MovieDataSource
+    abstract fun bindMovieRemoteDataSource(movieRemoteDataSource: MovieRemoteDataSource): MovieDataSource
 
     @Binds
     @LocalMovieDataSource
-    abstract fun bindMovieLocalData(sampleLocalDataSourceQualifier: MovieLocalDataSource): MovieDataSource
+    abstract fun bindMovieLocalDataSource(movieLocalDataSource: MovieLocalDataSource): MovieDataSource
+
+    @Binds
+    @RemotePersonDataSource
+    abstract fun bindPersonRemoteDataSource(personRemoteDataSource: PersonRemoteDataSource): PersonDataSource
+
+    @Binds
+    @LocalPersonDataSource
+    abstract fun bindPersonLocalDataSource(personLocalDataSource: PersonLocalDataSource): PersonDataSource
 }
 

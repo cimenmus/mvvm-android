@@ -37,4 +37,4 @@ data class MovieModel(
 
     val popularity: Double? = 0.0,
 
-    ): Parcelable
+) : Parcelable

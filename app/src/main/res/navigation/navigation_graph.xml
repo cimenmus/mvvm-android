@@ -29,6 +29,26 @@
             android:name="movie"
             app:argType="com.plumbers.mvvm.data.model.MovieModel" />
 
+        <action
+            android:id="@+id/action_movie_details_to_person_details"
+            app:destination="@id/personDetailsFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/personDetailsFragment"
+        android:name="com.plumbers.mvvm.ui.person.PersonDetailsFragment"
+        android:label="Person Details"
+        tools:layout="@layout/fragment_person_details">
+
+        <argument
+            android:name="personId"
+            app:argType="integer" />
+
+        <argument
+            android:name="personName"
+            app:argType="string" />
+
     </fragment>
 
 </navigation>

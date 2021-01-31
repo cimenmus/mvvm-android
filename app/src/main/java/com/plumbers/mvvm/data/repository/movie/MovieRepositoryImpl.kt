@@ -2,6 +2,7 @@ package com.plumbers.mvvm.data.repository.movie
 
 import com.plumbers.mvvm.common.data.DataResult
 import com.plumbers.mvvm.common.util.NetworkUtils
+import com.plumbers.mvvm.data.model.MovieCastModel
 import com.plumbers.mvvm.data.model.MovieModel
 import com.plumbers.mvvm.data.source.movie.MovieDataSource
 import com.plumbers.mvvm.di.annotation.qualifier.LocalMovieDataSource
@@ -27,5 +28,19 @@ class MovieRepositoryImpl
 
     override suspend fun saveMovies(movies: List<MovieModel>) {
         movieLocalDataSource.saveMovies(movies = movies)
+    }
+
+    override suspend fun getCastOfAMovie(movieId: Int): DataResult<List<MovieCastModel>> {
+        val networkResult = movieRemoteDataSource.getCastOfAMovie(movieId = movieId)
+        return if (networkResult is DataResult.Success) {
+            saveMovieCast(movieId = movieId, movieCast =  networkResult.data)
+            networkResult
+        } else {
+            movieLocalDataSource.getCastOfAMovie(movieId = movieId)
+        }
+    }
+
+    override suspend fun saveMovieCast(movieId: Int, movieCast: List<MovieCastModel>) {
+        movieLocalDataSource.saveMovieCast(movieId = movieId, movieCast = movieCast)
     }
 }
