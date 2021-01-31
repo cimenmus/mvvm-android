@@ -2,8 +2,8 @@ package com.plumbers.mvvm.di.module
 
 import com.plumbers.mvvm.BuildConfig
 import com.plumbers.mvvm.data.api.DefaultRequestInterceptor
-import com.plumbers.mvvm.di.annotation.qualifier.DefaultInterceptor
-import com.plumbers.mvvm.di.annotation.qualifier.LoggingInterceptor
+import com.plumbers.mvvm.di.qualifier.DefaultInterceptor
+import com.plumbers.mvvm.di.qualifier.LoggingInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

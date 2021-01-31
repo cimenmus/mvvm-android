@@ -5,8 +5,8 @@ import com.plumbers.mvvm.common.util.NetworkUtils
 import com.plumbers.mvvm.data.model.MovieCastModel
 import com.plumbers.mvvm.data.model.MovieModel
 import com.plumbers.mvvm.data.source.movie.MovieDataSource
-import com.plumbers.mvvm.di.annotation.qualifier.LocalMovieDataSource
-import com.plumbers.mvvm.di.annotation.qualifier.RemoteMovieDataSource
+import com.plumbers.mvvm.di.qualifier.LocalMovieDataSource
+import com.plumbers.mvvm.di.qualifier.RemoteMovieDataSource
 import javax.inject.Inject
 
 class MovieRepositoryImpl

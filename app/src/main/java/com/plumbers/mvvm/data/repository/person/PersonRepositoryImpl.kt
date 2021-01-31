@@ -4,8 +4,8 @@ import com.plumbers.mvvm.common.data.DataResult
 import com.plumbers.mvvm.common.util.NetworkUtils
 import com.plumbers.mvvm.data.model.PersonModel
 import com.plumbers.mvvm.data.source.person.PersonDataSource
-import com.plumbers.mvvm.di.annotation.qualifier.LocalPersonDataSource
-import com.plumbers.mvvm.di.annotation.qualifier.RemotePersonDataSource
+import com.plumbers.mvvm.di.qualifier.LocalPersonDataSource
+import com.plumbers.mvvm.di.qualifier.RemotePersonDataSource
 import javax.inject.Inject
 
 class PersonRepositoryImpl

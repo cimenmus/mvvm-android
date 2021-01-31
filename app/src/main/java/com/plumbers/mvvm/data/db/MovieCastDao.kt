@@ -9,7 +9,7 @@ interface MovieCastDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun add(cast: List<MovieCastModel>): List<Long>
 
-    @Query("SELECT * FROM MovieCastModel WHERE movieId = :movieId ORDER BY `order` DESC")
+    @Query("SELECT * FROM MovieCastModel WHERE movieId = :movieId ORDER BY `order` ASC")
     suspend fun getCastOfAMovie(movieId: Int): List<MovieCastModel>
 
     @Delete

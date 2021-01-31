@@ -11,12 +11,14 @@ class MoviesViewModel @ViewModelInject constructor(
     private val movieRepository: MovieRepository
 ) : ViewModel() {
 
-    val moviesLiveData = MutableLiveData<DataResult<List<MovieModel>>>()
+    val moviesLiveData = MutableLiveData<DataResult<Any>>()
     var movieList = mutableListOf<MovieModel>()
     private var nextPage = 1
 
-    fun getMovies() {
-        moviesLiveData.value = DataResult.Loading
+    fun getMovies(showLoading: Boolean = true) {
+        if (showLoading) {
+            moviesLiveData.value = DataResult.Loading
+        }
         viewModelScope.launch {
             movieRepository.getPopularMovies(page = nextPage).apply {
                 if (this is DataResult.Success) {

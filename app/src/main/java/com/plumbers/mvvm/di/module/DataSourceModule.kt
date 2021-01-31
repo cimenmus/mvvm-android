@@ -6,10 +6,10 @@ import com.plumbers.mvvm.data.source.movie.MovieRemoteDataSource
 import com.plumbers.mvvm.data.source.person.PersonDataSource
 import com.plumbers.mvvm.data.source.person.PersonLocalDataSource
 import com.plumbers.mvvm.data.source.person.PersonRemoteDataSource
-import com.plumbers.mvvm.di.annotation.qualifier.LocalMovieDataSource
-import com.plumbers.mvvm.di.annotation.qualifier.LocalPersonDataSource
-import com.plumbers.mvvm.di.annotation.qualifier.RemoteMovieDataSource
-import com.plumbers.mvvm.di.annotation.qualifier.RemotePersonDataSource
+import com.plumbers.mvvm.di.qualifier.LocalMovieDataSource
+import com.plumbers.mvvm.di.qualifier.LocalPersonDataSource
+import com.plumbers.mvvm.di.qualifier.RemoteMovieDataSource
+import com.plumbers.mvvm.di.qualifier.RemotePersonDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

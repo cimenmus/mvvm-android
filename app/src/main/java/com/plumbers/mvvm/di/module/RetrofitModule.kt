@@ -1,6 +1,6 @@
 package com.plumbers.mvvm.di.module
 
-import com.plumbers.mvvm.common.Constants
+import com.plumbers.mvvm.BuildConfig
 import com.plumbers.mvvm.data.api.base.CallAdapterFactory
 import dagger.Module
 import dagger.Provides
@@ -17,12 +17,12 @@ class RetrofitModule {
 
     @Provides
     fun provideRetrofit(
-            gsonConverterFactory: GsonConverterFactory,
-            callAdapterFactory: CallAdapterFactory,
-            okHttpClient: OkHttpClient
+        gsonConverterFactory: GsonConverterFactory,
+        callAdapterFactory: CallAdapterFactory,
+        okHttpClient: OkHttpClient
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(Constants.Api.BASE_URL)
+            .baseUrl(BuildConfig.API_BASE_URL)
             .addCallAdapterFactory(callAdapterFactory)
             .addConverterFactory(gsonConverterFactory)
             .client(okHttpClient)

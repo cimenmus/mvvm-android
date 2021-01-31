@@ -24,6 +24,9 @@ android {
         targetSdkVersion app.targetSdk
         versionCode app.versionCode
         versionName app.versionName
+        buildConfigField("java.lang.String", "API_BASE_URL", apiDependencies.baseUrl)
+        buildConfigField("java.lang.String", "API_KEY", apiDependencies.apiKey)
+        buildConfigField("java.lang.String", "API_IMAGE_PREFIX", apiDependencies.imagePrefix)
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

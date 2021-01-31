@@ -18,6 +18,12 @@ ext.addRepos = { RepositoryHandler handler ->
     handler.mavenCentral()
 }
 
+ext.apiDependencies = [
+        baseUrl             : '"https://api.themoviedb.org/3/"',
+        apiKey              : '"95eedd0a3fb65ec9977c55895ab3ca46"',
+        imagePrefix         : '"https://image.tmdb.org/t/p/w500"',
+]
+
 ext.addDependencies = { DependencyHandler handler, dependencies ->
     dependencies.each {
         handler.add(it.configuration, it.dependency, it.options)

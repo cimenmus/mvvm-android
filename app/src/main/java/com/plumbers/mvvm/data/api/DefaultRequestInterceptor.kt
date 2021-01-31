@@ -1,5 +1,6 @@
 package com.plumbers.mvvm.data.api
 
+import com.plumbers.mvvm.BuildConfig
 import com.plumbers.mvvm.common.Constants
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -18,7 +19,7 @@ class DefaultRequestInterceptor : Interceptor {
 
         val originalHttpUrl = original.url()
         val url = originalHttpUrl.newBuilder()
-            .addQueryParameter("api_key", Constants.Api.API_KEY)
+            .addQueryParameter("api_key", BuildConfig.API_KEY)
             .build()
 
         original.newBuilder().apply {

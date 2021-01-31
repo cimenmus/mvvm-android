@@ -4,11 +4,12 @@ import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.plumbers.mvvm.R
 import com.plumbers.mvvm.common.data.DataResult
-import com.plumbers.mvvm.data.model.MovieModel
 import com.plumbers.mvvm.databinding.FragmentMoviesBinding
 import com.plumbers.mvvm.ui.common.DataObserver
+import com.plumbers.mvvm.ui.common.EndlessRecyclerViewScrollListener
 import com.plumbers.mvvm.ui.common.RecyclerItemClickListener
 import com.plumbers.mvvm.ui.common.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,7 +40,7 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding, MoviesViewModel>() {
 
     override fun initObservers() {
         super.initObservers()
-        val dataObserver = DataObserver<DataResult<List<MovieModel>>>(
+        val dataObserver = DataObserver<DataResult<Any>>(
             lifecycle = lifecycle,
             view = this
         ) {
@@ -68,5 +69,11 @@ class MoviesFragment : BaseFragment<FragmentMoviesBinding, MoviesViewModel>() {
             }
         )
         movieRecyclerView.adapter = movieRecyclerAdapter
+
+        movieRecyclerView.addOnScrollListener(object : EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+                viewModel.getMovies(showLoading = false)
+            }
+        })
     }
 }
