@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
-                app:tmdbImageUrl='@{person.imagePath}'
+                app:tmdbImageUrl="@{person.imagePath}"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="16dp"/>
 
@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                android:text='@{person.biography}'
+                android:text="@{person.biography}"
                 android:layout_margin="16dp"
                 tools:text="Wonder Woman comes into conflict with the Soviet Union during the Cold War in the 1980s and finds a formidable foe by the name of the Cheetah."/>
 

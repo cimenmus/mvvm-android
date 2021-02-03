@@ -1,7 +1,9 @@
 package com.plumbers.mvvm.ui.person
 
 import com.plumbers.mvvm.R
-import com.plumbers.mvvm.common.data.DataResult
+import com.plumbers.mvvm.common.data.Result
+import com.plumbers.mvvm.common.data.data
+import com.plumbers.mvvm.common.data.succeeded
 import com.plumbers.mvvm.data.model.PersonModel
 import com.plumbers.mvvm.databinding.FragmentPersonDetailsBinding
 import com.plumbers.mvvm.ui.common.DataObserver
@@ -40,12 +42,12 @@ class PersonDetailsFragment : BaseFragment<FragmentPersonDetailsBinding, PersonD
 
     override fun initObservers() {
         super.initObservers()
-        val dataObserver = DataObserver<DataResult<PersonModel>>(
+        val dataObserver = DataObserver<Result<PersonModel>>(
             lifecycle = lifecycle,
             view = this
         ) {
-            if (it is DataResult.Success) {
-                person = it.data
+            if (it.succeeded) {
+                person = it.data!!
                 binding.person = person
             }
         }

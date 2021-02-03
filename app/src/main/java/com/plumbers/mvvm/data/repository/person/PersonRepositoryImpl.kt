@@ -1,6 +1,6 @@
 package com.plumbers.mvvm.data.repository.person
 
-import com.plumbers.mvvm.common.data.DataResult
+import com.plumbers.mvvm.common.data.Result
 import com.plumbers.mvvm.common.util.NetworkUtils
 import com.plumbers.mvvm.data.model.PersonModel
 import com.plumbers.mvvm.data.source.person.PersonDataSource
@@ -15,9 +15,9 @@ class PersonRepositoryImpl
     @LocalPersonDataSource private val personLocalDataSource: PersonDataSource
 ) : PersonRepository {
 
-    override suspend fun getPersonDetails(personId: Int): DataResult<PersonModel> {
+    override suspend fun getPersonDetails(personId: Int): Result<PersonModel> {
         val networkResult = personRemoteDataSource.getPersonDetails(personId = personId)
-        return if (networkResult is DataResult.Success) {
+        return if (networkResult is Result.Success) {
             savePerson(person = networkResult.data)
             networkResult
         } else {

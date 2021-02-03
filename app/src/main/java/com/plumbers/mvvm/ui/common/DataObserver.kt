@@ -1,11 +1,11 @@
 package com.plumbers.mvvm.ui.common
 
 import androidx.lifecycle.*
-import com.plumbers.mvvm.common.data.DataResult
+import com.plumbers.mvvm.common.data.Result
 import com.plumbers.mvvm.ui.common.base.BaseView
 import java.lang.ref.WeakReference
 
-class DataObserver<T : DataResult<Any>?>(
+class DataObserver<T : Result<Any>?>(
     lifecycle: Lifecycle,
     view: BaseView?,
     observer: Observer<T>
@@ -14,17 +14,17 @@ class DataObserver<T : DataResult<Any>?>(
     private var view: WeakReference<BaseView?>?
     private var observer: Observer<T>?
 
-    override fun onChanged(dataResult: T?) {
+    override fun onChanged(result: T?) {
         view?.get()?.let { v ->
-            dataResult?.let {
+            result?.let {
                 when (it) {
-                    is DataResult.Loading -> v.showLoading()
-                    is DataResult.Success<*> -> v.hideLoading()
-                    is DataResult.Error -> v.showError(it.appError)
+                    is Result.Loading -> v.showLoading()
+                    is Result.Success<*> -> v.hideLoading()
+                    is Result.Error -> v.showError(it.appError)
                 }
             }
         }
-        observer?.onChanged(dataResult)
+        observer?.onChanged(result)
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)

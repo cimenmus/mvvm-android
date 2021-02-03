@@ -5,6 +5,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="cast"
+            type="com.plumbers.mvvm.data.model.MovieCastModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,6 +25,7 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
+            app:tmdbImageUrl="@{cast.imagePath}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
@@ -29,6 +36,7 @@
             android:textColor="@color/black"
             android:textStyle="bold"
             android:layout_marginStart="8dp"
+            android:text="@{cast.name}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@+id/profileImageView"
             tools:text="Keanu Reeves"/>
@@ -39,6 +47,7 @@
             android:layout_height="wrap_content"
             android:textSize="12sp"
             android:layout_marginStart="8dp"
+            android:text="@{cast.character}"
             app:layout_constraintTop_toBottomOf="@+id/artistNameTextView"
             app:layout_constraintStart_toEndOf="@+id/profileImageView"
             tools:text="as Neo"/>

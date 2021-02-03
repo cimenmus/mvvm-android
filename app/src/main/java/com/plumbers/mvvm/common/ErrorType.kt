@@ -9,5 +9,6 @@ enum class ErrorType {
     CONNECTION,
     BUSINESS,
     AUTHENTICATION,
-    DB_ITEM_NOT_FOUND
+    DB_ITEM_NOT_FOUND,
+    USECASE
 }

@@ -1,55 +1,48 @@
 package com.plumbers.mvvm.ui.movie.moviedetail
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.plumbers.mvvm.R
 import com.plumbers.mvvm.data.model.MovieCastModel
+import com.plumbers.mvvm.databinding.RowCastBinding
 import com.plumbers.mvvm.ui.common.RecyclerItemClickListener
-import com.plumbers.mvvm.ui.common.ext.loadTmdbImage
 
 class MovieCastRecyclerAdapter(
     private val castList: MutableList<MovieCastModel>,
-    private val clickListener: RecyclerItemClickListener
-) : RecyclerView.Adapter<MovieCastRecyclerAdapter.ModelViewHolder>() {
+    private val onClicked: RecyclerItemClickListener
+) : RecyclerView.Adapter<MovieCastRecyclerAdapter.CastViewHolder>() {
 
-    class ModelViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+    class CastViewHolder(
+        private val binding: RowCastBinding,
+        private val onClicked: RecyclerItemClickListener
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-        private val imageView: ImageView = view.findViewById(R.id.profileImageView)
-        private val artistNameTextView: TextView = view.findViewById(R.id.artistNameTextView)
-        private val characterNameTextView: TextView = view.findViewById(R.id.characterNameTextView)
-
-        fun bindItems(
-            castModel: MovieCastModel,
-            position: Int,
-            clickListener: RecyclerItemClickListener
-        ) {
-            castModel.apply {
-                imageView.loadTmdbImage(url = imagePath)
-                artistNameTextView.text = name
-                characterNameTextView.text = character
-
-                view.setOnClickListener {
-                    clickListener.onItemClick(view = view, position = position)
-                }
+        companion object {
+            fun from(
+                parent: ViewGroup,
+                onClicked: RecyclerItemClickListener
+            ): CastViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = RowCastBinding.inflate(layoutInflater, parent, false)
+                return CastViewHolder(binding = binding, onClicked = onClicked)
             }
+        }
+
+        init {
+            binding.root.setOnClickListener { onClicked(adapterPosition) }
+        }
+
+        fun bind(cast: MovieCastModel) {
+            binding.cast = cast
+            binding.executePendingBindings()
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ModelViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.row_cast, parent, false)
-        return ModelViewHolder(view)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CastViewHolder =
+        CastViewHolder.from(parent = parent, onClicked = onClicked)
 
-    override fun onBindViewHolder(holder: ModelViewHolder, position: Int) =
-        holder.bindItems(
-            castModel = castList[position],
-            position = position,
-            clickListener = clickListener
-        )
+    override fun onBindViewHolder(holder: CastViewHolder, position: Int) =
+        holder.bind(cast = castList[position])
 
     override fun getItemCount(): Int = castList.size
 }

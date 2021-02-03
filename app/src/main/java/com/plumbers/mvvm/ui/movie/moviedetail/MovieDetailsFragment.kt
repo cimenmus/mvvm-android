@@ -1,20 +1,19 @@
 package com.plumbers.mvvm.ui.movie.moviedetail
 
-import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.plumbers.mvvm.R
-import com.plumbers.mvvm.common.data.DataResult
+import com.plumbers.mvvm.common.data.Result
+import com.plumbers.mvvm.common.data.data
+import com.plumbers.mvvm.common.data.succeeded
 import com.plumbers.mvvm.data.model.MovieCastModel
 import com.plumbers.mvvm.data.model.MovieModel
 import com.plumbers.mvvm.databinding.FragmentMovieDetailsBinding
 import com.plumbers.mvvm.ui.common.DataObserver
-import com.plumbers.mvvm.ui.common.RecyclerItemClickListener
 import com.plumbers.mvvm.ui.common.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_movie_details.*
-import kotlinx.android.synthetic.main.fragment_movies.*
 
 @AndroidEntryPoint
 class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding, MovieDetailsViewModel>() {
@@ -52,12 +51,12 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding, MovieDeta
 
     override fun initObservers() {
         super.initObservers()
-        val dataObserver = DataObserver<DataResult<List<MovieCastModel>>>(
+        val dataObserver = DataObserver<Result<List<MovieCastModel>>>(
             lifecycle = lifecycle,
             view = this
         ) {
-            if (it is DataResult.Success) {
-                castList.addAll(it.data)
+            if (it.succeeded) {
+                castList.addAll(it.data!!)
                 castRecyclerAdapter.notifyDataSetChanged()
             }
         }
@@ -74,16 +73,14 @@ class MovieDetailsFragment : BaseFragment<FragmentMovieDetailsBinding, MovieDeta
 
         castRecyclerAdapter = MovieCastRecyclerAdapter(
             castList = castList,
-            object : RecyclerItemClickListener {
-                override fun onItemClick(view: View, position: Int) {
-                    castList[position].apply {
-                        val actionDetail =
-                            MovieDetailsFragmentDirections.actionMovieDetailsToPersonDetails(
-                                personId = id,
-                                personName = name
-                            )
-                        findNavController().navigate(actionDetail)
-                    }
+            onClicked = {
+                castList[it].apply {
+                    val actionDetail =
+                        MovieDetailsFragmentDirections.actionMovieDetailsToPersonDetails(
+                            personId = id,
+                            personName = name
+                        )
+                    findNavController().navigate(actionDetail)
                 }
             }
         )

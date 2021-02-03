@@ -1,57 +1,48 @@
 package com.plumbers.mvvm.ui.movie.movies
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.plumbers.mvvm.R
 import com.plumbers.mvvm.data.model.MovieModel
+import com.plumbers.mvvm.databinding.RowMovieBinding
 import com.plumbers.mvvm.ui.common.RecyclerItemClickListener
-import com.plumbers.mvvm.ui.common.ext.loadTmdbImage
 
 class MovieRecyclerAdapter(
     private val movieList: MutableList<MovieModel>,
-    private val clickListener: RecyclerItemClickListener
-) : RecyclerView.Adapter<MovieRecyclerAdapter.ModelViewHolder>() {
+    private val onClicked: RecyclerItemClickListener
+) : RecyclerView.Adapter<MovieRecyclerAdapter.MovieViewHolder>() {
 
-    class ModelViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+    class MovieViewHolder(
+        private val binding: RowMovieBinding,
+        private val onClicked: RecyclerItemClickListener
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-        private val imageView: ImageView = view.findViewById(R.id.movieImageView)
-        private val titleTextView: TextView = view.findViewById(R.id.titleTextView)
-        private val releaseDateTextView: TextView = view.findViewById(R.id.releaseDateTextView)
-        private val averageTextView: TextView = view.findViewById(R.id.averageTextView)
-
-        fun bindItems(
-            movie: MovieModel,
-            position: Int,
-            clickListener: RecyclerItemClickListener
-        ) {
-            movie.apply {
-                imageView.loadTmdbImage(url = posterImagePath)
-                titleTextView.text = title
-                releaseDateTextView.text = releaseDate
-                averageTextView.text = average.toString()
-
-                view.setOnClickListener {
-                    clickListener.onItemClick(view = view, position = position)
-                }
+        companion object {
+            fun from(
+                parent: ViewGroup,
+                onClicked: RecyclerItemClickListener
+            ): MovieViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = RowMovieBinding.inflate(layoutInflater, parent, false)
+                return MovieViewHolder(binding = binding, onClicked = onClicked)
             }
+        }
+
+        init {
+            binding.root.setOnClickListener { onClicked(adapterPosition) }
+        }
+
+        fun bind(movie: MovieModel) {
+            binding.movie = movie
+            binding.executePendingBindings()
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ModelViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.row_movie, parent, false)
-        return ModelViewHolder(view)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder =
+        MovieViewHolder.from(parent = parent, onClicked = onClicked)
 
-    override fun onBindViewHolder(holder: ModelViewHolder, position: Int) =
-        holder.bindItems(
-            movie = movieList[position],
-            position = position,
-            clickListener = clickListener
-        )
+    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) =
+        holder.bind(movie = movieList[position])
 
     override fun getItemCount(): Int = movieList.size
 }

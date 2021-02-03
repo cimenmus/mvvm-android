@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
-                app:tmdbImageUrl='@{movie.backdropImagePath}'
+                app:tmdbImageUrl="@{movie.backdropImagePath}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:layout_marginStart="4dp"
-                android:text='@{movie.average.toString()}'
+                android:text="@{movie.average.toString()}"
                 android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/movieBackdropImageView"
                 app:layout_constraintEnd_toStartOf="@+id/endGuideline"
@@ -75,7 +75,7 @@
                 android:id="@+id/releaseDateTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text='@{movie.releaseDate}'
+                android:text="@{movie.releaseDate}"
                 android:layout_marginTop="4dp"
                 android:textSize="12sp"
                 app:layout_constraintTop_toBottomOf="@+id/starImageView"
@@ -88,7 +88,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                android:text='@{movie.overview}'
+                android:text="@{movie.overview}"
                 android:layout_marginTop="8dp"
                 app:layout_constraintTop_toBottomOf="@+id/releaseDateTextView"
                 app:layout_constraintStart_toEndOf="@+id/startGuideline"
