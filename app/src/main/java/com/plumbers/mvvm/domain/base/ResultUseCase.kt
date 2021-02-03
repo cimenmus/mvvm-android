@@ -19,9 +19,7 @@ abstract class ResultUseCase<in P, R>(private val coroutineDispatcher: Coroutine
      */
     suspend operator fun invoke(parameters: P): Result<R> {
         return try {
-            withContext(coroutineDispatcher) {
-                execute(parameters)
-            }
+            withContext(coroutineDispatcher) { execute(parameters) }
         } catch (e: Exception) {
             val error = AppError(type = ErrorType.USECASE, message = e.localizedMessage ?: "")
             Result.Error(error)

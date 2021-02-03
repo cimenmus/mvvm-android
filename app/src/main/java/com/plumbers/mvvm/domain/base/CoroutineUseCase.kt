@@ -3,21 +3,25 @@ package com.plumbers.mvvm.domain.base
 import com.plumbers.mvvm.ErrorType
 import com.plumbers.mvvm.common.AppError
 import com.plumbers.mvvm.common.data.Result
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 
 /**
  * Executes business logic synchronously or asynchronously using Coroutines.
  */
-abstract class UseCase<in P, R>() {
+abstract class CoroutineUseCase<in P, R>(private val coroutineDispatcher: CoroutineDispatcher) {
 
-    /** Executes the use case synchronously and returns a [Result].
+    /** Executes the use case asynchronously and returns a [Result].
      *
      * @return a [Result].
      *
      * @param parameters the input parameters to run the use case with
      */
-    operator fun invoke(parameters: P): Result<R> {
+    suspend operator fun invoke(parameters: P): Result<R> {
         return try {
-            execute(parameters).let { Result.Success(it) }
+            withContext(coroutineDispatcher) {
+                execute(parameters).let { Result.Success(it) }
+            }
         } catch (e: Exception) {
             val error = AppError(type = ErrorType.USECASE, message = e.localizedMessage ?: "")
             Result.Error(error)
@@ -28,5 +32,5 @@ abstract class UseCase<in P, R>() {
      * Override this to set the code to be executed.
      */
     @Throws(RuntimeException::class)
-    protected abstract fun execute(parameters: P): R
+    protected abstract suspend fun execute(parameters: P): R
 }
