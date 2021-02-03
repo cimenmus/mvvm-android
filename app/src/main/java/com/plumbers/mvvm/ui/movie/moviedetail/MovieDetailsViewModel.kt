@@ -7,13 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.plumbers.mvvm.common.data.Result
 import com.plumbers.mvvm.common.data.update
 import com.plumbers.mvvm.data.model.MovieCastModel
-import com.plumbers.mvvm.domain.GetCastOfMovieUseCase
+import com.plumbers.mvvm.domain.GetCastOfMovieResultUseCase
 import com.plumbers.mvvm.domain.MovieCastParameter
 import kotlinx.coroutines.launch
 
 class MovieDetailsViewModel
 @ViewModelInject constructor(
-    private val getCastOfMovieUseCase: GetCastOfMovieUseCase
+    private val getCastOfMovieUseCase: GetCastOfMovieResultUseCase
 ) : ViewModel() {
 
     val movieCastLiveData = MutableLiveData<Result<List<MovieCastModel>>>()

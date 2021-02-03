@@ -11,18 +11,16 @@ import kotlinx.coroutines.withContext
  */
 abstract class ResultUseCase<in P, R>(private val coroutineDispatcher: CoroutineDispatcher) {
 
-    /** Executes the use case asynchronously and returns a [Result].
+    /** Executes the use case asynchronously and returns R
      *
-     * @return a [Result].
+     * @return R.
      *
      * @param parameters the input parameters to run the use case with
      */
     suspend operator fun invoke(parameters: P): Result<R> {
         return try {
             withContext(coroutineDispatcher) {
-                execute(parameters).let {
-                    Result.Success(it)
-                }
+                execute(parameters)
             }
         } catch (e: Exception) {
             val error = AppError(type = ErrorType.USECASE, message = e.localizedMessage ?: "")
@@ -34,5 +32,5 @@ abstract class ResultUseCase<in P, R>(private val coroutineDispatcher: Coroutine
      * Override this to set the code to be executed.
      */
     @Throws(RuntimeException::class)
-    protected abstract suspend fun execute(parameters: P): R
+    protected abstract suspend fun execute(parameters: P): Result<R>
 }

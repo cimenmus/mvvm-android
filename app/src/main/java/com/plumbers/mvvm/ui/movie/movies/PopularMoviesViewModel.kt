@@ -6,12 +6,12 @@ import com.plumbers.mvvm.common.data.Result
 import com.plumbers.mvvm.common.data.data
 import com.plumbers.mvvm.common.data.succeeded
 import com.plumbers.mvvm.data.model.MovieModel
-import com.plumbers.mvvm.domain.GetPopularMoviesUseCase
+import com.plumbers.mvvm.domain.GetPopularMoviesResultUseCase
 import com.plumbers.mvvm.domain.PopularMoviesParameter
 import kotlinx.coroutines.launch
 
 class PopularMoviesViewModel @ViewModelInject constructor(
-    private val getPopularMoviesUseCase: GetPopularMoviesUseCase
+    private val getPopularMoviesUseCase: GetPopularMoviesResultUseCase
 ) : ViewModel() {
 
     val moviesLiveData = MutableLiveData<Result<Any>>()

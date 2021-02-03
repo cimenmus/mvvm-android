@@ -7,13 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.plumbers.mvvm.common.data.Result
 import com.plumbers.mvvm.common.data.update
 import com.plumbers.mvvm.data.model.PersonModel
-import com.plumbers.mvvm.domain.GetPersonDetailsUseCase
+import com.plumbers.mvvm.domain.GetPersonDetailsResultUseCase
 import com.plumbers.mvvm.domain.PersonDetailParameter
 import kotlinx.coroutines.launch
 
 class PersonDetailsViewModel
 @ViewModelInject constructor(
-    private val getPersonDetailsUseCase: GetPersonDetailsUseCase
+    private val getPersonDetailsUseCase: GetPersonDetailsResultUseCase
 ) : ViewModel() {
 
     val personDetailsLiveData = MutableLiveData<Result<PersonModel>>()
