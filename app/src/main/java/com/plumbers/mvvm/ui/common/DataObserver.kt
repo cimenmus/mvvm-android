@@ -20,7 +20,10 @@ class DataObserver<T : Result<Any>?>(
                 when (it) {
                     is Result.Loading -> v.showLoading()
                     is Result.Success<*> -> v.hideLoading()
-                    is Result.Error -> v.showError(it.appError)
+                    is Result.Error -> {
+                        v.hideLoading()
+                        v.showError(it.appError)
+                    }
                 }
             }
         }
