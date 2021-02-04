@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.MVVMAndroid">
-        <activity android:name="com.plumbers.mvvm.MainActivity">
+        <activity android:name="com.plumbers.mvvm.ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

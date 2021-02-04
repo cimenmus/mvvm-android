@@ -7,13 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.plumbers.mvvm.common.data.Result
 import com.plumbers.mvvm.common.data.update
 import com.plumbers.mvvm.data.model.MovieCastModel
-import com.plumbers.mvvm.domain.GetCastOfMovieResultUseCase
-import com.plumbers.mvvm.domain.MovieCastParameter
+import com.plumbers.mvvm.domain.movie.GetMovieCastUseCase
+import com.plumbers.mvvm.domain.movie.MovieCastParameter
 import kotlinx.coroutines.launch
 
 class MovieDetailsViewModel
 @ViewModelInject constructor(
-    private val getCastOfMovieUseCase: GetCastOfMovieResultUseCase
+    private val getMovieCastUseCase: GetMovieCastUseCase
 ) : ViewModel() {
 
     val movieCastLiveData = MutableLiveData<Result<List<MovieCastModel>>>()
@@ -22,7 +22,7 @@ class MovieDetailsViewModel
         movieCastLiveData.value = Result.Loading
         viewModelScope.launch {
             val params = MovieCastParameter(movieId = movieId)
-            getCastOfMovieUseCase(parameters = params).update(liveData = movieCastLiveData)
+            getMovieCastUseCase(parameters = params).update(liveData = movieCastLiveData)
         }
     }
 }

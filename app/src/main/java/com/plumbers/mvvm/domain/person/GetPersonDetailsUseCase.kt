@@ -1,4 +1,4 @@
-package com.plumbers.mvvm.domain
+package com.plumbers.mvvm.domain.person
 
 import com.plumbers.mvvm.common.data.Result
 import com.plumbers.mvvm.data.model.PersonModel
@@ -8,7 +8,7 @@ import com.plumbers.mvvm.domain.base.ResultUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
-open class GetPersonDetailsResultUseCase @Inject constructor(
+open class GetPersonDetailsUseCase @Inject constructor(
     private val personRepository: PersonRepository,
     @IoDispatcher ioDispatcher: CoroutineDispatcher
 ) : ResultUseCase<PersonDetailParameter, PersonModel>(ioDispatcher) {

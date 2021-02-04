@@ -9,7 +9,7 @@
 
     <fragment
         android:id="@+id/popularMoviesFragment"
-        android:name="com.plumbers.mvvm.ui.movie.movies.PopularMoviesFragment"
+        android:name="com.plumbers.mvvm.ui.movie.popularmovies.PopularMoviesFragment"
         android:label="Movies"
         tools:layout="@layout/fragment_popular_movies">
 

@@ -1,4 +1,4 @@
-package com.plumbers.mvvm.ui.movie.movies
+package com.plumbers.mvvm.ui.movie.popularmovies
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,10 +7,10 @@ import com.plumbers.mvvm.data.model.MovieModel
 import com.plumbers.mvvm.databinding.RowMovieBinding
 import com.plumbers.mvvm.ui.common.RecyclerItemClickListener
 
-class MovieRecyclerAdapter(
+class PopularMoviesRecyclerAdapter(
     private val movieList: MutableList<MovieModel>,
     private val onClicked: RecyclerItemClickListener
-) : RecyclerView.Adapter<MovieRecyclerAdapter.MovieViewHolder>() {
+) : RecyclerView.Adapter<PopularMoviesRecyclerAdapter.MovieViewHolder>() {
 
     class MovieViewHolder(
         private val binding: RowMovieBinding,

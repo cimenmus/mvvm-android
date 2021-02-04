@@ -1,4 +1,4 @@
-package com.plumbers.mvvm.domain
+package com.plumbers.mvvm.domain.movie
 
 import com.plumbers.mvvm.common.data.Result
 import com.plumbers.mvvm.data.model.MovieModel
@@ -8,7 +8,7 @@ import com.plumbers.mvvm.domain.base.ResultUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
-open class GetPopularMoviesResultUseCase @Inject constructor(
+open class GetPopularMoviesUseCase @Inject constructor(
     private val movieRepository: MovieRepository,
     @IoDispatcher ioDispatcher: CoroutineDispatcher
 ) : ResultUseCase<PopularMoviesParameter, List<MovieModel>>(ioDispatcher) {

@@ -1,4 +1,4 @@
-package com.plumbers.mvvm.ui.movie.movies
+package com.plumbers.mvvm.ui.movie.popularmovies
 
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_popular_movies.*
 @AndroidEntryPoint
 class PopularMoviesFragment : BaseFragment<FragmentPopularMoviesBinding, PopularMoviesViewModel>() {
 
-    private lateinit var movieRecyclerAdapter: MovieRecyclerAdapter
+    private lateinit var popularMoviesRecyclerAdapter: PopularMoviesRecyclerAdapter
 
     override fun getViewModelKey() = PopularMoviesViewModel::class.java
 
@@ -44,7 +44,7 @@ class PopularMoviesFragment : BaseFragment<FragmentPopularMoviesBinding, Popular
             view = this
         ) {
             if (it.succeeded) {
-                movieRecyclerAdapter.notifyDataSetChanged()
+                popularMoviesRecyclerAdapter.notifyDataSetChanged()
             }
         }
         viewModel.moviesLiveData.observe(viewLifecycleOwner, dataObserver)
@@ -58,7 +58,7 @@ class PopularMoviesFragment : BaseFragment<FragmentPopularMoviesBinding, Popular
         val dividerItemDecoration = DividerItemDecoration(context, linearLayoutManager.orientation)
         popularMoviesRecyclerView.addItemDecoration(dividerItemDecoration)
 
-        movieRecyclerAdapter = MovieRecyclerAdapter(
+        popularMoviesRecyclerAdapter = PopularMoviesRecyclerAdapter(
             movieList = viewModel.movieList,
             onClicked = {
                 val actionDetail =
@@ -66,7 +66,7 @@ class PopularMoviesFragment : BaseFragment<FragmentPopularMoviesBinding, Popular
                 findNavController().navigate(actionDetail)
             }
         )
-        popularMoviesRecyclerView.adapter = movieRecyclerAdapter
+        popularMoviesRecyclerView.adapter = popularMoviesRecyclerAdapter
 
         popularMoviesRecyclerView.addOnScrollListener(object :
                 EndlessRecyclerViewScrollListener(linearLayoutManager) {
