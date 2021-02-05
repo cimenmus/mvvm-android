@@ -21,13 +21,14 @@
 
         <ImageView
             android:id="@+id/profileImageView"
-            android:layout_width="48dp"
+            android:layout_width="36dp"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
             app:tmdbImageUrl="@{cast.imagePath}"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            tools:src="@drawable/placeholder_small"/>
 
         <TextView
             android:id="@+id/artistNameTextView"

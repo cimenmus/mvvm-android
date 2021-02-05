@@ -44,9 +44,11 @@
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
                 app:tmdbImageUrl="@{movie.backdropImagePath}"
+                app:placeHolder="@{@drawable/placeholder_large}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:src="@drawable/placeholder_large"/>
 
             <ImageView
                 android:id="@+id/starImageView"
