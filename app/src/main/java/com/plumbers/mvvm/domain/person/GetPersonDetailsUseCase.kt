@@ -1,6 +1,6 @@
 package com.plumbers.mvvm.domain.person
 
-import com.plumbers.mvvm.common.data.Result
+import com.plumbers.mvvm.data.result.Result
 import com.plumbers.mvvm.data.model.PersonModel
 import com.plumbers.mvvm.data.repository.person.PersonRepository
 import com.plumbers.mvvm.di.qualifier.IoDispatcher

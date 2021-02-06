@@ -1,8 +1,8 @@
 package com.plumbers.mvvm.domain.base
 
-import com.plumbers.mvvm.ErrorType
-import com.plumbers.mvvm.common.AppError
-import com.plumbers.mvvm.common.data.Result
+import com.plumbers.mvvm.data.ErrorType
+import com.plumbers.mvvm.data.AppError
+import com.plumbers.mvvm.data.result.Result
 
 /**
  * Executes business logic synchronously or asynchronously using Coroutines.

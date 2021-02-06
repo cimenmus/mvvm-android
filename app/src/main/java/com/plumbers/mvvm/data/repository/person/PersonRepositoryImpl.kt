@@ -1,13 +1,13 @@
 package com.plumbers.mvvm.data.repository.person
 
-import com.plumbers.mvvm.common.data.Result
-import com.plumbers.mvvm.common.util.NetworkUtils
-import com.plumbers.mvvm.data.NetworkBoundResource
+import com.plumbers.mvvm.data.util.NetworkUtils
+import com.plumbers.mvvm.data.result.NetworkBoundResource
 import com.plumbers.mvvm.data.model.PersonModel
 import com.plumbers.mvvm.data.source.person.PersonDataSource
 import com.plumbers.mvvm.di.qualifier.LocalPersonDataSource
 import com.plumbers.mvvm.di.qualifier.RemotePersonDataSource
 import javax.inject.Inject
+import com.plumbers.mvvm.data.result.Result
 
 class PersonRepositoryImpl
 @Inject constructor(

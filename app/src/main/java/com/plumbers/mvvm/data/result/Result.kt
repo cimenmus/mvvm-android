@@ -1,7 +1,7 @@
-package com.plumbers.mvvm.common.data
+package com.plumbers.mvvm.data.result
 
 import androidx.lifecycle.MutableLiveData
-import com.plumbers.mvvm.common.AppError
+import com.plumbers.mvvm.data.AppError
 
 sealed class Result<out R> {
 

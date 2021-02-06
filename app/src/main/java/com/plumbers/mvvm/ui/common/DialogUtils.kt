@@ -4,7 +4,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import androidx.appcompat.app.AlertDialog
 import com.plumbers.mvvm.R
-import com.plumbers.mvvm.common.AppError
+import com.plumbers.mvvm.data.AppError
 import javax.inject.Inject
 
 @Suppress("DEPRECATION")

@@ -11,7 +11,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.plumbers.mvvm.common.AppError
+import com.plumbers.mvvm.data.AppError
 import com.plumbers.mvvm.ui.common.DialogUtils
 import com.plumbers.mvvm.ui.common.autoCleared
 import javax.inject.Inject

@@ -1,7 +1,6 @@
 package com.plumbers.mvvm.data.api
 
 import com.plumbers.mvvm.BuildConfig
-import com.plumbers.mvvm.common.Constants
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException

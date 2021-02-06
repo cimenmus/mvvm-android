@@ -2,10 +2,10 @@ package com.plumbers.mvvm.ui.movie.popularmovies
 
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
-import com.plumbers.mvvm.common.data.Result
-import com.plumbers.mvvm.common.data.data
-import com.plumbers.mvvm.common.data.succeeded
+import com.plumbers.mvvm.data.result.Result
 import com.plumbers.mvvm.data.model.MovieModel
+import com.plumbers.mvvm.data.result.data
+import com.plumbers.mvvm.data.result.succeeded
 import com.plumbers.mvvm.domain.movie.GetPopularMoviesUseCase
 import com.plumbers.mvvm.domain.movie.PopularMoviesParameter
 import kotlinx.coroutines.launch

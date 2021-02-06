@@ -1,6 +1,4 @@
-package com.plumbers.mvvm.common
-
-import com.plumbers.mvvm.ErrorType
+package com.plumbers.mvvm.data
 
 data class AppError(
     var code: Int = 0,

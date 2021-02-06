@@ -1,4 +1,4 @@
-package com.plumbers.mvvm
+package com.plumbers.mvvm.data
 
 enum class ErrorType {
     HTTP,

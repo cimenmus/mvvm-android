@@ -1,4 +1,4 @@
-package com.plumbers.mvvm.common.util
+package com.plumbers.mvvm.data.util
 
 import android.content.Context
 import android.content.SharedPreferences

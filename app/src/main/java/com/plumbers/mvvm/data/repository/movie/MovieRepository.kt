@@ -1,6 +1,6 @@
 package com.plumbers.mvvm.data.repository.movie
 
-import com.plumbers.mvvm.common.data.Result
+import com.plumbers.mvvm.data.result.Result
 import com.plumbers.mvvm.data.model.MovieCastModel
 import com.plumbers.mvvm.data.model.MovieModel
 

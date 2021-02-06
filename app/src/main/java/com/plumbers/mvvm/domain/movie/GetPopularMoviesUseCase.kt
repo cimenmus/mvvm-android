@@ -1,6 +1,6 @@
 package com.plumbers.mvvm.domain.movie
 
-import com.plumbers.mvvm.common.data.Result
+import com.plumbers.mvvm.data.result.Result
 import com.plumbers.mvvm.data.model.MovieModel
 import com.plumbers.mvvm.data.repository.movie.MovieRepository
 import com.plumbers.mvvm.di.qualifier.IoDispatcher

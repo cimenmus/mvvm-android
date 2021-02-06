@@ -1,6 +1,6 @@
 package com.plumbers.mvvm.ui.common.base
 
-import com.plumbers.mvvm.common.AppError
+import com.plumbers.mvvm.data.AppError
 
 interface BaseView {
     fun showLoading()

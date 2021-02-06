@@ -1,7 +1,7 @@
 package com.plumbers.mvvm.ui.common
 
 import androidx.lifecycle.*
-import com.plumbers.mvvm.common.data.Result
+import com.plumbers.mvvm.data.result.Result
 import com.plumbers.mvvm.ui.common.base.BaseView
 import java.lang.ref.WeakReference
 

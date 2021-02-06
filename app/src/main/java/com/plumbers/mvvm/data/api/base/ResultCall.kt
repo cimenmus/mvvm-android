@@ -1,64 +1,45 @@
 package com.plumbers.mvvm.data.api.base
 
 import com.google.gson.Gson
-import com.plumbers.mvvm.ErrorType
-import com.plumbers.mvvm.common.ApiError
-import com.plumbers.mvvm.common.AppError
-import okhttp3.ResponseBody
+import com.plumbers.mvvm.data.ErrorType
+import com.plumbers.mvvm.data.api.ApiError
+import com.plumbers.mvvm.data.AppError
 import okio.Timeout
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
+import com.plumbers.mvvm.data.result.Result
 
-// https://stackoverflow.com/questions/56483235/how-to-create-a-call-adapter-for-suspending-functions-in-retrofit/57816819#57816819
-// https://stackoverflow.com/questions/56483235/how-to-create-a-call-adapter-for-suspending-functions-in-retrofit
-class ResultCall<T : BaseApiResponse>(proxy: Call<T>, private val defaultValue: Any) :
-    CallDelegate<T, T>(proxy) {
-    private fun onResponse(callback: Callback<T>, response: Response<T>) {
-        val code = response.code()
-        var body = response.body()
-        if (body == null) {
-            body = (defaultValue as? T?)
-        }
-        val result = if (code in 200 until 300) {
-            body?.statusCode = response.code()
-            body?.message = response.message()
-        } else {
-            val appError = getAppError(response)
-            body?.message = appError.message
-            body?.statusCode = appError.code
-        }
-        callback.onResponse(this@ResultCall, Response.success(body))
-    }
-
-    private fun onFailure(callback: Callback<T>, t: Throwable) {
-        val body = (defaultValue as? T?)
-        if (t is IOException) {
-            body?.statusCode = 500
-            body?.message = "Network Error: ${t.message}"
-        } else {
-            body?.statusCode = 500
-            body?.message = "Other Failure: ${t.message}"
+class ResultCall<T>(proxy: Call<T>) : CallDelegate<T, Result<T>>(proxy) {
+    override fun enqueueImpl(callback: Callback<Result<T>>) = proxy.enqueue(object : Callback<T> {
+        override fun onResponse(call: Call<T>, response: Response<T>) {
+            val code = response.code()
+            val result = if (code in 200 until 300) {
+                val body = response.body()
+                val successResult: Result<T> = Result.Success(body!!)
+                successResult
+            } else {
+                Result.Error(appError = createAppError(response = response))
+            }
+            callback.onResponse(this@ResultCall, Response.success(result))
         }
 
-        callback.onResponse(this@ResultCall, Response.success(body))
-    }
-
-    override fun enqueueImpl(callback: Callback<T>) = proxy.enqueue(object : Callback<T> {
-        override fun onResponse(call: Call<T>, response: Response<T>) =
-            onResponse(callback, response)
-
-        override fun onFailure(call: Call<T>, t: Throwable) = onFailure(callback, t)
+        override fun onFailure(call: Call<T>, t: Throwable) {
+            val result = Result.Error(createAppError(throwable = t))
+            callback.onResponse(this@ResultCall, Response.success(result))
+        }
     })
 
-    override fun cloneImpl() = ResultCall(proxy.clone(), defaultValue)
-    override fun timeout(): Timeout {
-        return Timeout.NONE
-    }
+    override fun cloneImpl() = ResultCall(proxy.clone())
 
-    private fun getAppError(response: Response<T>): AppError {
-        response.errorBody()?.let {
+    override fun timeout(): Timeout = Timeout.NONE
+
+    private fun createAppError(
+        response: Response<T>? = null,
+        throwable: Throwable? = null
+    ): AppError {
+        response?.errorBody()?.let {
             return try {
                 val apiError = Gson().fromJson(it.string(), ApiError::class.java)
                 AppError(
@@ -69,8 +50,24 @@ class ResultCall<T : BaseApiResponse>(proxy: Call<T>, private val defaultValue: 
             } catch (exception: Exception) {
                 AppError(type = ErrorType.HTTP, message = "Unknown API error.")
             }
-        } ?: run {
-            return AppError(type = ErrorType.HTTP, message = "Unknown API error.")
         }
+
+        throwable?.let {
+            return if (throwable is IOException) {
+                AppError(
+                    type = ErrorType.CONNECTION,
+                    code = 500,
+                    message = "Could not connected to internet"
+                )
+            } else {
+                AppError(
+                    type = ErrorType.UNEXPECTED_RESPONSE,
+                    code = 500,
+                    message = "Unexcepted response from API: ${throwable.localizedMessage}"
+                )
+            }
+        }
+
+        return AppError(type = ErrorType.HTTP, message = "Unknown API error.")
     }
 }

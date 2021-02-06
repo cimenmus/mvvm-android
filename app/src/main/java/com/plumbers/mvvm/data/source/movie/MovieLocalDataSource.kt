@@ -1,12 +1,13 @@
 package com.plumbers.mvvm.data.source.movie
 
-import com.plumbers.mvvm.common.Constants
-import com.plumbers.mvvm.common.data.Result
+import com.plumbers.mvvm.data.Constants
+import com.plumbers.mvvm.data.result.DatabaseResult
 import com.plumbers.mvvm.data.db.MovieCastDao
 import com.plumbers.mvvm.data.db.MovieDao
 import com.plumbers.mvvm.data.model.MovieCastModel
 import com.plumbers.mvvm.data.model.MovieModel
 import javax.inject.Inject
+import com.plumbers.mvvm.data.result.Result
 
 class MovieLocalDataSource
 @Inject constructor(
@@ -14,17 +15,23 @@ class MovieLocalDataSource
     private val movieCastDao: MovieCastDao
 ) : MovieDataSource {
 
-    override suspend fun getPopularMovies(page: Int): Result<List<MovieModel>> {
-        val offset = (page - 1) * Constants.Movie.PAGE_LIMIT
-        return Result.Success(movieDao.getPopularMovies(offset = offset))
-    }
-
-    override suspend fun saveMovies(movies: List<MovieModel>) {
-        movieDao.add(movies = movies)
-    }
+    override suspend fun getPopularMovies(page: Int): Result<List<MovieModel>> =
+        object : DatabaseResult<List<MovieModel>>() {
+            override suspend fun load(): List<MovieModel> {
+                val offset = (page - 1) * Constants.Movie.PAGE_LIMIT
+                return movieDao.getPopularMovies(offset = offset)
+            }
+        }.execute()
 
     override suspend fun getCastOfMovie(movieId: Int): Result<List<MovieCastModel>> =
-        Result.Success(movieCastDao.getCastOfAMovie(movieId = movieId))
+        object : DatabaseResult<List<MovieCastModel>>() {
+            override suspend fun load(): List<MovieCastModel> {
+                return movieCastDao.getCastOfAMovie(movieId = movieId)
+            }
+        }.execute()
+
+    override suspend fun saveMovies(movies: List<MovieModel>) =
+        movieDao.add(movies = movies)
 
     override suspend fun saveMovieCast(movieId: Int, movieCast: List<MovieCastModel>) {
         movieCast.forEach { it.movieId = movieId }

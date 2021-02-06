@@ -1,4 +1,4 @@
-package com.plumbers.mvvm.common
+package com.plumbers.mvvm.data
 
 object Constants {
 

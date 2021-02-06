@@ -1,8 +1,4 @@
-package com.plumbers.mvvm.data
-
-import com.plumbers.mvvm.common.data.Result
-import com.plumbers.mvvm.common.data.data
-import com.plumbers.mvvm.common.data.succeeded
+package com.plumbers.mvvm.data.result
 
 abstract class NetworkBoundResource<ResultType> {
 

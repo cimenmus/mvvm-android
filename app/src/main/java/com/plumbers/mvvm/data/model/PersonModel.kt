@@ -16,4 +16,4 @@ data class PersonModel(
     @SerializedName("profile_path")
     val imagePath: String? = "",
 
-    )
+)

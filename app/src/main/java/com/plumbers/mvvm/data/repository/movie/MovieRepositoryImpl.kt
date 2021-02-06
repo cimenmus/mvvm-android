@@ -1,14 +1,14 @@
 package com.plumbers.mvvm.data.repository.movie
 
-import com.plumbers.mvvm.common.data.Result
-import com.plumbers.mvvm.common.util.NetworkUtils
-import com.plumbers.mvvm.data.NetworkBoundResource
+import com.plumbers.mvvm.data.util.NetworkUtils
+import com.plumbers.mvvm.data.result.NetworkBoundResource
 import com.plumbers.mvvm.data.model.MovieCastModel
 import com.plumbers.mvvm.data.model.MovieModel
 import com.plumbers.mvvm.data.source.movie.MovieDataSource
 import com.plumbers.mvvm.di.qualifier.LocalMovieDataSource
 import com.plumbers.mvvm.di.qualifier.RemoteMovieDataSource
 import javax.inject.Inject
+import com.plumbers.mvvm.data.result.Result
 
 class MovieRepositoryImpl
 @Inject constructor(

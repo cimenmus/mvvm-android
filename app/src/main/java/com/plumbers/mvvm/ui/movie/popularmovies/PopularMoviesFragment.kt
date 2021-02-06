@@ -5,8 +5,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.plumbers.mvvm.R
-import com.plumbers.mvvm.common.data.Result
-import com.plumbers.mvvm.common.data.succeeded
+import com.plumbers.mvvm.data.result.Result
+import com.plumbers.mvvm.data.result.succeeded
 import com.plumbers.mvvm.databinding.FragmentPopularMoviesBinding
 import com.plumbers.mvvm.ui.common.DataObserver
 import com.plumbers.mvvm.ui.common.EndlessRecyclerViewScrollListener
