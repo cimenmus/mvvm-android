@@ -8,23 +8,16 @@ open class BaseApiResponse(
     @Transient open var message: String? = null
 ) {
 
-    fun toJson(): String {
-        return Gson().toJson(this)
-    }
+    fun toJson(): String = Gson().toJson(this)
 
-    fun isSuccess(): Boolean {
-        return statusCode in 200..299
-    }
+    fun isSuccess(): Boolean = statusCode in 200..299
 
-    fun getResultState(): ResultState {
+    fun getResultState(): ResultState =
         if (statusCode in 200..299) {
-            return ResultState.SUCCESS
+            ResultState.SUCCESS
+        } else {
+            ResultState.FAIL
         }
-        return ResultState.FAIL
-    }
 
-    fun getErrorMessage(): String {
-        val className = this::class
-        return "${className.simpleName} failed! -> [${this.statusCode}] {${this.message}"
-    }
+    fun getErrorMessage(): String = "Error Code:$statusCode\n$message"
 }

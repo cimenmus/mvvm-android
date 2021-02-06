@@ -21,12 +21,10 @@ abstract class NetworkBoundResource<ResultType> {
             return loadFromDb()
         }
         loadFromNetwork().apply {
-            return if (succeeded) {
+            if (succeeded) {
                 saveNetworkResult(data = data!!)
-                this
-            } else {
-                loadFromDb()
             }
+            return this
         }
     }
 }

@@ -1,5 +1,10 @@
 package com.plumbers.mvvm.data.api.base
 
+import com.google.gson.Gson
+import com.plumbers.mvvm.ErrorType
+import com.plumbers.mvvm.common.ApiError
+import com.plumbers.mvvm.common.AppError
+import okhttp3.ResponseBody
 import okio.Timeout
 import retrofit2.Call
 import retrofit2.Callback
@@ -8,7 +13,8 @@ import java.io.IOException
 
 // https://stackoverflow.com/questions/56483235/how-to-create-a-call-adapter-for-suspending-functions-in-retrofit/57816819#57816819
 // https://stackoverflow.com/questions/56483235/how-to-create-a-call-adapter-for-suspending-functions-in-retrofit
-class ResultCall<T : BaseApiResponse>(proxy: Call<T>, private val defaultValue: Any) : CallDelegate<T, T>(proxy) {
+class ResultCall<T : BaseApiResponse>(proxy: Call<T>, private val defaultValue: Any) :
+    CallDelegate<T, T>(proxy) {
     private fun onResponse(callback: Callback<T>, response: Response<T>) {
         val code = response.code()
         var body = response.body()
@@ -19,8 +25,9 @@ class ResultCall<T : BaseApiResponse>(proxy: Call<T>, private val defaultValue: 
             body?.statusCode = response.code()
             body?.message = response.message()
         } else {
-            body?.statusCode = response.code()
-            body?.message = response.message()
+            val appError = getAppError(response)
+            body?.message = appError.message
+            body?.statusCode = appError.code
         }
         callback.onResponse(this@ResultCall, Response.success(body))
     }
@@ -39,12 +46,31 @@ class ResultCall<T : BaseApiResponse>(proxy: Call<T>, private val defaultValue: 
     }
 
     override fun enqueueImpl(callback: Callback<T>) = proxy.enqueue(object : Callback<T> {
-        override fun onResponse(call: Call<T>, response: Response<T>) = onResponse(callback, response)
+        override fun onResponse(call: Call<T>, response: Response<T>) =
+            onResponse(callback, response)
+
         override fun onFailure(call: Call<T>, t: Throwable) = onFailure(callback, t)
     })
 
     override fun cloneImpl() = ResultCall(proxy.clone(), defaultValue)
     override fun timeout(): Timeout {
         return Timeout.NONE
+    }
+
+    private fun getAppError(response: Response<T>): AppError {
+        response.errorBody()?.let {
+            return try {
+                val apiError = Gson().fromJson(it.string(), ApiError::class.java)
+                AppError(
+                    type = ErrorType.HTTP,
+                    code = apiError.code ?: 0,
+                    message = apiError.message ?: "Unknown API error."
+                )
+            } catch (exception: Exception) {
+                AppError(type = ErrorType.HTTP, message = "Unknown API error.")
+            }
+        } ?: run {
+            return AppError(type = ErrorType.HTTP, message = "Unknown API error.")
+        }
     }
 }
