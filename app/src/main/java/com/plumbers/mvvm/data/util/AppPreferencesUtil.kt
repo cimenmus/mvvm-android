@@ -12,7 +12,7 @@ class AppPreferencesUtil
     }
 
     private var sharedPreferences: SharedPreferences? =
-        context.getSharedPreferences("mvvm-android.sharedprefs", Context.MODE_PRIVATE)
+        context.getSharedPreferences("movies.sharedprefs", Context.MODE_PRIVATE)
 
     var token: String?
         get() = getString(Keys.TOKEN)
