@@ -30,5 +30,5 @@ abstract class ResultUseCase<in P, R>(private val coroutineDispatcher: Coroutine
      * Override this to set the code to be executed.
      */
     @Throws(RuntimeException::class)
-    protected abstract suspend fun execute(parameters: P): Result<R>
+    abstract suspend fun execute(parameters: P): Result<R>
 }

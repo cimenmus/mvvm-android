@@ -31,6 +31,9 @@ fun <T> Result<T>.successOr(fallback: T): T {
 val <T> Result<T>.data: T?
     get() = (this as? Result.Success)?.data
 
+val <T> Result<T>.error: AppError?
+    get() = (this as? Result.Error)?.appError
+
 /**
  * Updates value of [liveData] if [Result] is of type [Success]
  */

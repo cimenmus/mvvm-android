@@ -28,5 +28,5 @@ abstract class UseCase<in P, R>() {
      * Override this to set the code to be executed.
      */
     @Throws(RuntimeException::class)
-    protected abstract fun execute(parameters: P): R
+    abstract fun execute(parameters: P): R
 }
