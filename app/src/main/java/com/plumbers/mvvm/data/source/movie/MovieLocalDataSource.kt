@@ -26,7 +26,7 @@ class MovieLocalDataSource
     override suspend fun getCastOfMovie(movieId: Int): Result<List<MovieCastModel>> =
         object : DatabaseResult<List<MovieCastModel>>() {
             override suspend fun load(): List<MovieCastModel> {
-                return movieCastDao.getCastOfAMovie(movieId = movieId)
+                return movieCastDao.getCastOfMovie(movieId = movieId)
             }
         }.execute()
 

@@ -7,10 +7,10 @@ import com.plumbers.mvvm.data.model.MovieCastModel
 interface MovieCastDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun add(cast: List<MovieCastModel>): List<Long>
+    suspend fun add(cast: List<MovieCastModel>)
 
     @Query("SELECT * FROM MovieCastModel WHERE movieId = :movieId ORDER BY `order` ASC")
-    suspend fun getCastOfAMovie(movieId: Int): List<MovieCastModel>
+    suspend fun getCastOfMovie(movieId: Int): List<MovieCastModel>
 
     @Delete
     suspend fun delete(movieCast: MovieCastModel)
