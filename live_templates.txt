@@ -17,7 +17,7 @@ Notes:
 //*************************************************************************************
 
 Abbreviation: activity
-Description : Creates an activity extended from BaseActivity
+Description : Creates an Activity extended from BaseActivity
 
 import $PACKAGE_NAME$.R
 import $PACKAGE_NAME$.ui.common.base.BaseActivity
@@ -32,7 +32,7 @@ class $ACTIVITY_NAME$Activity : BaseActivity<Activity$ACTIVITY_NAME$Binding>() {
 --------------------------------------------------------------------------------------------------
 
 Abbreviation: activityWithExtra
-Description : Creates an activity extended from BaseActivity with extras
+Description : Creates an Activity extended from BaseActivity with extras
 
 import $PACKAGE_NAME$.R
 import $PACKAGE_NAME$.ui.common.base.BaseActivity
@@ -59,8 +59,45 @@ class $ACTIVITY_NAME$Activity : BaseActivity<Activity$ACTIVITY_NAME$Binding>() {
 
 --------------------------------------------------------------------------------------------------
 
+Abbreviation: customView
+Description : Creates a Custom View extended from LinearLayout
+
+import android.content.Context
+import android.util.AttributeSet
+import android.widget.LinearLayout
+import androidx.core.content.withStyledAttributes
+import $PACKAGE_NAME$.R
+import kotlinx.android.synthetic.main.$LAYOUT_NAME$.view.*
+
+class $CUSTOM_VIEW_NAME$ @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : LinearLayout(context, attrs, defStyleAttr) {
+
+    init {
+        inflate(context, R.layout.$LAYOUT_NAME$, this)
+        attrs?.let {
+            context.withStyledAttributes(attrs, R.styleable.$CUSTOM_VIEW_NAME$) {
+            
+                val infoText = getString(R.styleable.$CUSTOM_VIEW_NAME$_infoText)
+                infoTextView.text = infoText
+                
+                val titleRes = getResourceId(R.styleable.$CUSTOM_VIEW_NAME$_titleText, R.string.default_title)
+                val titleText = resources.getText(titleRes)
+                titleTextView.text = titleText
+                
+                val titleColor = getColor(R.styleable.$CUSTOM_VIEW_NAME$_titleColor, 0)
+                titleTextView.setTextColor(titleColor)
+            }
+        }
+    }
+}
+
+--------------------------------------------------------------------------------------------------
+
 Abbreviation: dataSource
-Description : Creates an data source interface
+Description : Creates an DataSource interface
 
 interface $DATA_SOURCE_NAME$DataSource {
 
@@ -72,7 +109,7 @@ interface $DATA_SOURCE_NAME$DataSource {
 --------------------------------------------------------------------------------------------------
 
 Abbreviation: dataSource:Local
-Description : Creates a local data source instance which implemented from DataSource
+Description : Creates a LocalDataSource instance which implemented from DataSource
 
 import javax.inject.Inject
 
@@ -87,7 +124,7 @@ class $DATA_SOURCE_NAME$LocalDataSource
 --------------------------------------------------------------------------------------------------
 
 Abbreviation: dataSource:Remote
-Description : Creates a remote data source instance which implemented from DataSource
+Description : Creates a RemoteDataSource instance which implemented from DataSource
 
 import javax.inject.Inject
 
@@ -102,7 +139,7 @@ class $DATA_SOURCE_NAME$RemoteDataSource
 --------------------------------------------------------------------------------------------------
 
 Abbreviation: fragment
-Description : Creates a fragment extended from BaseFragment
+Description : Creates a Fragment extended from BaseFragment
 
 import $PACKAGE_NAME$.R
 import $PACKAGE_NAME$.ui.common.base.BaseFragment
@@ -132,7 +169,7 @@ class $FRAGMENT_NAME$Fragment : BaseFragment<Fragment$FRAGMENT_NAME$Binding, $FR
 --------------------------------------------------------------------------------------------------
 
 Abbreviation: fragmentWithArgs
-Description : Creates a fragment extended from BaseFragment with arguments
+Description : Creates a Fragment extended from BaseFragment with arguments
 
 import $PACKAGE_NAME$.R
 import $PACKAGE_NAME$.ui.common.base.BaseFragment
@@ -172,7 +209,7 @@ class $FRAGMENT_NAME$Fragment : BaseFragment<Fragment$FRAGMENT_NAME$Binding, $FR
 --------------------------------------------------------------------------------------------------
 
 Abbreviation: recyclerAdapter
-Description : Creates a recycler adapter
+Description : Creates a RecyclerAdapter
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
@@ -222,7 +259,7 @@ class $ADAPTER_NAME$RecyclerAdapter(
 --------------------------------------------------------------------------------------------------
 
 Abbreviation: recyclerAdapterMultiHolder
-Description : Creates a recycler adapter with multiple view holders
+Description : Creates a RecyclerAdapter with multiple ViewHolders
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
@@ -315,7 +352,7 @@ class $ADAPTER_NAME$RecyclerAdapter(
 --------------------------------------------------------------------------------------------------
 
 Abbreviation: repository
-Description : Creates a repository interface
+Description : Creates a Repository interface
 
 interface $REPOSITORY_NAME$ {
 
@@ -327,7 +364,7 @@ interface $REPOSITORY_NAME$ {
 --------------------------------------------------------------------------------------------------
 
 Abbreviation: repositoryImpl
-Description : Creates a repository instance which implemented from Repository
+Description : Creates a Repository instance which implemented from Repository
 
 import javax.inject.Inject
 
@@ -404,7 +441,7 @@ data class $USE_CASE_NAME$Parameter(val $PARAMETER_NAME$: $PARAMETER_TYPE$)
 --------------------------------------------------------------------------------------------------
 
 Abbreviation: viewModel
-Description : Creates a view model instance
+Description : Creates a ViewModel instance
 
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
