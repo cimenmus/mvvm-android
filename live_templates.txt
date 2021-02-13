@@ -12,10 +12,9 @@ To add live templates:
 Notes:
 
 1- If your template is a class template like Fragment, Adapter, you have to define applicable contexts. To define it, click "Define" button at the bottom of the creating live template screen, choose "Top-level" choice inside "Kotlin" section.
-
 2- You can set the name of the class with the same as file name. Click "Edit variables" button on the right side of the screen on the "Live Templates" window. Then choose your variable on the pop-up dialog, then choose "fileNameWithoutExtension()" on the "Expression" section.  
 
-
+//*************************************************************************************
 
 Abbreviation: activity
 Description : Creates an activity extended from BaseActivity
