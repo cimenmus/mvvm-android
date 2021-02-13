@@ -10,7 +10,6 @@ annotation class RemoteMovieDataSource
 @Retention(AnnotationRetention.BINARY)
 annotation class LocalMovieDataSource
 
-
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class RemotePersonDataSource

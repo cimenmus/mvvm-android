@@ -1,0 +1,499 @@
+To add live templates:
+
+1- Open Android Studio > Preferences > Editor > Live Templates
+2- Click + icon from the right side of there screen and choose "Template Group"
+3- Enter the name of it and then click "Ok"
+4- Click the templated you created,
+5- Click + icon from the right side of there screen and choose "live Template"
+6- Fill "Abbreviation", "Description" and "Template Text" fields
+7- Click "Apply" button and then click "OK" button
+8- https://www.youtube.com/watch?v=TeVwYRSe_fA&ab_channel=Stevdza-San
+
+Notes:
+
+1- If your template is a class template like Fragment, Adapter, you have to define applicable contexts. To define it, click "Define" button at the bottom of the creating live template screen, choose "Top-level" choice inside "Kotlin" section.
+
+2- You can set the name of the class with the same as file name. Click "Edit variables" button on the right side of the screen on the "Live Templates" window. Then choose your variable on the pop-up dialog, then choose "fileNameWithoutExtension()" on the "Expression" section.  
+
+
+
+Abbreviation: activity
+Description : Creates an activity extended from BaseActivity
+
+import $PACKAGE_NAME$.R
+import $PACKAGE_NAME$.ui.common.base.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
+class $ACTIVITY_NAME$Activity : BaseActivity<Activity$ACTIVITY_NAME$Binding>() {
+
+    override fun getLayoutRes() = R.layout.$LAYOUT_NAME$
+}
+
+--------------------------------------------------------------------------------------------------
+
+Abbreviation: activityWithExtra
+Description : Creates an activity extended from BaseActivity with extras
+
+import $PACKAGE_NAME$.R
+import $PACKAGE_NAME$.ui.common.base.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
+class $ACTIVITY_NAME$Activity : BaseActivity<Activity$ACTIVITY_NAME$Binding>() {
+
+    companion object {
+        const val EXTRA_$EXTRA_NAME$ = "extra"
+    }
+    
+    private lateinit var $EXTRA$: String
+
+    override fun getLayoutRes() = R.layout.$LAYOUT_NAME$
+    
+    override fun readDataFromIntent() {
+        super.readDataFromIntent()
+        intent.extras?.let { 
+            $EXTRA$ = it.getString(EXTRA_$EXTRA_NAME$, "")
+        }
+    }
+}
+
+--------------------------------------------------------------------------------------------------
+
+Abbreviation: dataSource
+Description : Creates an data source interface
+
+interface $DATA_SOURCE_NAME$DataSource {
+
+    suspend fun getSample(page: Int): Result<$RESPONSE_TYPE$>
+
+    suspend fun saveSample(data: $RESPONSE_TYPE$)
+}
+
+--------------------------------------------------------------------------------------------------
+
+Abbreviation: dataSource:Local
+Description : Creates a local data source instance which implemented from DataSource
+
+import javax.inject.Inject
+
+class $DATA_SOURCE_NAME$LocalDataSource
+@Inject constructor(
+    private val sampleDao: SampleDao
+) : $DATA_SOURCE_NAME$DataSource {
+
+   
+}
+
+--------------------------------------------------------------------------------------------------
+
+Abbreviation: dataSource:Remote
+Description : Creates a remote data source instance which implemented from DataSource
+
+import javax.inject.Inject
+
+class $DATA_SOURCE_NAME$RemoteDataSource
+@Inject constructor(
+    private val apiService: ApiService
+) : $DATA_SOURCE_NAME$DataSource {
+
+   
+}
+
+--------------------------------------------------------------------------------------------------
+
+Abbreviation: fragment
+Description : Creates a fragment extended from BaseFragment
+
+import $PACKAGE_NAME$.R
+import $PACKAGE_NAME$.ui.common.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
+class $FRAGMENT_NAME$Fragment : BaseFragment<Fragment$FRAGMENT_NAME$Binding, $FRAGMENT_NAME$ViewModel>() {
+    
+    override fun getViewModelKey() = $FRAGMENT_NAME$ViewModel::class.java
+
+    override fun getLayoutRes() = R.layout.$LAYOUT_NAME$
+
+    override fun initLogic() {
+        super.initLogic()
+    }
+
+    override fun initViews() {
+        super.initViews()
+    }
+
+    override fun initObservers() {
+        super.initObservers()
+    }
+}
+
+
+--------------------------------------------------------------------------------------------------
+
+Abbreviation: fragmentWithArgs
+Description : Creates a fragment extended from BaseFragment with arguments
+
+import $PACKAGE_NAME$.R
+import $PACKAGE_NAME$.ui.common.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
+class $FRAGMENT_NAME$Fragment : BaseFragment<Fragment$FRAGMENT_NAME$Binding, $FRAGMENT_NAME$ViewModel>() {
+    
+    private lateinit var $ARG_NAME$: $ARG_TYPE$
+    
+    override fun getViewModelKey() = $FRAGMENT_NAME$ViewModel::class.java
+
+    override fun getLayoutRes() = R.layout.$LAYOUT_NAME$
+
+    override fun initLogic() {
+        super.initLogic()
+    }
+    
+    override fun readDataFromArguments() {
+        super.readDataFromArguments()
+        arguments?.let {
+            val safeArgs = $FRAGMENT_NAME$FragmentArgs.fromBundle(it)
+            $ARG_NAME$ = safeArgs.$ARG_NAME$
+            binding.$ARG_NAME$ = $ARG_NAME$
+        }
+    }
+
+    override fun initViews() {
+        super.initViews()
+    }
+
+    override fun initObservers() {
+        super.initObservers()
+    }
+}
+
+--------------------------------------------------------------------------------------------------
+
+Abbreviation: recyclerAdapter
+Description : Creates a recycler adapter
+
+import androidx.recyclerview.widget.RecyclerView
+import android.view.ViewGroup
+import android.view.LayoutInflater
+import $PACKAGE_NAME$.ui.common.RecyclerItemClickListener
+
+class $ADAPTER_NAME$RecyclerAdapter(
+    private val itemList: MutableList<$DATA_MODEL$>,
+    private val onClicked: RecyclerItemClickListener
+) : RecyclerView.Adapter<$ADAPTER_NAME$RecyclerAdapter.ViewHolder>() {
+
+    class ViewHolder(
+        private val binding: Row$ADAPTER_NAME$Binding,
+        private val onClicked: RecyclerItemClickListener
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        companion object {
+            fun from(
+                parent: ViewGroup,
+                onClicked: RecyclerItemClickListener
+            ): ViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = Row$ADAPTER_NAME$Binding.inflate(layoutInflater, parent, false)
+                return ViewHolder(binding = binding, onClicked = onClicked)
+            }
+        }
+
+        init {
+            binding.root.setOnClickListener { onClicked(adapterPosition) }
+        }
+
+        fun bind(data: $DATA_MODEL$) {
+            binding.data = data
+            binding.executePendingBindings()
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
+        ViewHolder.from(parent = parent, onClicked = onClicked)
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) =
+        holder.bind(data = itemList[position])
+
+    override fun getItemCount(): Int = itemList.size
+}
+
+--------------------------------------------------------------------------------------------------
+
+Abbreviation: recyclerAdapterMultiHolder
+Description : Creates a recycler adapter with multiple view holders
+
+import androidx.recyclerview.widget.RecyclerView
+import android.view.ViewGroup
+import android.view.LayoutInflater
+import $PACKAGE_NAME$.ui.common.RecyclerItemClickListener
+
+class $ADAPTER_NAME$RecyclerAdapter(
+    private val itemList: MutableList<$DATA_MODEL$>,
+    private val onClicked: RecyclerItemClickListener
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    class $VIEW_HOLDER_1_NAME$ViewHolder(
+        private val binding: Row$VIEW_HOLDER_1_NAME$Binding,
+        private val onClicked: RecyclerItemClickListener
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        companion object {
+            const val VIEW_TYPE_ID = 0
+            fun from(
+                parent: ViewGroup,
+                onClicked: RecyclerItemClickListener
+            ): $VIEW_HOLDER_1_NAME$ViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = Row$VIEW_HOLDER_1_NAME$Binding.inflate(layoutInflater, parent, false)
+                return $VIEW_HOLDER_1_NAME$ViewHolder(binding = binding, onClicked = onClicked)
+            }
+        }
+
+        init {
+            binding.root.setOnClickListener { onClicked(adapterPosition) }
+        }
+
+        fun bind(data: $DATA_MODEL$) {
+            binding.data = data
+            binding.executePendingBindings()
+        }
+    }
+
+    class $VIEW_HOLDER_2_NAME$ViewHolder(
+        private val binding: Row$VIEW_HOLDER_2_NAME$Binding,
+        private val onClicked: RecyclerItemClickListener
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        companion object {
+            const val VIEW_TYPE_ID = 1
+            fun from(
+                parent: ViewGroup,
+                onClicked: RecyclerItemClickListener
+            ): $VIEW_HOLDER_2_NAME$ViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = Row$VIEW_HOLDER_2_NAME$Binding.inflate(layoutInflater, parent, false)
+                return $VIEW_HOLDER_2_NAME$ViewHolder(binding = binding, onClicked = onClicked)
+            }
+        }
+
+        init {
+            binding.root.setOnClickListener { onClicked(adapterPosition) }
+        }
+
+        fun bind(data: $DATA_MODEL$) {
+            binding.data = data
+            binding.executePendingBindings()
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (position % 2 == 1){
+            $VIEW_HOLDER_1_NAME$ViewHolder.VIEW_TYPE_ID
+        } else {
+            $VIEW_HOLDER_2_NAME$ViewHolder.VIEW_TYPE_ID
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
+        when(viewType){
+            $VIEW_HOLDER_1_NAME$ViewHolder.VIEW_TYPE_ID -> $VIEW_HOLDER_1_NAME$ViewHolder.from(parent = parent, onClicked = onClicked)
+            else -> $VIEW_HOLDER_2_NAME$ViewHolder.from(parent = parent, onClicked = onClicked)
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder) {
+            is $VIEW_HOLDER_1_NAME$ViewHolder -> holder.bind(data = itemList[position])
+            is $VIEW_HOLDER_2_NAME$ViewHolder -> holder.bind(data = itemList[position])
+        }
+    }
+
+    override fun getItemCount(): Int = itemList.size
+}
+
+--------------------------------------------------------------------------------------------------
+
+Abbreviation: repository
+Description : Creates a repository interface
+
+interface $REPOSITORY_NAME$ {
+
+    suspend fun getSample(page: Int): Result<$RESPONSE_TYPE$>
+
+    suspend fun saveSample(data: $RESPONSE_TYPE$)
+}
+
+--------------------------------------------------------------------------------------------------
+
+Abbreviation: repositoryImpl
+Description : Creates a repository instance which implemented from Repository
+
+import javax.inject.Inject
+
+class $REPOSITORY_NAME$RepositoryImpl
+@Inject constructor(
+    @Remote$REPOSITORY_NAME$DataSource private val $REPOSITORY_NAME$RemoteDataSource: $REPOSITORY_NAME$DataSource,
+    @Local$REPOSITORY_NAME$DataSource private val $REPOSITORY_NAME$LocalDataSource: $REPOSITORY_NAME$DataSource,
+) : $REPOSITORY_NAME$Repository {
+
+   
+}
+
+--------------------------------------------------------------------------------------------------
+
+Abbreviation: useCase
+Description : Creates a UseCase which extended from UseCase, runs synchronized and returns a Result instance with given type
+
+import javax.inject.Inject
+import $PACKAGE_NAME$.domain.base.UseCase
+
+open class $USE_CASE_NAME$UseCase @Inject constructor(
+    private val $REPOSITORY_NAME$: $REPOSITORY_TYPE$,
+) : UseCase<$USE_CASE_NAME$Parameter, $RESULT_TYPE$>() {
+
+    override fun execute(parameters: $USE_CASE_NAME$Parameter): $RESULT_TYPE$ =
+        $REPOSITORY_NAME$.$METHOD_NAME$($PARAMETER_NAME$ = parameters.$PARAMETER_NAME$)
+}
+
+data class $USE_CASE_NAME$Parameter(val $PARAMETER_NAME$: $PARAMETER_TYPE$)
+
+--------------------------------------------------------------------------------------------------
+
+Abbreviation: useCase:Coroutine
+Description : Creates a UseCase which extended from CoroutineUseCase, runs suspend and returns a Result instance with given type
+
+import kotlinx.coroutines.CoroutineDispatcher
+import javax.inject.Inject
+import $PACKAGE_NAME$.di.qualifier.IoDispatcher
+import $PACKAGE_NAME$.domain.base.CoroutineUseCase
+
+open class $USE_CASE_NAME$UseCase @Inject constructor(
+    private val $REPOSITORY_NAME$: $REPOSITORY_TYPE$,
+    @IoDispatcher ioDispatcher: CoroutineDispatcher
+) : CoroutineUseCase<$USE_CASE_NAME$Parameter, $RESULT_TYPE$>(ioDispatcher) {
+
+    override suspend fun execute(parameters: $USE_CASE_NAME$Parameter): $RESULT_TYPE$ =
+        $REPOSITORY_NAME$.$METHOD_NAME$($PARAMETER_NAME$ = parameters.$PARAMETER_NAME$)
+}
+
+data class $USE_CASE_NAME$Parameter(val $PARAMETER_NAME$: $PARAMETER_TYPE$)
+
+--------------------------------------------------------------------------------------------------
+
+Abbreviation: useCase:Result
+Description : Creates a UseCase which extended from ResultUseCase, runs suspend and returns a Result instance with given type. The return type of the "execute" method has to be a Result instance with given type.
+
+import kotlinx.coroutines.CoroutineDispatcher
+import javax.inject.Inject
+import $PACKAGE_NAME$.di.qualifier.IoDispatcher
+import $PACKAGE_NAME$.domain.base.ResultUseCase
+import $PACKAGE_NAME$.data.result.Result
+
+open class $USE_CASE_NAME$UseCase @Inject constructor(
+    private val $REPOSITORY_NAME$: $REPOSITORY_TYPE$,
+    @IoDispatcher ioDispatcher: CoroutineDispatcher
+) : ResultUseCase<$USE_CASE_NAME$Parameter, $RESULT_TYPE$>(ioDispatcher) {
+
+    override suspend fun execute(parameters: $USE_CASE_NAME$Parameter): Result<$RESULT_TYPE$> =
+        $REPOSITORY_NAME$.$METHOD_NAME$($PARAMETER_NAME$ = parameters.$PARAMETER_NAME$)
+}
+
+data class $USE_CASE_NAME$Parameter(val $PARAMETER_NAME$: $PARAMETER_TYPE$)
+
+--------------------------------------------------------------------------------------------------
+
+Abbreviation: viewModel
+Description : Creates a view model instance
+
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import $PACKAGE_NAME$.data.result.Result
+import $PACKAGE_NAME$.data.result.update
+
+class $VIEW_MODEL_NAME$
+@ViewModelInject constructor(
+    private val $USE_CASE_NAME$: $USE_CASE_TYPE_NAME$
+) : ViewModel() {
+
+    val $LIVE_DATA_NAME$ = MutableLiveData<Result<$MODEL_NAME$>>()
+
+    fun $METHOD_NAME$() {
+        $LIVE_DATA_NAME$.value = Result.Loading
+        viewModelScope.launch {
+            $USE_CASE_NAME$().update(liveData = $LIVE_DATA_NAME$)
+        }
+    }
+}
+
+--------------------------------------------------------------------------------------------------
+
+Abbreviation: unitTest
+Description : Creates a unit test instance
+
+import io.mockk.*
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
+import junit.framework.TestCase.*
+
+class $UNIT_NAME$Test {
+
+    private lateinit var sampleUtils: SampleUtils
+    private lateinit var sampleUseCase: $UNIT_NAME$
+
+    @Before
+    fun tearUp() {
+        sampleUtils = mockk(relaxed = true)
+        sampleUseCase = spyk(
+            $UNIT_NAME$(networkUtils),
+            recordPrivateCalls = true
+        )
+    }
+
+    @After
+    fun tearDown() {
+        clearAllMocks()
+    }
+
+    @Test
+    fun `saveMovies test`() {
+
+        // given
+        every { sampleUtils.sampleMethod() } just runs
+
+        // when
+        val result = sampleUseCase.sampleMethod()
+
+        // then
+        assertEquals(true, result)
+        
+        verify {
+            sampleUseCase.sampleMethod()
+            sampleUtils.sampleMethod()
+        }
+        confirmVerified(
+            sampleUseCase,
+            sampleUtils,
+        )
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
