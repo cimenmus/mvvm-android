@@ -75,3 +75,19 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     addDependencies(dependencies, appDependencies)
 }
+
+task runUnitTests(){
+    doFirst {}
+    dependsOn(':app:testReleaseUnitTest')
+}
+
+task runAndroidTests(){
+    doFirst {}
+    dependsOn(':app:connectedAndroidTest')
+}
+
+task runAllTests(){
+    doFirst {}
+    dependsOn(':app:testReleaseUnitTest')
+    dependsOn(':app:connectedAndroidTest')
+}

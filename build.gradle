@@ -15,8 +15,23 @@ allprojects {
     repositories {
         addRepos(repositories)
     }
+    configurations.all {
+        resolutionStrategy.force 'org.objenesis:objenesis:2.6'
+    }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+task runUnitTests() {
+    dependsOn('app:runUnitTests')
+}
+
+task runAndroidTests() {
+    dependsOn('app:runAndroidTests')
+}
+
+task runAllTests() {
+    dependsOn('app:runAllTests')
 }

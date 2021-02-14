@@ -16,9 +16,20 @@
 default_platform(:android)
 
 platform :android do
-  desc "Runs all the tests"
-  lane :test do
-    gradle(task: "test")
+
+  desc "Runs all the Unit Tests on Release variant"
+  lane :unitTests do
+    gradle(task: "runUnitTests")
+  end
+
+  desc "Runs all the Instrumented(Android) Tests on Release and Debug variants. An android device has to be connected."
+  lane :androidTests do
+    gradle(task: "runAndroidTests")
+  end
+
+  desc "Runs all Unit Tests and Android Tests. An android device has to be connected."
+  lane :allTests do
+    gradle(task: "runAllTests")
   end
 
   desc "Submit a new Beta Build to Crashlytics Beta"

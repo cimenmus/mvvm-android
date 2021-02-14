@@ -84,7 +84,7 @@ def versions = [
         junitX                              : "1.1.2",
         espresso                            : "3.3.0",
         runner                              : '1.1.0',
-        mockk                               : '1.9',
+        mockk                               : '1.10.6',
 ]
 
 def libraries = [
