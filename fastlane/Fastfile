@@ -17,6 +17,20 @@ default_platform(:android)
 
 platform :android do
 
+  ############## INITIALIZE #################
+
+  before_all do
+      ENV["FIREBASE_TOKEN"] = "1//09haJ-T_OeeFjCgYIARAAGAkSNwF-L9IrnMB610hJKNzUeWMB0xQQJHh5t2aFGEvtgHnGHBeMCHTtvee9sRWBlJ3gVHlYsh7_9v0"
+      sh("git fetch")
+  end
+
+    ############### START TEST ################
+
+  desc "Runs all the tests"
+    lane :test do
+      gradle(task: "test")
+    end
+
   desc "Runs all the Unit Tests on Release variant"
   lane :unitTests do
     gradle(task: "runUnitTests")
@@ -32,14 +46,35 @@ platform :android do
     gradle(task: "runAllTests")
   end
 
+    ############## UPLOAD TO FIREBASE APP DISTRIBUTION #################
+
+  desc "Submit a new Beta Build to Firebase App Distribution"
+  lane :betaF do
+    # Adjust the `build_type` and `flavor` params as needed to build the right APK for your setup
+    # To get a list of all available parameters for the gradle action, run: fastlane action gradle
+    gradle(
+        task: 'assemble',
+        build_type: 'Release'
+      )
+    firebase_app_distribution(
+        app: "1:1087940686958:android:64e91bdf7064a92bb6627f",
+        groups: "qa-team"
+      )
+
+
+    # ...
+  end
+
   desc "Submit a new Beta Build to Crashlytics Beta"
   lane :beta do
     gradle(task: "clean assembleRelease")
-    crashlytics
+    # crashlytics
   
     # sh "your_script.sh"
     # You can also use other beta testing services here
   end
+
+    ############## UPLOAD TO GOOGLE PLAY #################
 
   desc "Deploy a new version to the Google Play"
   lane :deploy do
