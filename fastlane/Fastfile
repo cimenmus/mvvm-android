@@ -21,7 +21,7 @@ platform :android do
 
   before_all do
       ENV["FIREBASE_TOKEN"] = "1//09haJ-T_OeeFjCgYIARAAGAkSNwF-L9IrnMB610hJKNzUeWMB0xQQJHh5t2aFGEvtgHnGHBeMCHTtvee9sRWBlJ3gVHlYsh7_9v0"
-      sh("git fetch")
+      # sh("git fetch")
   end
 
     ############### START TEST ################
@@ -52,6 +52,7 @@ platform :android do
   lane :beta do
     # Adjust the `build_type` and `flavor` params as needed to build the right APK for your setup
     # To get a list of all available parameters for the gradle action, run: fastlane action gradle
+    # gradle(task: "clean assembleRelease")
     gradle(
         task: 'assemble',
         build_type: 'Release'
@@ -61,17 +62,8 @@ platform :android do
         groups: "qa-team"
       )
 
-
-    # ...
-  end
-
-  desc "Submit a new Beta Build to Crashlytics Beta"
-  lane :betaCrashlytics do
-    gradle(task: "clean assembleRelease")
-    # crashlytics
-  
     # sh "your_script.sh"
-    # You can also use other beta testing services here
+    # ...
   end
 
     ############## UPLOAD TO GOOGLE PLAY #################
@@ -81,4 +73,5 @@ platform :android do
     gradle(task: "clean assembleRelease")
     upload_to_play_store
   end
+
 end
