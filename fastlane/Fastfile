@@ -49,7 +49,7 @@ platform :android do
     ############## UPLOAD TO FIREBASE APP DISTRIBUTION #################
 
   desc "Submit a new Beta Build to Firebase App Distribution"
-  lane :betaF do
+  lane :beta do
     # Adjust the `build_type` and `flavor` params as needed to build the right APK for your setup
     # To get a list of all available parameters for the gradle action, run: fastlane action gradle
     gradle(
@@ -66,7 +66,7 @@ platform :android do
   end
 
   desc "Submit a new Beta Build to Crashlytics Beta"
-  lane :beta do
+  lane :betaCrashlytics do
     gradle(task: "clean assembleRelease")
     # crashlytics
   
