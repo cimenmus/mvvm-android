@@ -49,11 +49,28 @@ platform :android do
     ############## UPLOAD TO FIREBASE APP DISTRIBUTION #################
 
   desc "Submit a new Beta Build to Firebase App Distribution"
-  lane :beta do
-    # Adjust the `build_type` and `flavor` params as needed to build the right APK for your setup
-    # To get a list of all available parameters for the gradle action, run: fastlane action gradle
-    # gradle(task: "clean assembleRelease")
+  # Adjust the `build_type` and `flavor` params as needed to build the right APK for your setup
+  # To get a list of all available parameters for the gradle action, run: fastlane action gradle
+  lane :beta do |options|
+
+    version = options[:versionChange]
+
+    if version.nil? || version == 'patch'
+        gradle(task: "doPatchVersionIncrement")
+    end
+
+    if version == 'major'
+        gradle(task: "doMajorVersionIncrement")
+    end
+
+    if version == 'minor'
+        gradle(task: "doMinorVersionIncrement")
+    end
+
     gradle(task: "doBuildNumberIncrement")
+    gradle(task: "incrementBetaIncrementNumber")
+
+    gradle(task: "clean")
     gradle(
         task: 'assemble',
         build_type: 'Release'

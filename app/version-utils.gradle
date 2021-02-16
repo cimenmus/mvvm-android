@@ -17,9 +17,20 @@ def getBuildFolderName() {
  * Reads version name from version.properties file
  * @return version name (eg. 3.11.0)
  */
-def readVersionName() {
+def readVersionNumber() {
     def version = readAsProperties('version.properties')
-    return "${getApplicationName()}_v${version['VERSION_CODE']}"
+    def major = version['VERSION_NAME_MAJOR'] as int
+    def minor = version['VERSION_NAME_MINOR'] as int
+    def patch = version['VERSION_NAME_PATCH'] as int
+    return "${major}.${minor}.${patch}"
+}
+
+/**
+ * Creates version name
+ * @return version name (eg. movies_v3.11.0)
+ */
+def readVersionName() {
+    return "${getApplicationName()}_v${readVersionNumber()}"
 }
 
 /**
