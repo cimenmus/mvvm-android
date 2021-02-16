@@ -53,6 +53,7 @@ platform :android do
     # Adjust the `build_type` and `flavor` params as needed to build the right APK for your setup
     # To get a list of all available parameters for the gradle action, run: fastlane action gradle
     # gradle(task: "clean assembleRelease")
+    gradle(task: "doBuildNumberIncrement")
     gradle(
         task: 'assemble',
         build_type: 'Release'
