@@ -24,87 +24,95 @@ platform :android do
       # sh("git fetch")
   end
 
-    ############### START TEST ################
+  ##################################################################################################################################
+  # TEST
+  ##################################################################################################################################
 
-  desc "Runs all the tests"
-    lane :test do
-      gradle(task: "test")
-    end
+  lane :test do |options|
+        type = options[:type]
 
-  desc "Runs all the Unit Tests on Release variant"
-  lane :unitTests do
-    gradle(task: "runUnitTests")
-  end
+        # "Runs all the Unit Tests on Release variant"
+        if type.nil? || type == 'unit'
+            gradle(task: "test")
+        end
 
-  desc "Runs all the Instrumented(Android) Tests on Release and Debug variants. An android device has to be connected."
-  lane :androidTests do
-    gradle(task: "runAndroidTests")
-  end
+         # "Runs all the Unit Tests on Release variant"
+        if type == 'unitRelease'
+            gradle(task: "testReleaseUnitTest")
+        end
 
-  desc "Runs all Unit Tests and Android Tests. An android device has to be connected."
-  lane :allTests do
-    gradle(task: "runAllTests")
-  end
+        # "Runs all the Instrumented(Android) Tests on Release and Debug variants. An android device has to be connected."
+        if type == 'android'
+            gradle(task: "connectedAndroidTest")
+        end
 
-    ############## UPLOAD TO FIREBASE APP DISTRIBUTION #################
+        # "Runs all Unit Tests and Android Tests. An android device has to be connected."
+        if type == 'all'
+            gradle(task: "test")
+            gradle(task: "connectedAndroidTest")
+        end
+   end
 
-  desc "Submit a new Beta Build to Firebase App Distribution"
+  ##################################################################################################################################
+  # UPLOAD TO FIREBASE APP DISTRIBUTION
+  ##################################################################################################################################
+
   # Adjust the `build_type` and `flavor` params as needed to build the right APK for your setup
   # To get a list of all available parameters for the gradle action, run: fastlane action gradle
+
   lane :beta do |options|
 
-    version = options[:versionChange]
+        # 1- Make version code and name incrementation
 
-    if version.nil? || version == 'patch'
-        gradle(task: "doPatchVersionIncrement")
-    end
+        version = options[:versionChange]
 
-    if version == 'major'
-        gradle(task: "doMajorVersionIncrement")
-    end
+        if version.nil? || version == 'patch'
+            gradle(task: "doPatchVersionIncrement")
+        end
 
-    if version == 'minor'
-        gradle(task: "doMinorVersionIncrement")
-    end
+        if version == 'major'
+            gradle(task: "doMajorVersionIncrement")
+        end
 
-    gradle(task: "doBuildNumberIncrement")
-    gradle(task: "doBuildNumberBetaIncrementValueIncrement")
+        if version == 'minor'
+            gradle(task: "doMinorVersionIncrement")
+        end
 
-    gradle(task: "clean")
-    gradle(
-        task: 'assemble',
-        build_type: 'Release'
-      )
+        gradle(task: "doBuildNumberIncrement")
+        gradle(task: "doBuildNumberBetaIncrementValueIncrement")
 
-      properties = property_file_read(file: "app/version.properties")
-            versionMajor = properties['VERSION_NAME_MAJOR']
-            versionMinor = properties['VERSION_NAME_MINOR']
-            versionPatch = properties['VERSION_NAME_PATCH']
-            versionCode = properties['VERSION_CODE']
-            versionName = "#{versionMajor}.#{versionMinor}.#{versionPatch}"
+        # 2- Run unit tests for all variants
+        gradle(task: "clean")
+        gradle(task: "test")
 
-            sh "git add .. ; git commit -m 'Version bump : versionCode = #{versionCode} | versionName = #{versionName}'"
-            push_to_git_remote
+        # 3- Build Release APK
+        gradle(task: "clean")
+        gradle(task: 'assemble', build_type: 'Release')
 
+        # 4- push version bump commit
 
-    firebase_app_distribution(
-        app: "1:1087940686958:android:64e91bdf7064a92bb6627f",
-        groups: "qa-team"
-      )
+        properties = property_file_read(file: "app/version.properties")
+        versionMajor = properties['VERSION_NAME_MAJOR']
+        versionMinor = properties['VERSION_NAME_MINOR']
+        versionPatch = properties['VERSION_NAME_PATCH']
+        versionCode = properties['VERSION_CODE']
+        versionName = "#{versionMajor}.#{versionMinor}.#{versionPatch}"
 
+        sh "git add .. ; git commit -m 'Version bump : versionCode = #{versionCode} | versionName = #{versionName}'"
+        push_to_git_remote
 
-
-
-    # sh "your_script.sh"
-    # ...
+        # 5- Send APK to Firebase
+        firebase_app_distribution(app: "1:1087940686958:android:64e91bdf7064a92bb6627f", groups: "qa-team")
   end
 
-    ############## UPLOAD TO GOOGLE PLAY #################
+  ##################################################################################################################################
+  # UPLOAD TO GOOGLE PLAY
+  ##################################################################################################################################
 
   desc "Deploy a new version to the Google Play"
   lane :deploy do
-    gradle(task: "clean assembleRelease")
-    upload_to_play_store
+        gradle(task: "clean assembleRelease")
+        upload_to_play_store
   end
 
 end
