@@ -68,17 +68,32 @@ platform :android do
     end
 
     gradle(task: "doBuildNumberIncrement")
-    gradle(task: "incrementBetaIncrementNumber")
+    gradle(task: "doBuildNumberBetaIncrementValueIncrement")
 
     gradle(task: "clean")
     gradle(
         task: 'assemble',
         build_type: 'Release'
       )
+
+      properties = property_file_read(file: "app/version.properties")
+            versionMajor = properties['VERSION_NAME_MAJOR']
+            versionMinor = properties['VERSION_NAME_MINOR']
+            versionPatch = properties['VERSION_NAME_PATCH']
+            versionCode = properties['VERSION_CODE']
+            versionName = "#{versionMajor}.#{versionMinor}.#{versionPatch}"
+
+            sh "git add .. ; git commit -m 'Version bump : versionCode = #{versionCode} | versionName = #{versionName}'"
+            push_to_git_remote
+
+
     firebase_app_distribution(
         app: "1:1087940686958:android:64e91bdf7064a92bb6627f",
         groups: "qa-team"
       )
+
+
+
 
     # sh "your_script.sh"
     # ...
