@@ -5,6 +5,7 @@ plugins {
     id 'kotlin-android-extensions'
     id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'jacoco'
 }
 
 apply from: 'properties-util.gradle'
@@ -74,4 +75,63 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     addDependencies(dependencies, appDependencies)
+}
+
+task coverageReport(type: JacocoReport, dependsOn: ['testReleaseUnitTest']) {
+    //uiTestsTaskName
+    group = "Reporting"
+    description = "Generate Jacoco coverage reports on the build."
+
+    def fileFilter = [
+            '**/R.class',
+            '**/R$*.class',
+            '**/BuildConfig.*',
+            '**/Manifest*.*',
+            '**/*Test*.*',
+            '**/com/example/databinding/*',
+            '**/com/example/generated/callback/*',
+            '**/android/databinding/*',
+            '**/androidx/databinding/*',
+            '**/di/module/*',
+            '**/*MapperImpl*.*',
+            '**/*$ViewInjector*.*',
+            '**/*$ViewBinder*.*',
+            '**/BuildConfig.*',
+            '**/*Component*.*',
+            '**/*BR*.*',
+            '**/Manifest*.*',
+            '**/*$Lambda$*.*',
+            '**/*Companion*.*',
+            '**/*Module.*',
+            '**/*Dagger*.*',
+            '**/*MembersInjector*.*',
+            '**/*_Factory*.*',
+            '**/*_Provide*Factory*.*',
+            '**/*Extensions*.*',
+            '**/*$Result.*', /* filtering `sealed` and `data` classes */
+            '**/*$Result$*.*'/* filtering `sealed` and `data` classes */
+    ]
+
+    classDirectories.setFrom(files([
+            fileTree(
+                    dir: "${buildDir}/tmp/kotlin-classes/release",
+                    excludes: fileFilter
+            )
+    ]))
+
+    def coverageSourceDirs = [
+            "src/main/java",
+            "src/devRelease/java",
+            "src/release/java"
+    ]
+    additionalSourceDirs.from(files(coverageSourceDirs))
+    sourceDirectories.from(files(coverageSourceDirs))
+    executionData.from(fileTree(dir: "build", includes: ["**/*.exec", "**/*.ec"]))
+
+    reports {
+        html {
+            enabled true
+            destination file('../build/coverage-report/html/app/')
+        }
+    }
 }

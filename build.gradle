@@ -23,3 +23,11 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+task coverageReport() {
+    dependsOn('app:coverageReport')
+    //dependsOn('yourModuleName:jacocoTestReportBeta') // for multi module projects. For more information, look jacoco.gradle file
+    doLast {
+
+    }
+}

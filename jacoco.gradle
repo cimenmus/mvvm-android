@@ -1,5 +1,11 @@
 /**
- * Apply it in the module build.script.
+ * Ypu can use that file for multi-module project.
+ * For a single module project, you do not need that file.
+ *
+ * 1- Apply this file in the build.gradle file of your module with adding below command to top of the file:
+ *      apply from: '../jacoco.gradle'
+ * 2- Add below command to your coverageReport task in project level build.gradle file:
+ *      dependsOn('yourModuleName:jacocoTestReportBeta')
  */
 
 apply plugin: 'jacoco'
@@ -84,11 +90,6 @@ project.afterEvaluate { p ->
             executionData = fileTree(dir: project.projectDir, includes: ["**/*.exec", "**/*.ec"])
 
             reports {
-                xml {
-                    enabled true
-                    destination file("../build/coverage-report/xml/${project.name}.xml")
-                }
-
                 html {
                     enabled true
                     destination file("../build/coverage-report/html/${project.name}/")
