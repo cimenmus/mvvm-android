@@ -1,0 +1,101 @@
+/**
+ * Apply it in the module build.script.
+ */
+
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = "0.8.6"
+}
+
+project.afterEvaluate { p ->
+
+    def flavors = android.productFlavors.collect { flavor -> flavor.name }
+
+
+    if (!flavors) flavors.add('')
+
+
+    def buildType = "Release"
+    flavors.each { productFlavorName ->
+        def taskNameWithFlavor, pathNameWithFlavor
+        if (!productFlavorName) {
+            taskNameWithFlavor = pathNameWithFlavor = "${buildType}"
+        } else {
+            taskNameWithFlavor = "${productFlavorName}${buildType}"
+            pathNameWithFlavor = "${productFlavorName}/${buildType}"
+        }
+        def unitTestsTaskName = "test${taskNameWithFlavor.capitalize()}UnitTest"
+        def uiTestsTaskName = "connected${taskNameWithFlavor.capitalize()}AndroidTest"
+
+        if (project.name == 'app' && !unitTestsTaskName.startsWith("testPoduction")) {
+            return false
+        }
+
+        task "jacocoTestReport${productFlavorName.capitalize()}"(type: JacocoReport, dependsOn: [unitTestsTaskName]) {
+            //uiTestsTaskName
+            group = "Reporting"
+            description = "Generate Jacoco coverage reports on the ${taskNameWithFlavor.capitalize()} build."
+
+            def fileFilter = [
+                    '**/R.class',
+                    '**/R$*.class',
+                    '**/BuildConfig.*',
+                    '**/Manifest*.*',
+                    '**/*Test*.*',
+                    '**/com/example/databinding/*',
+                    '**/com/example/generated/callback/*',
+                    '**/android/databinding/*',
+                    '**/androidx/databinding/*',
+                    '**/di/module/*',
+                    '**/*MapperImpl*.*',
+                    '**/*$ViewInjector*.*',
+                    '**/*$ViewBinder*.*',
+                    '**/BuildConfig.*',
+                    '**/*Component*.*',
+                    '**/*BR*.*',
+                    '**/Manifest*.*',
+                    '**/*$Lambda$*.*',
+                    '**/*Companion*.*',
+                    '**/*Module.*',
+                    '**/*Dagger*.*',
+                    '**/*MembersInjector*.*',
+                    '**/*_Factory*.*',
+                    '**/*_Provide*Factory*.*',
+                    '**/*Extensions*.*',
+                    '**/*$Result.*', /* filtering `sealed` and `data` classes */
+                    '**/*$Result$*.*'/* filtering `sealed` and `data` classes */
+            ]
+
+            classDirectories.setFrom(files([
+                    fileTree(
+                            dir: "${buildDir}/tmp/kotlin-classes/${taskNameWithFlavor}",
+                            excludes: fileFilter
+                    )
+            ]))
+
+            def coverageSourceDirs = [
+                    "src/main/java",
+                    "src/$productFlavorName/java",
+                    "src/$buildType/java"
+            ]
+            additionalSourceDirs = files(coverageSourceDirs)
+            sourceDirectories = files(coverageSourceDirs)
+            executionData = fileTree(dir: project.projectDir, includes: ["**/*.exec", "**/*.ec"])
+
+            reports {
+                xml {
+                    enabled true
+                    destination file("../build/coverage-report/xml/${project.name}.xml")
+                }
+
+                html {
+                    enabled true
+                    destination file("../build/coverage-report/html/${project.name}/")
+                }
+            }
+        }
+    }
+}
+
+
