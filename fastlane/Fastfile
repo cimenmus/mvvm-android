@@ -55,14 +55,24 @@ platform :android do
    end
 
   ##################################################################################################################################
-  # COVERAGE REPORT
+  # CREATE COVERAGE REPORT
   ##################################################################################################################################
 
   desc "Create coverage report with Jacoco and open it on Google Chrome"
-  lane :coverage do
+  lane :createCoverage do
         gradle(task: "coverageReport")
         sh "cd .. ; cd build/coverage-report/html/app ; open -a 'google chrome' index.html"
   end
+
+  ##################################################################################################################################
+  # SHOW COVERAGE REPORT
+  ##################################################################################################################################
+
+  desc "Show coverage report created by Jacoco on Google Chrome"
+  lane :showCoverage do
+        sh "cd .. ; cd build/coverage-report/html/app ; open -a 'google chrome' index.html"
+  end
+
   ##################################################################################################################################
   # UPLOAD TO FIREBASE APP DISTRIBUTION
   ##################################################################################################################################
