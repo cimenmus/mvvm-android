@@ -28,6 +28,7 @@ platform :android do
   # TEST
   ##################################################################################################################################
 
+  desc "Run Unit Tests or/and Instrumented(Android) tests with options: type: unit(default) | unitRelease | all"
   lane :test do |options|
         type = options[:type]
 
@@ -57,6 +58,7 @@ platform :android do
   # COVERAGE REPORT
   ##################################################################################################################################
 
+  desc "Create coverage report with Jacoco and open it on Google Chrome"
   lane :coverage do
         gradle(task: "coverageReport")
         sh "cd .. ; cd build/coverage-report/html/app ; open -a 'google chrome' index.html"
@@ -68,6 +70,7 @@ platform :android do
   # Adjust the `build_type` and `flavor` params as needed to build the right APK for your setup
   # To get a list of all available parameters for the gradle action, run: fastlane action gradle
 
+  desc "Deploy a new version to the Firebase App Distribution with options: version: patch(default) | minor | major"
   lane :beta do |options|
 
         # 1- Make version code and name incrementation
