@@ -32,12 +32,12 @@ platform :android do
   lane :test do |options|
         type = options[:type]
 
-        # "Runs all the Unit Tests on Release variant"
+        # "Runs Unit Tests for all variants"
         if type.nil? || type == 'unit'
             gradle(task: "test")
         end
 
-         # "Runs all the Unit Tests on Release variant"
+         # "Runs Unit Tests for Release build"
         if type == 'unitRelease'
             gradle(task: "testReleaseUnitTest")
         end
@@ -55,7 +55,7 @@ platform :android do
    end
 
   ##################################################################################################################################
-  # CREATE COVERAGE REPORT
+  # CREATE AND SHOW COVERAGE REPORT
   ##################################################################################################################################
 
   desc "Create coverage report with Jacoco and open it on Google Chrome"
