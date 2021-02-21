@@ -32,5 +32,4 @@ jobs:
       - name: Distribute app with 🔥 App Distribution 🚀
         run: bundle exec fastlane beta patch
         env:
-        FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
 
