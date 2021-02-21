@@ -16,31 +16,52 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
 
-  # This workflow contains a single job called "build"
-  build:
+  build_project:
+    name: Build Project
     runs-on: ubuntu-latest
-
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout
         uses: actions/checkout@v2.3.3
 
-      # Prepare our Java environment. #
       - name: Set up our JDK environment
         uses: actions/setup-java@v1.4.3
         with:
           java-version: 1.8
 
-      # Build project #
       - name: Build the project
         run: ./gradlew build
 
-      # Run Unit Tests for all variants #
-      - name: Run Unit Tests
+  run_unit_tests:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+    needs: build_project
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.3
+
+      - name: Set up our JDK environment
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 1.8
+
+      - name: Run Unit Tests for all variants
         run: ./gradlew test
 
-      ## Run Espresso(Android) Tests ##
-      - name: Run Espresso Tests
+  run_android_tests:
+    name: Run Android Tests on Emulator
+    runs-on: ubuntu-latest
+    needs: run_unit_tests
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.3
+
+      - name: Set up our JDK environment
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 1.8
+
+      - name: Run Espresso(Android) Tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 23
@@ -49,7 +70,19 @@ jobs:
           profile: Nexus 6
           script: ./gradlew connectedCheck --stacktrace
 
-      # Run Coverage Report #
+  check_coverage:
+    name: Check Coverage
+    runs-on: ubuntu-latest
+    needs: run_android_tests
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.3
+
+      - name: Set up our JDK environment
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 1.8
+
       - name: Run Coverage report
         run: ./gradlew coverageReport
 
