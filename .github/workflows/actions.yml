@@ -1,4 +1,4 @@
-name: CI
+name: Build, Test and Code Quality
 
 on:
   # Triggers the workflow on every push to the every branch
@@ -15,21 +15,42 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+
   # This workflow contains a single job called "build"
   build:
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      -
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout
         uses: actions/checkout@v2.3.3
 
-      ## Prepare our Java environment. ##
+      # Prepare our Java environment. #
       - name: Set up our JDK environment
         uses: actions/setup-java@v1.4.3
         with:
           java-version: 1.8
 
-      - name: Build the App
+      # Build project #
+      - name: Build the project
         run: ./gradlew build
+
+      # Run Unit Tests for all variants #
+      - name: Run Unit Tests
+        run: ./gradlew test
+
+      ## Run Espresso(Android) Tests ##
+      - name: Run Espresso Tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 23
+          target: default
+          arch: x86
+          profile: Nexus 6
+          script: ./gradlew connectedCheck --stacktrace
+
+      # Run Coverage Report #
+      - name: Run Coverage report
+        run: ./gradlew coverageReport
+
