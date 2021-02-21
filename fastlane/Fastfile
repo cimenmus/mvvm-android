@@ -120,7 +120,7 @@ platform :android do
         versionCode = properties['VERSION_CODE']
         versionName = "#{versionMajor}.#{versionMinor}.#{versionPatch}"
 
-        if gitUserMail.nil? && gitUserName.nil?
+        if !gitUserMail.nil? && !gitUserMail.empty? && !gitUserName.nil? && !gitUserName.empty?
               sh "git config --global user.email #{gitUserMail}; git config --global user.name #{gitUserName}"
         end
 
