@@ -29,5 +29,5 @@ jobs:
           bundler-cache: true
 
       - name: Distribute app with 🔥 App Distribution 🚀
-        run: bundle exec fastlane betaGithubAction version:patch
+        run: bundle exec fastlane betaGithubAction version:patch runUnitTests:false gitUserMail:mustafaicmen@gmail.com gitUserName:mustafaicmen
 
