@@ -31,5 +31,4 @@ jobs:
 
       - name: Distribute app with 🔥 App Distribution 🚀
         run: bundle exec fastlane beta patch
-        env:
 
