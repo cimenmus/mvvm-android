@@ -78,12 +78,15 @@ platform :android do
   # Adjust the `build_type` and `flavor` params as needed to build the right APK for your setup
   # To get a list of all available parameters for the gradle action, run: fastlane action gradle
 
-  desc "Deploy a new version to the Firebase App Distribution with options: version: patch(default) | minor | major"
+  desc "Deploy a new version to the Firebase App Distribution with options: version: patch(default) | minor | major ,runUnitTests: true(default) | false, gitUserMail(optional), gitUserName(optional)"
   lane :beta do |options|
 
-        # 1- Make version code and name incrementation
-
         version = options[:versionChange]
+        runUnitTests = options[:runUnitTests]
+        gitUserMail = options[:gitUserMail]
+        gitUserName = options[:gitUserName]
+
+        # 1- Make version code and name incrementation
 
         if version.nil? || version == 'patch'
             gradle(task: "doPatchVersionIncrement")
@@ -101,12 +104,14 @@ platform :android do
         gradle(task: "doBuildNumberBetaIncrementValueIncrement")
 
         # 2- Run unit tests for all variants
-        gradle(task: "clean")
-        gradle(task: "test")
+        if runUnitTests.nil? && runUnitTests != 'false'
+                gradle(task: "clean")
+                gradle(task: "test")
+        end
 
         # 3- Build Release APK
-        gradle(task: "clean")
-        gradle(task: 'assemble', build_type: 'Release')
+                gradle(task: "clean")
+                gradle(task: 'assemble', build_type: 'Release')
 
         # 4- push version bump commit
 
@@ -116,6 +121,10 @@ platform :android do
         versionPatch = properties['VERSION_NAME_PATCH']
         versionCode = properties['VERSION_CODE']
         versionName = "#{versionMajor}.#{versionMinor}.#{versionPatch}"
+
+        if !gitUserMail.nil? && !gitUserMail.empty? && !gitUserName.nil? && !gitUserName.empty?
+              sh "git config --global user.email #{gitUserMail}; git config --global user.name #{gitUserName}"
+        end
 
         sh "git add .. ; git commit -m 'Version bump : versionCode = #{versionCode} | versionName = #{versionName}'"
         push_to_git_remote
