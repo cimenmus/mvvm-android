@@ -133,7 +133,7 @@ platform :android do
     # To get a list of all available parameters for the gradle action, run: fastlane action gradle
 
     desc "Deploy a new version to the Firebase App Distribution with options: version: patch(default) | minor | major"
-    lane :beta do |options|
+    lane :betaGithubAction do |options|
 
           # 1- Make version code and name incrementation
 
