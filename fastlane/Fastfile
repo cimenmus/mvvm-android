@@ -104,14 +104,17 @@ platform :android do
         gradle(task: "doBuildNumberIncrement")
         gradle(task: "doBuildNumberBetaIncrementValueIncrement")
 
-        # 2- Build Release APK
-
+        # 2- Run unit tests for all variants
         if runUnitTests.nil? && runUnitTests != 'false'
-              gradle(task: "clean")
-              gradle(task: 'assemble', build_type: 'Release')
+                gradle(task: "clean")
+                gradle(task: "test")
         end
 
-        # 3- push version bump commit
+        # 3- Build Release APK
+                gradle(task: "clean")
+                gradle(task: 'assemble', build_type: 'Release')
+
+        # 4- push version bump commit
 
         properties = property_file_read(file: "app/version.properties")
         versionMajor = properties['VERSION_NAME_MAJOR']
