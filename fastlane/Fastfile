@@ -79,8 +79,8 @@ platform :android do
   # Adjust the `build_type` and `flavor` params as needed to build the right APK for your setup
   # To get a list of all available parameters for the gradle action, run: fastlane action gradle
 
-  desc "Deploy a new version to the Firebase App Distribution with options: version: patch(default) | minor | major"
-  lane :betaGithubAction do |options|
+  desc "Deploy a new version to the Firebase App Distribution with options: version: patch(default) | minor | major ,runUnitTests: true(default) | false, gitUserMail(optional), gitUserName(optional)"
+  lane :beta do |options|
 
         version = options[:versionChange]
         runUnitTests = options[:runUnitTests]
