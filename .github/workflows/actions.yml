@@ -13,7 +13,7 @@ on:
   # Triggers the workflow on every pull request to master branch
   push:
     branches:
-      - master
+      - "**"
   pull_request:
     branches:
       - master
@@ -104,8 +104,8 @@ jobs:
 
       - uses: ruby/setup-ruby@v1
         with:
-        ruby-version: '2.6'
-        bundler-cache: true
+          ruby-version: '2.6'
+          bundler-cache: true
 
       - name: Distribute app with 🔥 App Distribution 🚀
         run: bundle exec fastlane beta version:patch runUnitTests:false gitUserMail:mustafaicmen@gmail.com gitUserName:mustafaicmen
