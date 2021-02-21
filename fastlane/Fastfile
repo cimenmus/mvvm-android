@@ -126,6 +126,56 @@ platform :android do
   end
 
   ##################################################################################################################################
+    # UPLOAD TO FIREBASE APP DISTRIBUTION FOR GITHUB ACTIONS
+    ##################################################################################################################################
+
+    # Adjust the `build_type` and `flavor` params as needed to build the right APK for your setup
+    # To get a list of all available parameters for the gradle action, run: fastlane action gradle
+
+    desc "Deploy a new version to the Firebase App Distribution with options: version: patch(default) | minor | major"
+    lane :beta do |options|
+
+          # 1- Make version code and name incrementation
+
+          version = options[:versionChange]
+
+          if version.nil? || version == 'patch'
+              gradle(task: "doPatchVersionIncrement")
+          end
+
+          if version == 'major'
+              gradle(task: "doMajorVersionIncrement")
+          end
+
+          if version == 'minor'
+              gradle(task: "doMinorVersionIncrement")
+          end
+
+          gradle(task: "doBuildNumberIncrement")
+          gradle(task: "doBuildNumberBetaIncrementValueIncrement")
+
+          # 2- Build Release APK
+          gradle(task: "clean")
+          gradle(task: 'assemble', build_type: 'Release')
+
+          # 3- push version bump commit
+
+          properties = property_file_read(file: "app/version.properties")
+          versionMajor = properties['VERSION_NAME_MAJOR']
+          versionMinor = properties['VERSION_NAME_MINOR']
+          versionPatch = properties['VERSION_NAME_PATCH']
+          versionCode = properties['VERSION_CODE']
+          versionName = "#{versionMajor}.#{versionMinor}.#{versionPatch}"
+
+          sh "git config --global user.email 'mustafaicmen@gmail.com'; git config --global user.name 'mustafaicmen'"
+          sh "git add .. ; git commit -m 'Version bump : versionCode = #{versionCode} | versionName = #{versionName}'"
+          push_to_git_remote
+
+          # 5- Send APK to Firebase
+          firebase_app_distribution(app: "1:1087940686958:android:64e91bdf7064a92bb6627f", groups: "qa-team")
+    end
+
+  ##################################################################################################################################
   # UPLOAD TO GOOGLE PLAY
   ##################################################################################################################################
 
