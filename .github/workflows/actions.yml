@@ -1,4 +1,4 @@
-name: Build, Test and Code Quality
+name: Build, Test, Code Quality and Deploy to Firebase App Distribution
 
 on:
   # Triggers the workflow on every push to the every branch
@@ -16,12 +16,88 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
 
-  upload_firebase_app_distribution:
-    name: Upload to Firebase App Distribution
+  build_project:
+    name: Build Project
     runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout
+        uses: actions/checkout@v2.3.3
+
+      - name: Set up our JDK environment
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 1.8
+
+      - name: Build the project
+        run: ./gradlew build
+
+  run_unit_tests:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+    needs: build_project
     steps:
       - name: Checkout
         uses: actions/checkout@v2.3.3
+
+      - name: Set up our JDK environment
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 1.8
+
+      - name: Run Unit Tests for all variants
+        run: ./gradlew test
+
+  run_android_tests:
+    name: Run Android Tests on Emulator
+    runs-on: ubuntu-latest
+    needs: run_unit_tests
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.3
+
+      - name: Set up our JDK environment
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 1.8
+
+      - name: Run Espresso(Android) Tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 23
+          target: default
+          arch: x86
+          profile: Nexus 6
+          script: ./gradlew connectedCheck --stacktrace
+
+  code_quality:
+    name: Check Code Quality with Sonarcloud
+    runs-on: ubuntu-latest
+    needs: run_android_tests
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.3
+
+      - name: Set up our JDK environment
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 1.8
+
+      - name: Run Coverage report
+        run: ./gradlew coverageReport
+
+  upload_firebase_app_distribution:
+    name: Upload to Firebase App Distribution
+    runs-on: ubuntu-latest
+    needs: code_quality
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.3
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.6'
+          bundler-cache: true
 
       - name: Distribute app with 🔥 App Distribution 🚀
         run: bundle exec fastlane betaGithubAction version:patch runUnitTests:false gitUserMail:mustafaicmen@gmail.com gitUserName:mustafaicmen
