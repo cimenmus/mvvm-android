@@ -35,12 +35,6 @@ jobs:
           ruby-version: '2.6'
           bundler-cache: true
 
-      - name: Export Fastlane 🚀
-        run: export PATH="$HOME/.fastlane/bin:$PATH"
-
-      - name: cd Fastlane 🚀
-        run: cd fastlane
-
       - name: Distribute app with 🔥 App Distribution 🚀
         run: fastlane beta version:patch runUnitTests:false gitUserMail:mustafaicmen@gmail.com gitUserName:mustafaicmen
 
