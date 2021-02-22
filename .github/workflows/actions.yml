@@ -36,9 +36,6 @@ jobs:
           ruby-version: '2.6'
           bundler-cache: true
 
-      - name: Install Fastlane
-        run:  gem install fastlane
-
       - name: Install Bundle
         run: bundle install
 
