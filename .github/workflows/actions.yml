@@ -38,6 +38,9 @@ jobs:
       - name: Install dependencies
         run: export PATH=$PATH:/usr/local/bin
 
+      - name: Install dependencies
+        run: rbenv rehash
+
       - uses: maierj/fastlane-action@v2.0.1
         with:
           lane: 'beta'
