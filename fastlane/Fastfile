@@ -126,7 +126,7 @@ platform :android do
               sh "git config --global user.email #{gitUserMail}; git config --global user.name #{gitUserName}"
         end
 
-        sh "git add .. ; git commit -m 'Version bump : versionCode = #{versionCode} | versionName = #{versionName}'"
+        sh "git add .. ; git commit -m 'Version bump : versionCode = #{versionCode} | versionName = #{versionName} [skip ci]'"
         push_to_git_remote
 
         # 5- Send APK to Firebase
