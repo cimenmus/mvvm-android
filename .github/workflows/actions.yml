@@ -39,7 +39,7 @@ jobs:
         run: export PATH=$PATH:/var/lib/gems/1.8/bin
 
       - name: Install dependencies
-        run: sudo gem install bundler
+        run: bundle install --deployment
 
       - uses: maierj/fastlane-action@v2.0.1
         with:
