@@ -36,10 +36,7 @@ jobs:
           ruby-version: '2.7.2'
 
       - name: Install dependencies
-        run: export PATH=$PATH:/var/lib/gems/1.8/bin
-
-      - name: Install dependencies
-        run: bundle install --binstubs
+        run: bundle install
 
       - uses: maierj/fastlane-action@v2.0.1
         with:
