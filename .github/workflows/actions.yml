@@ -31,13 +31,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2.3.3
 
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '2.6'
-          bundler-cache: true
+      - uses: actions/setup-ruby@v1
+          with:
+            ruby-version: '2.6'
 
-      - name: Install Bundle
-        run: bundle install
+      - name: Cache Ruby - Bundler
+        uses: actions/cache@v2
+          with:
+            path: vendor/bundle
+            key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+                restore-keys: |
+                  ${{ runner.os }}-gems-
+
+      - name: Install bundle
+          run: |
+            bundle config path vendor/bundle
+            bundle install --jobs 4 --retry 3
 
       - name: Distribute app with 🔥 App Distribution 🚀
         run: bundle exec fastlane beta version:patch runUnitTests:false gitUserMail:mustafaicmen@gmail.com gitUserName:mustafaicmen
