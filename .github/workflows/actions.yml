@@ -27,6 +27,7 @@ jobs:
   upload_firebase_app_distribution:
     name: Upload to Release Apk to Firebase App Distribution
     runs-on: ubuntu-latest
+    needs: check_code_quality
     steps:
       - name: Checkout
         uses: actions/checkout@v2.3.3
@@ -36,11 +37,9 @@ jobs:
           ruby-version: '2.6'
           bundler-cache: true
 
-      - name: Install dependencies
+      - name: Install Ruby Dependencies
         run: bundle install
 
-      - uses: maierj/fastlane-action@v2.0.1
-        with:
-          lane: 'beta'
-          options: '{ "version": "patch", "runUnitTests": "false",  "gitUserMail": "mustafaicmen@gmail.com", "gitUserName": "mustafaicmen"}'
+      - name: Distribute app with 🔥 App Distribution 🚀
+        run: bundle exec fastlane beta version:patch runUnitTests:false gitUserMail:mustafaicmen@gmail.com gitUserName:mustafaicmen
 
