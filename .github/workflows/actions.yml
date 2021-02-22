@@ -28,15 +28,15 @@ jobs:
     name: Upload to Release Apk to Firebase App Distribution
     runs-on: ubuntu-latest
     steps:
+      - name: Install dependencies
+          run: bundle install
+
       - name: Checkout
         uses: actions/checkout@v2.3.3
 
       - uses: actions/setup-ruby@v1
         with:
           ruby-version: '2.7.2'
-
-      - name: Install dependencies
-        run: bundle install
 
       - uses: maierj/fastlane-action@v2.0.1
         with:
