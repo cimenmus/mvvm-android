@@ -26,28 +26,23 @@ jobs:
 
   upload_firebase_app_distribution:
     name: Upload to Release Apk to Firebase App Distribution
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2.3.3
 
-      - uses: actions/setup-ruby@v1
+      - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.6'
+          bundler-cache: true
 
-      - name: Cache Ruby - Bundler
-        uses: actions/cache@v2
+      - name: Install dependencies
+        run: bundle install
+
+      - uses: maierj/fastlane-action@v2.0.1
         with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-                  ${{ runner.os }}-gems-
+          lane: 'beta'
+          options: '{ "version": "patch", "runUnitTests": "false",  "gitUserMail": "mustafaicmen@gmail.com", "gitUserName": "mustafaicmen"}'
+          subdirectory: android
 
-      - name: Install bundle
-        run: |
-            bundle config path vendor/bundle
-            bundle install --jobs 4 --retry 3
-
-      - name: Distribute app with 🔥 App Distribution 🚀
-        run: bundle exec fastlane beta version:patch runUnitTests:false gitUserMail:mustafaicmen@gmail.com gitUserName:mustafaicmen
 
