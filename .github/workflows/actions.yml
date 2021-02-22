@@ -36,7 +36,7 @@ jobs:
           ruby-version: '2.7.2'
 
       - name: Install dependencies
-        run: sh ./bootstrap.sh
+        run: bundle install
 
       - uses: maierj/fastlane-action@v2.0.1
         with:
