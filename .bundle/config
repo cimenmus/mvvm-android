@@ -1,4 +1,4 @@
 ---
 BUNDLE_PATH: "/home/runner/work/mvvm-android/mvvm-android/vendor/bundle"
 BUNDLE_DEPLOYMENT: "true"
-BUNDLE_JOBS: "4"
+BUNDLE_JOBS: "2"
