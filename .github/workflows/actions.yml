@@ -39,6 +39,9 @@ jobs:
       - name: Install Ruby Dependencies
         run: bundle install
 
+      - name: Install Fastlane
+        run:  gem install fastlane
+
       - name: Distribute app with 🔥 App Distribution 🚀
         run: bundle exec fastlane beta version:patch runUnitTests:false gitUserMail:mustafaicmen@gmail.com gitUserName:mustafaicmen
 
