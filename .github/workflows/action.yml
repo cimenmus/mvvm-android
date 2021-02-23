@@ -87,3 +87,21 @@ jobs:
       - name: Run Coverage report
         run: ./gradlew coverageReport
 
+  deploy_to_beta:
+    runs-on: ubuntu-latest github.head_ref
+    if: ${{ github.head_ref == 'master' && github.event_name == 'pull_request' || github.event_name == 'push'}}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.7.2'
+
+      - name: Setup Fastlane
+        run: bundle install
+
+      - name: Deploy to Firebase
+        run: bundle exec fastlane android beta version:patch runUnitTests:false gitUserMail:mustafaicmen@gmail.com gitUserName:mustafaicmen
+
