@@ -49,6 +49,9 @@ jobs:
       - name: Setup Fastlane
         run: bundle install
 
+      - name: Setup Fastlane
+        run: echo "Deploying to production server on branch $GITHUB_REF  ,refe is github.head_ref"
+
       - name: Deploy to Firebase
         run: bundle exec fastlane android beta version:patch runUnitTests:false gitUserMail:mustafaicmen@gmail.com gitUserName:mustafaicmen
 
