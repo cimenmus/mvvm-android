@@ -89,7 +89,8 @@ jobs:
 
   deploy_to_beta:
     runs-on: ubuntu-latest github.head_ref
-    if: ${{ github.head_ref == 'master' && github.event_name == 'pull_request' || github.event_name == 'push'}}
+    needs: check_code_quality
+    if: ${{ github.head_ref == 'master'}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
