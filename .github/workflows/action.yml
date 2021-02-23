@@ -39,7 +39,7 @@ jobs:
   deploy_to_beta:
     runs-on: ubuntu-latest github.head_ref
     needs: check_code_quality
-    if: ${{ ${GITHUB_REF#refs/heads/} == 'master'}}
+    if: github.ref == 'refs/heads/github_actions_2'
     steps:
       - name: Checkout
         uses: actions/checkout@v2
