@@ -43,8 +43,8 @@ jobs:
           ruby-version: '2.7.2'
           bundler-cache: true
 
-      - name: Update Bundler
-        run: gem update bundler
+      - name: Install Fastlane
+        run: gem "fastlane"
 
       - uses: maierj/fastlane-action@v2.0.1
         with:
