@@ -18,40 +18,63 @@ name: Build, Test and Check Code Quality
 on: [push, pull_request, workflow_dispatch]
 jobs:
 
-  check_code_quality:
-    name: Check Code Quality with Sonarcloud
+  build_project:
+    name: Build Project
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2.3.3
-
       - name: Set up our JDK environment
         uses: actions/setup-java@v1.4.3
         with:
           java-version: 1.8
+      - name: Build the project
+        run: ./gradlew build
 
-      - name: Echo
-        run: echo "Deploying to production server on branch ${GITHUB_REF#refs/heads/}"
-
-      - name: Run Coverage report
-        run: ./gradlew coverageReport
-
-  deploy_to_beta:
-    runs-on: ubuntu-latest github.head_ref
-    needs: check_code_quality
-    if: github.ref == 'refs/heads/github_actions_2'
+  run_unit_tests:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+    needs: build_project
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+        uses: actions/checkout@v2.3.3
+      - name: Set up our JDK environment
+        uses: actions/setup-java@v1.4.3
         with:
-          ruby-version: '2.7.2'
+          java-version: 1.8
+      - name: Run Unit Tests for all variants
+        run: ./gradlew test
 
-      - name: Setup Fastlane
-        run: bundle install
+  run_android_tests:
+    name: Run Android Tests on Emulator
+    runs-on: ubuntu-latest
+    needs: run_unit_tests
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.3
+      - name: Set up our JDK environment
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 1.8
+      - name: Run Espresso(Android) Tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 23
+          target: default
+          arch: x86
+          profile: Nexus 6
+          script: ./gradlew connectedCheck --stacktrace
 
-      - name: Deploy to Firebase
-        run: bundle exec fastlane android beta version:patch runUnitTests:false gitUserMail:mustafaicmen@gmail.com gitUserName:mustafaicmen
-
+  check_code_quality:
+    name: Check Code Quality with Sonarcloud
+    runs-on: ubuntu-latest
+    needs: run_android_tests
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.3
+      - name: Set up our JDK environment
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 1.8
+      - name: Run Coverage report
+        run: ./gradlew coverageReport
