@@ -8,6 +8,7 @@
 # https://docs.github.com/en/actions/reference/events-that-trigger-workflows
 # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions
 # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet
+# https://medium.com/@wzieba/github-actions-fastlane-firebase-app-distribution-or-app-center-4fadbdff63f9
 
 # If any commit message in your push or the HEAD commit of your PR contains the strings
 # [skip ci], [ci skip], [no ci], [skip actions], or [actions skip]
