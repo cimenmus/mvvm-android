@@ -37,7 +37,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2.3.3
 
-      - uses: actions/setup-ruby@v1
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7.2'
 
