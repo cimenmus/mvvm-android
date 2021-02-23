@@ -46,12 +46,10 @@ jobs:
       - name: Update Bundler
         run: gem update bundler
 
-      - name: Update Bundler
-        run: cd vendor/bundle
-
       - uses: maierj/fastlane-action@v2.0.1
         with:
           lane: 'beta'
           options: '{ "version": "patch", "runUnitTests": "false", "gitUserMail": "mustafaicmen@gmail.com", "gitUserName": "mustafaicmen" }'
+          bundle-install-path: 'vendor/bundle'
 
 
