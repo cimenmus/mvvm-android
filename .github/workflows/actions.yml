@@ -48,10 +48,7 @@ jobs:
       - name: LS
         run: ls
 
-      - uses: maierj/fastlane-action@v2.0.1
-        with:
-          lane: 'beta'
-          options: '{ "version": "patch", "runUnitTests": "false", "gitUserMail": "mustafaicmen@gmail.com", "gitUserName": "mustafaicmen" }'
-          bundle-install-path: 'vendor/bundle'
+      - name: Distribute app with 🔥 App Distribution 🚀
+        run: bundle exec fastlane beta version:patch runUnitTests:false gitUserMail:mustafaicmen@gmail.com gitUserName:mustafaicmen
 
 
