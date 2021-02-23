@@ -31,7 +31,7 @@ jobs:
           java-version: 1.8
 
       - name: Echo
-        run: echo "Deploying to production server on branch ${{ ${GITHUB_REF#refs/heads/} == 'master'}}"
+        run: echo "Deploying to production server on branch ${GITHUB_REF#refs/heads/}"
 
       - name: Run Coverage report
         run: ./gradlew coverageReport
