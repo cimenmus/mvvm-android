@@ -15,7 +15,6 @@
 # workflows triggered on the push or pull_request events will be skipped.
 
 name: Deploy Release APK to Firebase App Distribution
-
 on:
   # Triggers the workflow on every push to master branch
   # Triggers the workflow on every pull request to master branch
@@ -35,15 +34,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7.2'
-
       - name: Setup Fastlane
         run: bundle install
-
       - name: Deploy to Firebase
         run: bundle exec fastlane android beta version:patch runUnitTests:false gitUserMail:mustafaicmen@gmail.com gitUserName:mustafaicmen
 

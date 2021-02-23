@@ -15,19 +15,7 @@
 # workflows triggered on the push or pull_request events will be skipped.
 
 name: Build, Test and Check Code Quality
-
-on:
-  # Triggers the workflow on push or pull request events
-  push:
-    branches:
-      - "**"
-    pull_request:
-      branches:
-        - "**"
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
+on: [push, pull_request, workflow_dispatch]
 jobs:
 
   build_project:
@@ -36,12 +24,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2.3.3
-
       - name: Set up our JDK environment
         uses: actions/setup-java@v1.4.3
         with:
           java-version: 1.8
-
       - name: Build the project
         run: ./gradlew build
 
@@ -52,12 +38,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2.3.3
-
       - name: Set up our JDK environment
         uses: actions/setup-java@v1.4.3
         with:
           java-version: 1.8
-
       - name: Run Unit Tests for all variants
         run: ./gradlew test
 
@@ -68,12 +52,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2.3.3
-
       - name: Set up our JDK environment
         uses: actions/setup-java@v1.4.3
         with:
           java-version: 1.8
-
       - name: Run Espresso(Android) Tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -90,12 +72,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2.3.3
-
       - name: Set up our JDK environment
         uses: actions/setup-java@v1.4.3
         with:
           java-version: 1.8
-
       - name: Run Coverage report
         run: ./gradlew coverageReport
-
