@@ -1,0 +1,49 @@
+# https://proandroiddev.com/how-to-github-actions-building-your-android-app-773779bcacab
+# https://medium.com/google-developer-experts/github-actions-for-android-developers-6b54c8a32f55
+# https://medium.com/firebase-developers/quickly-distribute-app-with-firebase-app-distribution-using-github-actions-fastlane-c7d8eca18ee0
+# https://github.com/maierj/fastlane-action
+# https://github.blog/changelog/2021-02-08-github-actions-skip-pull-request-and-push-workflows-with-skip-ci/
+# https://github.com/marketplace/actions/skip-based-on-commit-message
+# https://docs.github.com/en/actions/reference/encrypted-secrets
+# https://docs.github.com/en/actions/reference/events-that-trigger-workflows
+# https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions
+# https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet
+
+# If any commit message in your push or the HEAD commit of your PR contains the strings
+# [skip ci], [ci skip], [no ci], [skip actions], or [actions skip]
+# workflows triggered on the push or pull_request events will be skipped.
+
+name: Deploy Release APK to Firebase App Distribution
+
+on:
+  # Triggers the workflow on every push to master branch
+  # Triggers the workflow on every pull request to master branch
+  push:
+    branches:
+      - "**"
+  pull_request:
+    branches:
+      - master
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  deploy_to_beta:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.7'
+
+      - name: Setup Fastlane
+        run: bundle install
+
+      - name: Deploy to Firebase
+        run: bundle exec fastlane android beta version:patch runUnitTests:false gitUserMail:mustafaicmen@gmail.com gitUserName:mustafaicmen
+
+
