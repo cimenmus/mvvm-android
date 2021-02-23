@@ -15,8 +15,7 @@
 # workflows triggered on the push or pull_request events will be skipped.
 
 name: Build, Test and Check Code Quality
-on: [push, pull_request]
-workflow_dispatch:
+on: [push, pull_request, workflow_dispatch]
 jobs:
 
   build_project:
