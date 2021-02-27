@@ -160,15 +160,15 @@ Runs tests by options:
 ###### beta
 Makes version increment and deploy a new version to the Firebase App Distribution with options:
 - version
-- patch -> Makes patch increment on app/version.properties file. Default. To run, command `fastlane beta version:patch` on terminal
-- minor -> Makes minor increment on app/version.properties file. To run, command `fastlane beta version:minor` on terminal
-- major -> Makes major increment on app/version.properties file.  To run, command `fastlane beta version:major` on terminal
+    - patch -> Makes patch increment on app/version.properties file. Default. To run, command `fastlane beta version:patch` on terminal
+    - minor -> Makes minor increment on app/version.properties file. To run, command `fastlane beta version:minor` on terminal
+    - major -> Makes major increment on app/version.properties file.  To run, command `fastlane beta version:major` on terminal
 - runUnitTests
     - true -> Runs unit tests before creating APK. Default. To run, command `fastlane beta runUnitTests:true` on terminal
     - false -> Does not run unit test before creating APK. To run, command `fastlane beta runUnitTests:false` on terminal
-    - gitUserMail -> Git user mail address to make version bump commit. Default is nil. To run, command `fastlane beta gitUserMail:user@domain.com` on terminal
-    - gitUserName -> Git user name to make version bump commit. Default is nil. To run, command `fastlane beta gitUserName:your-username` on terminal
-    - sample usage -> fastlane beta version:patch runUnitTests:false gitUserMail:mustafaicmen@gmail.com gitUserName:mustafaicmen
+- gitUserMail -> Git user mail address to make version bump commit. Default is nil. To run, command `fastlane beta gitUserMail:user@domain.com` on terminal
+- gitUserName -> Git user name to make version bump commit. Default is nil. To run, command `fastlane beta gitUserName:your-username` on terminal
+- sample usage -> fastlane beta version:patch runUnitTests:false gitUserMail:mustafaicmen@gmail.com gitUserName:mustafaicmen
 
 ###### deploy
 Deploys a new version to the Google Play (Not configured)
