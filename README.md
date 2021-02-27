@@ -168,7 +168,7 @@ Makes version increment and deploy a new version to the Firebase App Distributio
     - false -> Does not run unit test before creating APK. To run, command `fastlane beta runUnitTests:false` on terminal
 - gitUserMail -> Git user mail address to make version bump commit. Default is nil. To run, command `fastlane beta gitUserMail:user@domain.com` on terminal
 - gitUserName -> Git user name to make version bump commit. Default is nil. To run, command `fastlane beta gitUserName:your-username` on terminal
-- sample usage -> fastlane beta version:patch runUnitTests:false gitUserMail:mustafaicmen@gmail.com gitUserName:mustafaicmen
+- sample usage -> `fastlane beta version:patch runUnitTests:false gitUserMail:user@domain.com gitUserName:your-username`
 
 ###### deploy
 Deploys a new version to the Google Play (Not configured)
