@@ -43,6 +43,7 @@ The dependencies are managed on dependencies.gradle file
 
 
 ## Used Architecture: MVVM + Clean Architecture
+![mvvm_android](https://github.com/cimenmus/mvvm-android/blob/master/images/mvvm_android.png?raw=true)
 
 #### Result
 - Wrapper class contains Data, Error and Data State
