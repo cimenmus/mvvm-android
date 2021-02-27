@@ -7,6 +7,9 @@ import okhttp3.Response
 import okio.Timeout
 import java.io.IOException
 
+/**
+ * mocks api calls on tests
+ */
 class MockCall(
     private val request: Request,
     private val responseStatus: ResponseStatus,

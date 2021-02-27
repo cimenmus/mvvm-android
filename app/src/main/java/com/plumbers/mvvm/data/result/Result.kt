@@ -3,6 +3,7 @@ package com.plumbers.mvvm.data.result
 import androidx.lifecycle.MutableLiveData
 import com.plumbers.mvvm.data.AppError
 
+// a wrapper class to hold Data and its state
 sealed class Result<out R> {
 
     data class Success<out T>(val data: T) : Result<T>()

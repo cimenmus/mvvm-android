@@ -12,9 +12,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun getLayoutRes() = R.layout.activity_main
 
-    override fun onSupportNavigateUp(): Boolean {
-        return getNavController().navigateUp() || super.onSupportNavigateUp()
-    }
+    override fun onSupportNavigateUp() =
+        getNavController().navigateUp() || super.onSupportNavigateUp()
 
     private fun getNavController(): NavController {
         val navHostFragment =

@@ -13,6 +13,5 @@ import retrofit2.Retrofit
 class ApiModule {
 
     @Provides
-    fun provideApiService(retrofit: Retrofit): ApiService =
-        retrofit.create(ApiService::class.java)
+    fun provideApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
 }

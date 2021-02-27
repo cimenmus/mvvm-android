@@ -5,6 +5,13 @@ import com.plumbers.mvvm.data.result.Result
 import com.plumbers.mvvm.ui.common.base.BaseView
 import java.lang.ref.WeakReference
 
+/**
+ * Observers a [LiveData]
+ * Used with a [BaseView] instance
+ * shows loading indicator when [Result.Loading] by calling [showLoading] method in [BaseView]
+ * hides loading indicator when [Result.Success] or [Result.Error]  by calling [hideLoading] method in [BaseView]
+ * shows error dialog when [Result.Error] by calling [showError] method in [BaseView]
+ */
 class DataObserver<T : Result<Any>?>(
     lifecycle: Lifecycle,
     view: BaseView?,

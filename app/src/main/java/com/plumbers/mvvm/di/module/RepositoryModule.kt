@@ -9,6 +9,7 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 
+@Suppress("unused")
 @Module
 @InstallIn(ApplicationComponent::class)
 abstract class RepositoryModule {

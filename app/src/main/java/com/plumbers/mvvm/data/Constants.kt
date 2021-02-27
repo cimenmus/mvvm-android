@@ -9,4 +9,8 @@ object Constants {
     object Movie {
         const val PAGE_LIMIT = 20
     }
+
+    object Api {
+        const val TIMEOUT = 20
+    }
 }

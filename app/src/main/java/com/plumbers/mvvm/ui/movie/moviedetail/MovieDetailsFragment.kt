@@ -4,9 +4,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.plumbers.mvvm.R
-import com.plumbers.mvvm.data.result.Result
 import com.plumbers.mvvm.data.model.MovieCastModel
 import com.plumbers.mvvm.data.model.MovieModel
+import com.plumbers.mvvm.data.result.Result
 import com.plumbers.mvvm.data.result.data
 import com.plumbers.mvvm.data.result.succeeded
 import com.plumbers.mvvm.databinding.FragmentMovieDetailsBinding

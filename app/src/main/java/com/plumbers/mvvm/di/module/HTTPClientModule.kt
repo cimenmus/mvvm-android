@@ -1,6 +1,7 @@
 package com.plumbers.mvvm.di.module
 
 import com.plumbers.mvvm.BuildConfig
+import com.plumbers.mvvm.data.Constants
 import com.plumbers.mvvm.data.api.DefaultRequestInterceptor
 import com.plumbers.mvvm.di.qualifier.DefaultInterceptor
 import com.plumbers.mvvm.di.qualifier.LoggingInterceptor
@@ -49,5 +50,5 @@ class HTTPClientModule {
         HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
 
     @Provides
-    fun provideTimeout() = 15
+    fun provideTimeout() = Constants.Api.TIMEOUT
 }
