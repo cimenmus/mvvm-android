@@ -18,7 +18,7 @@ platform :android do
   ############## INITIALIZE #################
 
   before_all do
-      ENV["FIREBASE_TOKEN"] = "1//09haJ-T_OeeFjCgYIARAAGAkSNwF-L9IrnMB610hJKNzUeWMB0xQQJHh5t2aFGEvtgHnGHBeMCHTtvee9sRWBlJ3gVHlYsh7_9v0"
+      ENV["FIREBASE_TOKEN"] = "YOUR_FIREBASE_TOKEN"
       # sh("git fetch")
   end
 
@@ -130,7 +130,7 @@ platform :android do
         push_to_git_remote
 
         # 5- Send APK to Firebase
-        firebase_app_distribution(app: "1:1087940686958:android:64e91bdf7064a92bb6627f", groups: "qa-team")
+        firebase_app_distribution(app: "YOUR_FIREBASE_APP_ID", groups: "qa-team")
   end
 
   ##################################################################################################################################

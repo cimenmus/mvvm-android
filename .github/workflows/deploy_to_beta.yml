@@ -41,6 +41,6 @@ jobs:
       - name: Setup Fastlane
         run: bundle install
       - name: Deploy to Firebase
-        run: bundle exec fastlane android beta version:patch runUnitTests:false gitUserMail:mustafaicmen@gmail.com gitUserName:mustafaicmen
+        run: bundle exec fastlane android beta version:patch runUnitTests:false gitUserMail:YOUR_GIT_USER_MAIL_ADDRESS gitUserName:YOUR_GIT_USER_NAME
 
 
