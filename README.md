@@ -164,20 +164,21 @@ Yo can set up lanes at fastlane/fastfile. Available lanes:
 ## GitHub Actions
 
 There are two actions:
+ 
+###### Build, Test and Check Code Quality 
+- Defined on `.github/workflows/build_and_code_quality.yml` file
+- Triggered on every push and pull request to every branch
+- Jobs:
+    - Build project
+    - Run Unit Tests
+    - Run Android tests on emulator
+    - Create code coverage report, send it to Sonar Clould and check code quality
 
-- Build, Test and Check Code Quality 
-    - Defined on `.github/workflows/build_and_code_quality.yml` file
-    - Triggered on every push and pull request to every branch
-    - Jobs:
-        - Build project
-        - Run Unit Tests
-        - Run Android tests on emulator
-        - Create code coverage report, send it to Sonar Clould and check code quality
-- Deploy Release APK to Firebase App Distribution ->
-    - Defined on `.github/workflows/deploy_to_beta.yml` file
-    - Triggered on every push and pull request to master branch
-    - Jobs:
-        - Make version increment, push version bump commit, build release APK and deploy to Firebase using Fastlane
+###### Deploy Release APK to Firebase App Distribution
+- Defined on `.github/workflows/deploy_to_beta.yml` file
+- Triggered on every push and pull request to master branch
+- Jobs:
+    - Make version increment, push version bump commit, build release APK and deploy to Firebase using Fastlane
 
 
 
