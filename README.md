@@ -22,7 +22,7 @@ A template Android Project using [The Movie Database(TMDb) API](https://www.them
 - [Coroutines](https://github.com/Kotlin/kotlinx.coroutines) for synchronously or asynchronously programming
 - [Live Templates](https://medium.com/google-developers/writing-more-code-by-writing-less-code-with-android-studio-live-templates-244f648d17c7s) for code generation
 - [JaCoCo](https://medium.com/@korwin22/jacoco-for-android-e56bffedef48) to manage code coverage
-- [SonarCloud](https://sonarcloud.io/) to manage code quality
+- [SonarCloud](https://sonarcloud.io/) to manage code quality (Not implemented yet)
 - [Fastlane](https://fastlane.tools/) to automate every aspect of development and release workflow
 - [GitHub Actions](https://docs.github.com/en/actions) for `CI/CD`
 - Automated version management by gradle with `app/version-utils.gradle` and `app/version.properties` files
@@ -150,15 +150,35 @@ Yo can set up lanes at fastlane/fastfile. Available lanes:
 - showCoverage -> Show coverage report created by Jacoco on Google Chrome. To run, command `fastlane showCoverage` on terminal
 - beta -> make version increment and deploy a new version to the Firebase App Distribution with options:
     - version
-        - patch -> Makes patch increment on app/version.properties file. Default.
-        - minor -> Makes minor increment on app/version.properties file.
-        - major -> Makes major increment on app/version.properties file.
+        - patch -> Makes patch increment on app/version.properties file. Default. To run, command `fastlane beta version:patch` on terminal
+        - minor -> Makes minor increment on app/version.properties file. To run, command `fastlane beta version:minor` on terminal
+        - major -> Makes major increment on app/version.properties file.  To run, command `fastlane beta version:major` on terminal
     - runUnitTests
-        - true -> Runs unit tests before creating APK. Default
-        - false -> Does not run unit test before creating APK
-    - gitUserMail -> Git user mail address to make version bump commit. Default is nil.
-    - gitUserName -> Git user name to make version bump commit. Default is nil.
+        - true -> Runs unit tests before creating APK. Default. To run, command `fastlane beta runUnitTests:true` on terminal
+        - false -> Does not run unit test before creating APK. To run, command `fastlane beta runUnitTests:false` on terminal
+    - gitUserMail -> Git user mail address to make version bump commit. Default is nil. To run, command `fastlane beta gitUserMail:user@domain.com` on terminal
+    - gitUserName -> Git user name to make version bump commit. Default is nil. To run, command `fastlane beta gitUserName:your-username` on terminal
+    - sample usage -> fastlane beta version:patch runUnitTests:false gitUserMail:mustafaicmen@gmail.com gitUserName:mustafaicmen
 - deploy -> Deploy a new version to the Google Play (Not configured)
+
+## GitHub Actions
+
+There are two actions:
+
+- Build, Test and Check Code Quality 
+    - Defined on `.github/workflows/build_and_code_quality.yml` file
+    - Triggered on every push and pull request to every branch
+    - Jobs:
+        - Build project
+        - Run Unit Tests
+        - Run Android tests on emulator
+        - Create code coverage report, send it to Sonar Clould and check code quality
+- Deploy Release APK to Firebase App Distribution ->
+    - Defined on `.github/workflows/deploy_to_beta.yml` file
+    - Triggered on every push and pull request to master branch
+    - Jobs:
+        - Make version increment, push version bump commit, build release APK and deploy to Firebase using Fastlane
+
 
 
 
