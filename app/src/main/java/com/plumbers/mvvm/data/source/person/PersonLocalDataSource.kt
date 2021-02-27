@@ -1,6 +1,6 @@
 package com.plumbers.mvvm.data.source.person
 
-import com.plumbers.mvvm.data.result.DatabaseResult
+import com.plumbers.mvvm.data.result.DatabaseResource
 import com.plumbers.mvvm.data.db.PersonDao
 import com.plumbers.mvvm.data.model.PersonModel
 import javax.inject.Inject
@@ -12,7 +12,7 @@ class PersonLocalDataSource
 ) : PersonDataSource {
 
     override suspend fun getPersonDetails(personId: Int): Result<PersonModel> =
-        object : DatabaseResult<PersonModel>() {
+        object : DatabaseResource<PersonModel>() {
             override suspend fun load(): PersonModel? {
                 return personDao.getPerson(personId = personId)
             }
