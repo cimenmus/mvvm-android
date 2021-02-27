@@ -140,29 +140,40 @@ Available templates:
 
 ## Fastlane
 Yo can set up lanes at fastlane/fastfile. Available lanes:
-- test -> Runs tests by options:
-    - type 
-         - unit -> Runs Unit Tests for all variants. Default. To run, command `fastlane test` or `fastlane test type:unit` on terminal
-         - unitRelease -> Runs Unit Tests for Release build. To run, command `fastlane test type:unitRelease` on terminal
-         - android -> Runs all the Instrumented(Android) Tests on Release and Debug variants. An android device has to be connected. To run, command `fastlane test type:android` on terminal
-         - all -> Runs all Unit Tests and Android Tests. An android device has to be connected. To run, command `fastlane test type:all` on terminal
-- createCoverage -> Creates coverage report with Jacoco and open it on Google Chrome. To run, command `fastlane createCoverage` on terminal
-- showCoverage -> Show coverage report created by Jacoco on Google Chrome. To run, command `fastlane showCoverage` on terminal
-- beta -> make version increment and deploy a new version to the Firebase App Distribution with options:
-    - version
-        - patch -> Makes patch increment on app/version.properties file. Default. To run, command `fastlane beta version:patch` on terminal
-        - minor -> Makes minor increment on app/version.properties file. To run, command `fastlane beta version:minor` on terminal
-        - major -> Makes major increment on app/version.properties file.  To run, command `fastlane beta version:major` on terminal
-    - runUnitTests
-        - true -> Runs unit tests before creating APK. Default. To run, command `fastlane beta runUnitTests:true` on terminal
-        - false -> Does not run unit test before creating APK. To run, command `fastlane beta runUnitTests:false` on terminal
+
+###### test
+Runs tests by options:
+- type 
+    - unit -> Runs Unit Tests for all variants. Default. To run, command `fastlane test` or `fastlane test type:unit` on terminal
+    - unitRelease -> Runs Unit Tests for Release build. To run, command `fastlane test type:unitRelease` on terminal
+    - android -> Runs all the Instrumented(Android) Tests on Release and Debug variants. An android device has to be connected. To run, command `fastlane test type:android` on terminal
+    - all -> Runs all Unit Tests and Android Tests. An android device has to be connected. To run, command `fastlane test type:all` on terminal
+
+###### createCoverage
+- Creates coverage report with Jacoco and open it on Google Chrome. 
+- To run, command `fastlane createCoverage` on terminal
+
+###### showCoverage
+- Show coverage report created by Jacoco on Google Chrome. 
+- To run, command `fastlane showCoverage` on terminal
+
+###### beta
+Makes version increment and deploy a new version to the Firebase App Distribution with options:
+- version
+- patch -> Makes patch increment on app/version.properties file. Default. To run, command `fastlane beta version:patch` on terminal
+- minor -> Makes minor increment on app/version.properties file. To run, command `fastlane beta version:minor` on terminal
+- major -> Makes major increment on app/version.properties file.  To run, command `fastlane beta version:major` on terminal
+- runUnitTests
+    - true -> Runs unit tests before creating APK. Default. To run, command `fastlane beta runUnitTests:true` on terminal
+    - false -> Does not run unit test before creating APK. To run, command `fastlane beta runUnitTests:false` on terminal
     - gitUserMail -> Git user mail address to make version bump commit. Default is nil. To run, command `fastlane beta gitUserMail:user@domain.com` on terminal
     - gitUserName -> Git user name to make version bump commit. Default is nil. To run, command `fastlane beta gitUserName:your-username` on terminal
     - sample usage -> fastlane beta version:patch runUnitTests:false gitUserMail:mustafaicmen@gmail.com gitUserName:mustafaicmen
-- deploy -> Deploy a new version to the Google Play (Not configured)
+
+###### deploy
+Deploys a new version to the Google Play (Not configured)
 
 ## GitHub Actions
-
 There are two actions:
  
 ###### Build, Test and Check Code Quality 
