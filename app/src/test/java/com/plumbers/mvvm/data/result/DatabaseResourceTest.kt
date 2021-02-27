@@ -11,7 +11,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-class DatabaseResultTest {
+class DatabaseResourceTest {
 
     private lateinit var movieDao: MovieDao
     private val offset = 40
@@ -39,7 +39,7 @@ class DatabaseResultTest {
 
         coEvery { movieDao.getPopularMovies(offset) } returns movieList
 
-        val databaseResult = object : DatabaseResult<List<MovieModel>>() {
+        val databaseResult = object : DatabaseResource<List<MovieModel>>() {
             override suspend fun load(): List<MovieModel> =
                 movieDao.getPopularMovies(offset)
         }
@@ -66,7 +66,7 @@ class DatabaseResultTest {
 
         coEvery { movieDao.getPopularMovies(offset) } returns movieList
 
-        val databaseResult = object : DatabaseResult<List<MovieModel>>() {
+        val databaseResult = object : DatabaseResource<List<MovieModel>>() {
             override suspend fun load(): List<MovieModel> =
                 movieDao.getPopularMovies(offset)
         }
@@ -92,7 +92,7 @@ class DatabaseResultTest {
         // given
         val movieList: List<MovieModel>? = null
 
-        val databaseResult = object : DatabaseResult<List<MovieModel>>() {
+        val databaseResult = object : DatabaseResource<List<MovieModel>>() {
             override suspend fun load(): List<MovieModel>? = movieList
         }
 
@@ -111,7 +111,7 @@ class DatabaseResultTest {
         // given
         val person = PersonModel(id = 1234, name = "John Doe")
 
-        val databaseResult = object : DatabaseResult<PersonModel>() {
+        val databaseResult = object : DatabaseResource<PersonModel>() {
             override suspend fun load(): PersonModel = person
         }
 

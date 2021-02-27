@@ -1,7 +1,7 @@
 package com.plumbers.mvvm.data.source.movie
 
 import com.plumbers.mvvm.data.Constants
-import com.plumbers.mvvm.data.result.DatabaseResult
+import com.plumbers.mvvm.data.result.DatabaseResource
 import com.plumbers.mvvm.data.db.MovieCastDao
 import com.plumbers.mvvm.data.db.MovieDao
 import com.plumbers.mvvm.data.model.MovieCastModel
@@ -16,7 +16,7 @@ class MovieLocalDataSource
 ) : MovieDataSource {
 
     override suspend fun getPopularMovies(page: Int): Result<List<MovieModel>> =
-        object : DatabaseResult<List<MovieModel>>() {
+        object : DatabaseResource<List<MovieModel>>() {
             override suspend fun load(): List<MovieModel> {
                 val offset = (page - 1) * Constants.Movie.PAGE_LIMIT
                 return movieDao.getPopularMovies(offset = offset)
@@ -24,7 +24,7 @@ class MovieLocalDataSource
         }.execute()
 
     override suspend fun getCastOfMovie(movieId: Int): Result<List<MovieCastModel>> =
-        object : DatabaseResult<List<MovieCastModel>>() {
+        object : DatabaseResource<List<MovieCastModel>>() {
             override suspend fun load(): List<MovieCastModel> {
                 return movieCastDao.getCastOfMovie(movieId = movieId)
             }
