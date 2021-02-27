@@ -49,7 +49,7 @@ The dependencies are managed on dependencies.gradle file
 
 # App Data Flow Diagram
 
-![data_flow_diagram](https://github.com/icmenyunus/yemeksepeti-iOSChallenge/blob/main/images/data_flow_diagram.png?raw=true)
+![data_flow_diagram](https://github.com/cimenmus/mvvm-android/blob/main/images/data_flow_diagram.png?raw=true)
 
 
 
