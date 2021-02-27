@@ -113,7 +113,7 @@ The dependencies are managed on dependencies.gradle file
 
 #### Dao (Room)
 - Makes Database operations
-- Returns `ResultT`
+- Returns `Result<T>`
 
 ![data_flow_diagram](https://github.com/cimenmus/mvvm-android/blob/master/images/data_flow_diagram.png?raw=true)
 
