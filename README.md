@@ -117,6 +117,50 @@ The dependencies are managed on dependencies.gradle file
 
 ![data_flow_diagram](https://github.com/cimenmus/mvvm-android/blob/master/images/data_flow_diagram.png?raw=true)
 
+## Live Templates
+Live templates and install instructions can be found on `live_templates.txt` file
+Available templates:
+- `activity` -> Creates an `Activity` extended from `BaseActivity`
+- `activityWithExtra` -> Creates an `Activity` extended from `BaseActivity` with extras
+- `fragment` -> Creates a`Fragment` extended from `BaseFragment`
+- `fragmentWithArgs` -> Creates a `Fragment` extended from `BaseFragment` with arguments
+- `recyclerAdapter` -> Creates a `RecyclerAdapter`
+- `recyclerAdapterMultiHolder` -> Creates a `RecyclerAdapter` with multiple `ViewHolder`
+- `customView` -> Creates a Custom View extended from `LinearLayout`
+- `viewModel` -> Creates a `ViewModel` instance
+- `useCase` -> Creates a `UseCase` which extended from `UseCase`, runs synchronized and returns a `Result` instance with given type
+- `useCase:Coroutine` ->Creates a `UseCase` which extended from `CoroutineUseCase`, runs `suspend` and returns a `Result` instance with given type
+- `useCase:Result` -> Creates a `UseCase` which extended from `ResultUseCase`, runs `suspend` and returns a `Result` instance with given type. The return type of the `execute` method has to be a `Result` instance with given type.
+- `repository` -> Creates a `Repository` interface
+- `repositoryImpl` -> Creates a `Repository` instance which implemented from `Repository`
+- `dataSource` -> Creates a `DataSource` interface
+- `dataSource:Local` -> Creates a `LocalDataSource` instance which implemented from `DataSource`
+- `dataSource:Remote` -> Creates a `RemoteDataSource` instance which implemented from `DataSource`
+- `unitTest` -> Creates a `Unit Test` instance
+
+## Fastlane
+Yo can set up lanes at fastlane/fastfile. Available lanes:
+- test -> Runs tests by options:
+    - type 
+         - unit -> Runs Unit Tests for all variants. Default. To run, command `fastlane test` or `fastlane test type:unit` on terminal
+         - unitRelease -> Runs Unit Tests for Release build. To run, command `fastlane test type:unitRelease` on terminal
+         - android -> Runs all the Instrumented(Android) Tests on Release and Debug variants. An android device has to be connected. To run, command `fastlane test type:android` on terminal
+         - all -> Runs all Unit Tests and Android Tests. An android device has to be connected. To run, command `fastlane test type:all` on terminal
+- createCoverage -> Creates coverage report with Jacoco and open it on Google Chrome. To run, command `fastlane createCoverage` on terminal
+- showCoverage -> Show coverage report created by Jacoco on Google Chrome. To run, command `fastlane showCoverage` on terminal
+- beta -> make version increment and deploy a new version to the Firebase App Distribution with options:
+    - version
+        - patch -> Makes patch increment on app/version.properties file. Default.
+        - minor -> Makes minor increment on app/version.properties file.
+        - major -> Makes major increment on app/version.properties file.
+    - runUnitTests
+        - true -> Runs unit tests before creating APK. Default
+        - false -> Does not run unit test before creating APK
+    - gitUserMail -> Git user mail address to make version bump commit. Default is nil.
+    - gitUserName -> Git user name to make version bump commit. Default is nil.
+- deploy -> Deploy a new version to the Google Play (Not configured)
+
+
 
 
 
