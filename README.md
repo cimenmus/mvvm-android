@@ -116,6 +116,7 @@ The dependencies are managed on dependencies.gradle file
 - Makes Database operations
 - Returns `Result<T>`
 
+#### Data Flow Diagram
 ![data_flow_diagram](https://github.com/cimenmus/mvvm-android/blob/master/images/data_flow_diagram.png?raw=true)
 
 ## Live Templates
@@ -191,45 +192,3 @@ There are two actions:
 - Triggered on every push and pull request to master branch
 - Jobs:
     - Make version increment, push version bump commit, build release APK and deploy to Firebase using Fastlane
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
