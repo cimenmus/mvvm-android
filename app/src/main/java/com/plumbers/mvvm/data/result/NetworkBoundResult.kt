@@ -1,6 +1,6 @@
 package com.plumbers.mvvm.data.result
 
-abstract class NetworkBoundResource<ResultType> {
+abstract class NetworkBoundResult<ResultType> {
 
     abstract fun isOnline(): Boolean
 

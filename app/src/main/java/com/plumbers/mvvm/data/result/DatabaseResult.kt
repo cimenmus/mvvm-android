@@ -6,7 +6,7 @@ import com.plumbers.mvvm.data.ErrorType
 /**
  * Loads data from Database, converts it to a [Result] and return
  */
-abstract class DatabaseResource<ResultType> {
+abstract class DatabaseResult<ResultType> {
 
     /**
      * Override this to load data from database.

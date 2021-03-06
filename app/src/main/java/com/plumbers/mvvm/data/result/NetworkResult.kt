@@ -5,7 +5,7 @@ import com.plumbers.mvvm.data.*
 /**
  * Loads data from Network, converts it to a [Result] and returns
  */
-abstract class NetworkResource<ApiResponseType, ResultType> {
+abstract class NetworkResult<ApiResponseType, ResultType> {
 
     /**
      * Override this to load data from Network.

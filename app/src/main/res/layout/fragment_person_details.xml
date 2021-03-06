@@ -29,7 +29,8 @@
                 android:scaleType="fitXY"
                 app:tmdbImageUrl="@{person.imagePath}"
                 android:layout_gravity="center_horizontal"
-                android:layout_margin="16dp"/>
+                android:layout_margin="16dp"
+                tools:src="@drawable/placeholder_small"/>
 
             <TextView
                 android:layout_width="match_parent"

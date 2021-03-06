@@ -11,7 +11,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-class NetworkBoundResourceTest {
+class NetworkBoundResultTest {
 
     private lateinit var personRemoteDataSource: PersonDataSource
     private lateinit var personLocalDataSource: PersonDataSource
@@ -41,7 +41,7 @@ class NetworkBoundResourceTest {
         val personLocalResponse = Result.Success(person)
         coEvery { personLocalDataSource.getPersonDetails(personId = personId) } returns personLocalResponse
 
-        val resource = object : NetworkBoundResource<PersonModel>() {
+        val resource = object : NetworkBoundResult<PersonModel>() {
 
             override fun shouldFetch(): Boolean = false
 
@@ -89,7 +89,7 @@ class NetworkBoundResourceTest {
         val personLocalResponse = Result.Success(person)
         coEvery { personLocalDataSource.getPersonDetails(personId = personId) } returns personLocalResponse
 
-        val resource = object : NetworkBoundResource<PersonModel>() {
+        val resource = object : NetworkBoundResult<PersonModel>() {
 
             override fun shouldFetch(): Boolean = true
 
@@ -139,7 +139,7 @@ class NetworkBoundResourceTest {
 
         coEvery { personLocalDataSource.savePerson(person = person) } just runs
 
-        val resource = object : NetworkBoundResource<PersonModel>() {
+        val resource = object : NetworkBoundResult<PersonModel>() {
 
             override fun shouldFetch(): Boolean = true
 
@@ -192,7 +192,7 @@ class NetworkBoundResourceTest {
 
         coEvery { personLocalDataSource.savePerson(person = person) } just runs
 
-        val resource = object : NetworkBoundResource<PersonModel>() {
+        val resource = object : NetworkBoundResult<PersonModel>() {
 
             override fun shouldFetch(): Boolean = true
 

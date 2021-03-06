@@ -1,6 +1,6 @@
 package com.plumbers.mvvm.data.source.movie
 
-import com.plumbers.mvvm.data.result.NetworkResource
+import com.plumbers.mvvm.data.result.NetworkResult
 import com.plumbers.mvvm.data.api.ApiService
 import com.plumbers.mvvm.data.api.response.MovieCastApiResponse
 import com.plumbers.mvvm.data.api.response.PopularMoviesApiResponse
@@ -13,7 +13,7 @@ class MovieRemoteDataSource
 @Inject constructor(private val apiService: ApiService) : MovieDataSource {
 
     override suspend fun getPopularMovies(page: Int): Result<List<MovieModel>> =
-        object : NetworkResource<PopularMoviesApiResponse, List<MovieModel>>() {
+        object : NetworkResult<PopularMoviesApiResponse, List<MovieModel>>() {
             override suspend fun load(): Result<PopularMoviesApiResponse> =
                 apiService.getPopularMovies(page = page)
 
@@ -22,7 +22,7 @@ class MovieRemoteDataSource
         }.execute()
 
     override suspend fun getCastOfMovie(movieId: Int): Result<List<MovieCastModel>> =
-        object : NetworkResource<MovieCastApiResponse, List<MovieCastModel>>() {
+        object : NetworkResult<MovieCastApiResponse, List<MovieCastModel>>() {
             override suspend fun load(): Result<MovieCastApiResponse> =
                 apiService.getCastOfAMovie(movieId = movieId)
 

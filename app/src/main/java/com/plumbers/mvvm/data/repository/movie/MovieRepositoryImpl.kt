@@ -1,7 +1,7 @@
 package com.plumbers.mvvm.data.repository.movie
 
 import com.plumbers.mvvm.data.util.NetworkUtils
-import com.plumbers.mvvm.data.result.NetworkBoundResource
+import com.plumbers.mvvm.data.result.NetworkBoundResult
 import com.plumbers.mvvm.data.model.MovieCastModel
 import com.plumbers.mvvm.data.model.MovieModel
 import com.plumbers.mvvm.data.source.movie.MovieDataSource
@@ -18,7 +18,7 @@ class MovieRepositoryImpl
 ) : MovieRepository {
 
     override suspend fun getPopularMovies(page: Int): Result<List<MovieModel>> =
-        object : NetworkBoundResource<List<MovieModel>>() {
+        object : NetworkBoundResult<List<MovieModel>>() {
 
             override fun isOnline(): Boolean = networkUtils.isNetworkAvailable()
 
@@ -37,7 +37,7 @@ class MovieRepositoryImpl
     }
 
     override suspend fun getCastOfMovie(movieId: Int): Result<List<MovieCastModel>> =
-        object : NetworkBoundResource<List<MovieCastModel>>() {
+        object : NetworkBoundResult<List<MovieCastModel>>() {
 
             override fun isOnline(): Boolean = networkUtils.isNetworkAvailable()
 

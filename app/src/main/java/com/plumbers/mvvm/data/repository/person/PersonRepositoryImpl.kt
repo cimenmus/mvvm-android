@@ -1,7 +1,7 @@
 package com.plumbers.mvvm.data.repository.person
 
 import com.plumbers.mvvm.data.util.NetworkUtils
-import com.plumbers.mvvm.data.result.NetworkBoundResource
+import com.plumbers.mvvm.data.result.NetworkBoundResult
 import com.plumbers.mvvm.data.model.PersonModel
 import com.plumbers.mvvm.data.source.person.PersonDataSource
 import com.plumbers.mvvm.di.qualifier.LocalPersonDataSource
@@ -17,7 +17,7 @@ class PersonRepositoryImpl
 ) : PersonRepository {
 
     override suspend fun getPersonDetails(personId: Int): Result<PersonModel> =
-        object : NetworkBoundResource<PersonModel>() {
+        object : NetworkBoundResult<PersonModel>() {
 
             override fun isOnline(): Boolean = networkUtils.isNetworkAvailable()
 

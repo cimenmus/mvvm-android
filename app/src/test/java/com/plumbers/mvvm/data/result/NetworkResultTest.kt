@@ -12,16 +12,16 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-class NetworkResourceTest {
+class NetworkResultTest {
 
     private lateinit var apiService: ApiService
-    private lateinit var networkResource: NetworkResource<PopularMoviesApiResponse, List<MovieModel>>
+    private lateinit var networkResult: NetworkResult<PopularMoviesApiResponse, List<MovieModel>>
     private val page = 4
 
     @Before
     fun setUp() {
         apiService = mockk(relaxed = true)
-        networkResource = object : NetworkResource<PopularMoviesApiResponse, List<MovieModel>>() {
+        networkResult = object : NetworkResult<PopularMoviesApiResponse, List<MovieModel>>() {
             override suspend fun load(): Result<PopularMoviesApiResponse> =
                 apiService.getPopularMovies(page = page)
 
@@ -50,15 +50,15 @@ class NetworkResourceTest {
         coEvery { apiService.getPopularMovies(page) } returns apiResult
 
         // when
-        val result = runBlocking { networkResource.execute() }
+        val result = runBlocking { networkResult.execute() }
 
         // then
         assertTrue(result.succeeded)
         assertEquals(movieList, result.data!!)
 
         coVerify {
-            networkResource.load()
-            networkResource.getResult(apiResponse)
+            networkResult.load()
+            networkResult.getResult(apiResponse)
             apiService.getPopularMovies(page)
         }
         confirmVerified(apiService)
@@ -73,14 +73,14 @@ class NetworkResourceTest {
         coEvery { apiService.getPopularMovies(page) } returns apiResult
 
         // when
-        val result = runBlocking { networkResource.execute() }
+        val result = runBlocking { networkResult.execute() }
 
         // then
         assertFalse(result.succeeded)
         assertEquals(error, result.error!!)
 
         coVerify {
-            networkResource.load()
+            networkResult.load()
             apiService.getPopularMovies(page)
         }
         confirmVerified(
